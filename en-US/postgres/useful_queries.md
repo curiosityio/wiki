@@ -43,6 +43,8 @@ SELECT * FROM tablename WHERE user_id=2 AND id < 100 ORDER BY id DESC LIMIT 20;
 
 ##### SquelJS
 ```
+var squel = require('squel').useFlavour('postgres');
+
 squel.select()
 .field('*')
 .from('tablename')
@@ -99,6 +101,8 @@ SELECT a.* FROM
 
 ##### SquelJS
 ```
+var squel = require('squel').useFlavour('postgres');
+
 squel.select()
 .field('a.*')
 .from(
