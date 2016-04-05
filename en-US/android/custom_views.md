@@ -28,7 +28,9 @@ public class ListEmptyView extends LinearLayout {
     }
 
     public ListEmptyView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);
+
+        initialize(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
