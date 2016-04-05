@@ -65,3 +65,15 @@ public boolean onOptionsItemSelected(MenuItem item) {
     }
 }
 ```
+
+# Change menu dynamically
+
+If you have the need to dynamically change the menu in a toolbar: 
+
+After the system calls `onCreateOptionsMenu()`, it retains an instance of the Menu you populate and will not call onCreateOptionsMenu() again unless the menu is invalidated for some reason. However, you should use onCreateOptionsMenu() only to create the initial menu state and not to make changes during the activity lifecycle.
+
+If you want to modify the options menu based on events that occur during the activity lifecycle, you can do so in the onPrepareOptionsMenu() method. This method passes you the Menu object as it currently exists so you can modify it, such as add, remove, or disable items. (Fragments also provide an onPrepareOptionsMenu() callback.)
+
+On Android 2.3.x and lower, the system calls onPrepareOptionsMenu() each time the user opens the options menu (presses the Menu button).
+
+On Android 3.0 and higher, the options menu is considered to always be open when menu items are presented in the app bar. When an event occurs and you want to perform a menu update, you must call invalidateOptionsMenu() to request that the system call onPrepareOptionsMenu().
