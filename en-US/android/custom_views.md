@@ -69,7 +69,11 @@ Notice that I am extending LinearLayout. Anything and everything that a LinearLa
 
 </merge>
 ```
-The `<merge>` tags are there for a reason. This means to take this layout, remove the parent layout (the `<merge>` stuff) and merge that into our custom view. So pretty much when this view is inflated into our custom view, merge means "turn me into a LinearLayout because the custom view I am being inflated into is a LinearLayout". This brings up a good point. See the `android:gravity="center"` part there in the <merge> tag? That will actually not work. <merge> will remove all special attributes in there. So if you want to do things such as set the orientation or gravity, you have to do that in Java code.
+The `<merge>` tags are there for a reason. This means to take this layout, remove the parent layout (the `<merge>` stuff) and merge that into our custom view. So pretty much when this view is inflated into our custom view, merge means "turn me into a LinearLayout because the custom view I am being inflated into is a LinearLayout". This brings up a good point. See the `android:gravity="center"` part there in the <merge> tag? That will actually not work. <merge> will remove all special attributes in there. So if you want to do things such as set the orientation or gravity, you have to do that in Java code:
+```
+setOrientation(VERTICAL);
+setGravity(Gravity.CENTER);
+```
 
 * When you want to use this custom view in your other layouts:
 ```
