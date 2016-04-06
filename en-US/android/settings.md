@@ -17,18 +17,21 @@ In this doc:
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/notifications">
-        <SwitchPreference
+        <CheckBoxPreference
             android:title="@string/notifications"
             android:defaultValue="true"
             android:key="@string/notifications_on_off_preference"/>
-        <SwitchPreference
+        <CheckBoxPreference
             android:title="@string/vibrate"
             android:defaultValue="true"
             android:key="@string/notifications_vibrate_on_off_preference"/>
     </PreferenceCategory>
 </PreferenceScreen>
 ```
-`PreferenceCategory` create a group of preferences together with a header text. `SwitchPreference` is a switch widget.
+`PreferenceCategory` create a group of preferences together with a header text. `CheckBoxPreference` is a switch widget.
+
+*Notes*
+* It has come to my attention to *not* use SwitchPreference. Instead of CheckBoxPreference. CheckBoxPreference is standard and more compatible.
 
 What is cool about preferences with Android, it reads/writes to shared preferences automatically. The `android:key` value that you give is the key that it writes to sharedpreferences for you.
 
