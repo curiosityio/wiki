@@ -47,6 +47,15 @@ public boolean onOptionsItemSelected(MenuItem item) {
 You can also do this in the fragment if set the toolbar in the fragment:
 ```
 @Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    setHasOptionsMenu(true); // <-- must set to get call to onCreateOptionsMenu.
+
+    getActivity().setTitle(R.string.inbox);
+}
+
+@Override
 public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.main_menu, menu);
 }
@@ -61,6 +70,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
             goToSettingsScreen();
             return true;
         default:
+            // now it goes to the activity where it has a chance to respond to menu options. 
             return super.onOptionsItemSelected(item);
     }
 }
@@ -68,7 +78,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
 
 # Change menu dynamically
 
-If you have the need to dynamically change the menu in a toolbar: 
+If you have the need to dynamically change the menu in a toolbar:
 
 After the system calls `onCreateOptionsMenu()`, it retains an instance of the Menu you populate and will not call onCreateOptionsMenu() again unless the menu is invalidated for some reason. However, you should use onCreateOptionsMenu() only to create the initial menu state and not to make changes during the activity lifecycle.
 
