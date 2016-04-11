@@ -89,11 +89,6 @@ mFootballScoresList.setAdapter(mFootballScoresListAdapter);
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.levibostian.view.ListEmptyView
-        android:id="@+id/list_empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_list"
         android:layout_width="match_parent"
@@ -106,6 +101,11 @@ mFootballScoresList.setAdapter(mFootballScoresListAdapter);
             android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.levibostian.view.ListEmptyView
+        android:id="@+id/list_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
 ```
