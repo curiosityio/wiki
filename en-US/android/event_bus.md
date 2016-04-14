@@ -66,10 +66,11 @@ protected void onDetachedFromWindow() {
 * Objects subscribe to events that they care about:
 ```
 @Subscribe
-public void onSettingsModifiedEvent(SettingsModifiedEvent event) {
+public void onEvent(SettingsModifiedEvent event) {
     // Do something
 }
 ```
+**Advanced:** You can [specify what thread the subscribe thread is executed on](http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/). 
 
 * One last thing. The EventBus has to post a new event when the event happens. So in our example, when the settings are actually modified in a PreferenceFragment:
 ```
