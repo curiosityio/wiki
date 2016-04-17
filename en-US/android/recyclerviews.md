@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class FootballScoresListAdapter extends RecyclerView.Adapter<FootballScoresListAdapter.ViewHolder> {
 
     private ArrayList<FootballScoreVo> mData;
-    private AdapterListener mListener;
+    private ItemClickListener mListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -41,11 +41,11 @@ public class FootballScoresListAdapter extends RecyclerView.Adapter<FootballScor
         }
     }
 
-    public interface AdapterListener {
-        void openButtonPressed(int position, FootballScoreVo data);
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 
-    public FootballScoresListAdapter(ArrayList<FootballScoreVo> data, AdapterListener listener) {
+    public FootballScoresListAdapter(ArrayList<FootballScoreVo> data, ItemClickListener listener) {
         mData = data;
         mListener = listener;
     }
@@ -62,6 +62,13 @@ public class FootballScoresListAdapter extends RecyclerView.Adapter<FootballScor
         final FootballScoreVo data = mData.get(position);
 
         holder.mPositionTitleTextView.setText(data.title);
+
+        holder.mPositionTitleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -77,6 +84,35 @@ public class FootballScoresListAdapter extends RecyclerView.Adapter<FootballScor
 mFootballScoresListAdapter = new InboxListAdapter(mScores, this);
 mFootballScoresList.setLayoutManager(new LinearLayoutManager(getActivity()));
 mFootballScoresList.setAdapter(mFootballScoresListAdapter);
+```
+
+# Simple list layout
+
+In case you want to create a very simple layout for something like an about page, here is one. TextView takes up the whole view so you can use it as a touch listener for the layout. 
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:weightSum="1"
+    android:layout_height="60dp">
+
+    <TextView
+        android:id="@+id/about_list_title_textview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:textSize="17sp"
+        android:layout_marginLeft="19dp"
+        android:textColor="@color/list_title_text_color"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"/>
+
+</LinearLayout>
 ```
 
 # Pull to refresh ability
