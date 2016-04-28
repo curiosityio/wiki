@@ -2,6 +2,51 @@
 name: Docker
 ---
 
+# Install
+
+```
+sudo apt-get update
+sudo apt-get -y upgrade
+
+sudo apt-get install -y linux-image-extra-`uname -r`
+
+sudo apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
+
+sudo apt-get update
+sudo apt-get install -y docker-engine
+```
+
+Ubuntu's default firewall (UFW: Uncomplicated Firewall) denies all forwarding traffic by default, which is needed by docker.
+Enable forwarding with UFW:
+
+```
+sudo nano /etc/default/ufw
+```
+
+Scroll down and find the line beginning with DEFAULTFORWARDPOLICY. Replace: `DEFAULT_FORWARD_POLICY="DROP"` with: `DEFAULT_FORWARD_POLICY="ACCEPT"`.
+
+Reload UFW:
+```
+sudo ufw reload
+```
+
+Now add your user to the docker group:
+
+```
+sudo usermod -aG docker $(whoami)
+```
+
+Log out and log back in to take effect.
+
+#### Install Docker Compose
+
+```
+sudo apt-get -y install python-pip
+sudo pip install docker-compose
+```
+
 # Lingo
 
 `image`: A docker image is a file that you can create containers from. An example of an image is the ubuntu image. Images are great because they are immutable. I can create 100 docker containers from the ubuntu image for example and all 100 have thier own file system, processes, etc like a sandbox environment.
@@ -19,29 +64,34 @@ You can connect host ports to Docker container ports. You can mount host directo
 # Common commands
 
 * Run some commands inside of an already running Docker container:
+
 ```
 docker exec -it <container id> /bin/bash
 ```
 
 * View all running Docker containers:
+
 ```
 docker ps
 ```
 
 * View all Docker containers no matter if running or not:
+
 ```
 docker ps -a
 ```
 
 * Create *and run* a docker container from an image (must include an image to create a container):
+
 ```
 docker run -it --name name-here ubuntu /bin/bash
 # --name name-here is to allow you to name container for use later when you use `docker ps -a`. If you don't provide a name, Docker will create a random one for you.
 ```
 
 * Linking a docker container to another docker container:
+
 ```
 docker run --name name-here --link other-container-name:alias-name -p 80:80 -p 443:443 image-name-such-as-ubuntu
 # --link links an already running docker container to this container with the alias hostname 'alias-name'. Whatever you put for 'alias-name' your docker container can use that hostname to communicate with it.
-# If you want to want to run multiple containers together and get them all running together use Docker Compose. 
+# If you want to want to run multiple containers together and get them all running together use Docker Compose.
 ```
