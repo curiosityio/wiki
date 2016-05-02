@@ -60,31 +60,3 @@ Above will set the up button and menu button 3 dots to white color.
     android:background="?attr/colorPrimary"
     app:theme="@style/ToolbarStyle" />
 ```
-
-# Style tabbar
-
-If you want to change the underline color, text color, underline height, of tabs for example:
-
-* In your `res/values/styles.xml` file, create the following style:
-```
-<style name="AppTabLayout" parent="Widget.Design.TabLayout">
-    <item name="tabMaxWidth">@dimen/tab_max_width</item>
-    <item name="tabIndicatorColor">?attr/colorAccent</item>
-    <item name="tabIndicatorHeight">4dp</item>
-    <item name="tabPaddingStart">6dp</item>
-    <item name="tabPaddingEnd">6dp</item>
-    <item name="tabBackground">?attr/selectableItemBackground</item>
-    <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
-    <item name="tabSelectedTextColor">@color/range</item>
-</style>
-```
-I usually delete a lot of these attributes and only keep the indicator color one.
-
-* Set this style with `style=` like below in your tablayout:
-```
-<android.support.design.widget.TabLayout
-    android:id="@+id/tablayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/AppTabLayout"/>
-```

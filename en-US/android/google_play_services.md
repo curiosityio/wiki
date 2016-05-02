@@ -6,6 +6,8 @@ name: Google Play Services
 
 * In your app's main activity:
 ```
+private static final int GOOGLE_PLAY_SERVICES_INSTALL_CODE = 0;
+
 @Override
 protected void onResume() {
     super.onResume();

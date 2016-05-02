@@ -88,7 +88,7 @@ mFootballScoresList.setAdapter(mFootballScoresListAdapter);
 
 # Simple list layout
 
-In case you want to create a very simple layout for something like an about page, here is one. TextView takes up the whole view so you can use it as a touch listener for the layout. 
+In case you want to create a very simple layout for something like an about page, here is one. TextView takes up the whole view so you can use it as a touch listener for the layout.
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

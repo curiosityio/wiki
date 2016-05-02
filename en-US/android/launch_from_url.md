@@ -42,11 +42,15 @@ android:alwaysRetainTaskState="true". If user launches your app, leaves the app,
         final Intent intent = getIntent();
         final String action = intent.getAction();
 
-        // below is how you get the path from the intent filter. so if http://curiosityio.com/about launched this activity, then segments.get(1) should return back "about"....I think....(it might actually return ?user=101 or something. I am not sure.
-        if (Intent.ACTION_VIEW.equals(action)) {
+        // below is how you get the path from the intent filter. so if http://curiosityio.com/about launched this activity, then segments.get(1) should return back "about".
+        if (action != null && Intent.ACTION_VIEW.equals(action)) {
             final List<String> segments = intent.getData().getPathSegments();
             if (segments.size() > 1) {
-                //mUsername = segments.get(1);
+                // below gets "about" in http://curiosityio.com/about
+                mUsername = segments.get(1);
+
+                // below gets the "12345" in http://curiosityio.com/about?id=12345
+                final String id = intent.getData().getQueryParameter("id");
             }
         }
 ```
