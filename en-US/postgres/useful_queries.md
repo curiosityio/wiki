@@ -6,6 +6,7 @@ Scenarios:
 
 * You are querying in DESC order with a limit. [docs]('#query-desc-with-limit')
 * You are querying in DESC order with a limit, but want result to be in ASC order. [docs]('#query-desc-with-limit-but-want-result-in-asc-order')
+* You have an existing column in your database that allows null values. You don't want null values anymore. [docs]('#make-existing-column-in-database-not-allow-null-values-anymore')
 
 # Query DESC with limit
 
@@ -124,3 +125,23 @@ squel.select()
     squel.expr().and('a.id=b.id')
 ).toString();
 ```
+
+# Make existing column in database not allow NULL values anymore
+
+Lets you have a table:
+
+```
+create table users(
+    first_name character varying(10);
+);
+```
+
+One day you decide you do not want first_name to have null values anymore.
+
+```
+update users set first_name='' where first_name is null; -- required to avoid error 'first_name contains null values'
+alter table users alter column first_name set default '';
+alter table users alter column first_name set NOT NULL;
+```
+
+You can change the default value to something else.

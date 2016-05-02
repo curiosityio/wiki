@@ -73,12 +73,7 @@ docker exec -it <container id> /bin/bash
 
 ```
 docker ps
-```
-
-* View all Docker containers no matter if running or not:
-
-```
-docker ps -a
+docker ps -a # View all Docker containers no matter if running or not
 ```
 
 * Create *and run* a docker container from an image (must include an image to create a container):
@@ -94,4 +89,11 @@ docker run -it --name name-here ubuntu /bin/bash
 docker run --name name-here --link other-container-name:alias-name -p 80:80 -p 443:443 image-name-such-as-ubuntu
 # --link links an already running docker container to this container with the alias hostname 'alias-name'. Whatever you put for 'alias-name' your docker container can use that hostname to communicate with it.
 # If you want to want to run multiple containers together and get them all running together use Docker Compose.
+```
+
+* Delete all containers and images:
+
+```
+docker rmi $(docker images -q) # delete all images
+docker rm $(docker ps -a -q)
 ```

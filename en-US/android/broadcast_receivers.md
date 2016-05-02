@@ -68,6 +68,8 @@ This example will launch your app when the WiFi is connected. You can do somethi
 
 # Launch app activity on system boot
 
+*Note: Android N has a new service called Direct Boot. RECEIVE_BOOT_COMPLETED will run after the device boots and then the user unlocks the device for the first time. If you need your app to start on boot before unlock, check out [this blog post](http://android-developers.blogspot.com/2016/04/developing-for-direct-boot.html)*
+
 Keep in mind that if you have an app that requires network connection, launching on system boot may not work best for you. Launch the activity instead when the wifi state becomes connected.
 
 You don't have to start an activity on system boot. You can launch a service or something as well.
