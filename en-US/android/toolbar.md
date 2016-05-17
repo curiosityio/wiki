@@ -2,6 +2,17 @@
 name: Toolbar
 ---
 
+# Add toolbar to layout
+
+```
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:title="@string/title_here"/>
+```
+
 # Up button
 
 1. Set your toolbar as the actionbar.

@@ -7,6 +7,7 @@ Scenarios:
 * You are querying in DESC order with a limit. [docs]('#query-desc-with-limit')
 * You are querying in DESC order with a limit, but want result to be in ASC order. [docs]('#query-desc-with-limit-but-want-result-in-asc-order')
 * You have an existing column in your database that allows null values. You don't want null values anymore. [docs]('#make-existing-column-in-database-not-allow-null-values-anymore')
+* Remove NOT NULL constraint from existing column in database. [docs](#remove-not-null-constraint-from-existing-column-in-database)
 
 # Query DESC with limit
 
@@ -145,3 +146,19 @@ alter table users alter column first_name set NOT NULL;
 ```
 
 You can change the default value to something else.
+
+# Remove NOT NULL constraint from existing column in database
+
+Lets you have a table:
+
+```
+create table users(
+    first_name character varying(10) NOT NULL;
+);
+```
+
+One day you decide you do not want first_name to be able to be null.
+
+```
+ALTER TABLE users ALTER COLUMN first_name DROP NOT NULL;
+```

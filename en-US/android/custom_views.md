@@ -165,7 +165,11 @@ public class ListEmptyView extends LinearLayout {
         try {
             mShowText = a.getBoolean(R.styleable.ListEmptyView_showText, false);
             mTextPos = a.getInteger(R.styleable.ListEmptyView_labelPosition, 0);
-            mStatusTextView.setText(a.getString(R.styleable.ListEmptyView_empty_text, ""));
+
+            String statusText = a.getString(R.styleable.ListEmptyView_empty_text);
+            if (statusText != null) {
+                mStatusTextView.setText();    
+            }        
         } finally {
             a.recycle();
         }
@@ -173,6 +177,8 @@ public class ListEmptyView extends LinearLayout {
 
 }
 ```
+
+*Note: You must pull out the custom attributes in the initialize() function. The custom attributes get thrown away if you try to retrieve them anywhere else in the lifecycle of the view. If you need to use them later on, save them to a variable and use later.*
 
 # Dynamic changing of properties of custom view
 
@@ -188,4 +194,49 @@ public void setText(String text) {
    requestLayout();
 }
 ...
+```
+
+# Access children views
+
+ViewGroups can contain children views that you can access in your custom view.
+
+In your XML:
+
+```
+<com.levibostian.view.CustomView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    ... children views in here such as TextViews, EditTexts, Views, or other ViewGroups.
+
+<com.levibostian.view.CustomView/>
+```
+
+In order to access these child views, use the functions: `getChildAt()`, `getChildCount()`. However, you must access them later on then in the constructor because your child views are not inflated yet and `getChildAt()` will return null and `getChildCount()` will return 0.
+
+```
+@Override
+protected void onFinishInflate() {
+    super.onFinishInflate();
+
+    // optional. If you want to add restrictions you can.
+    if (getChildCount() > 1) {
+        throw new RuntimeException(getClass().getSimpleName() + " cannot have more then 1 child view.");
+    }
+
+    if (getChildCount() == 0) {
+        throw new RuntimeException("You forgot to add a child view to " + getClass().getSimpleName());
+    }
+
+    mContentView = getChildAt(0);
+}
+```
+
+# Add views programmatically to view
+
+```
+// you can add this in your constructor or `onFinishInflate()` in the custom view.
+mNewView = new NewView(mContext, mAttrs, mDefStyleAttr); // these are saved from the viewgroup constructor.
+mNewView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+addView(mNewView);
 ```
