@@ -57,6 +57,7 @@ public void onCreate(Bundle savedInstanceState) {
 
 @Override
 public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.clear(); // refreshes icons in actionbar in case a parent fragment set some.
     inflater.inflate(R.menu.main_menu, menu);
 }
 
@@ -70,7 +71,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
             goToSettingsScreen();
             return true;
         default:
-            // now it goes to the activity where it has a chance to respond to menu options. 
+            // now it goes to the activity where it has a chance to respond to menu options.
             return super.onOptionsItemSelected(item);
     }
 }

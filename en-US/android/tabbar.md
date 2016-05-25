@@ -238,3 +238,23 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
 
 }
 ```
+
+Because the FragmentPagerAdapter classes load more then 1 fragment at a time, you may need to know if a fragment is the one currently visible to the user (for setting the title for example).
+
+Add this to your fragments that get instantiated in the pageradapter:
+
+```
+@Override
+public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
+
+    if (isVisibleToUser) {
+        getActivity().setTitle("foo");
+    }
+}
+```
+
+*Note: FragmentPagerAdapter is good for a small number of finite fragments. If you have lots or an "infinite" number, use FragmentStatePagerAdapter instead.*
+
+* [Get the instance of the currently shown fragment from a FragmentStatePagerAdapter](http://stackoverflow.com/a/8886019/1486374)
+* [Get the instance of the currently shown fragment from a FragmentPagerAdapter](http://stackoverflow.com/a/7393477/1486374)

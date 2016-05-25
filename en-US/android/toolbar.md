@@ -71,3 +71,32 @@ Above will set the up button and menu button 3 dots to white color.
     android:background="?attr/colorPrimary"
     app:theme="@style/ToolbarStyle" />
 ```
+
+# Add views to Toolbar
+
+The Toolbar is a ViewGroup. That means you can add views to it.
+
+Lets add a TextView to a Toolbar that is our own custom title.
+
+```
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary">
+
+    <TextView
+        android:id="@+id/toolbar_title_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:ellipsize="none"
+        android:maxLines="1"
+        android:gravity="center_vertical"/>
+</android.support.v7.widget.Toolbar>
+```
+
+Then in our Activity/Fragment that contains this Toolbar, you can add click listeners to the TextView, anything that you can do with a TextView.
+
+Even though we have added a view to the Toolbar, the Toolbar still acts like a normal Toolbar with menus, home button, etc. 

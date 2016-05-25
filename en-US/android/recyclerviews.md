@@ -189,3 +189,129 @@ private void showListOrEmptyView() {
 }
 ```
 Notice how we did not change visibility of the RecyclerView. If we set it to INVISIBLE or GONE, then when you try to pull down, the widget will not appear or work. So keep the visibility of it visible at all times and just change visibility of the empty view.
+
+# Horizontal scrolling RecyclerView
+
+```
+// populate mHorizontalList.
+LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);        mHorizontalList.setLayoutManager(layoutManager);
+// set your adapter here.
+```
+
+# Multiple types of rows
+
+If you have a RecyclerView that you want to use multiple different layouts for different types of rows:
+
+```
+public class FooRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int FOO_VIEW_TYPE = 0;
+    private static final int BAR_VIEW_TYPE = 1;
+    private static final int OTHER_VIEW_TYPE = 2;
+
+    private ArrayList<FooDataModel> mData;
+
+    public static class FooViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mDataTextView;
+
+        public FooViewHolder(View view) {
+            super(view);
+
+            mDataTextView = (TextView) view.findViewById(R.id.foo_data_textview);
+        }
+    }
+
+    public static class BarViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mDataTextView;
+        private Button mDoneButton;
+
+        public BarViewHolder(View view) {
+            super(view);
+
+            mDataTextView = (TextView) view.findViewById(R.id.bar_data_textview);
+            mDoneButton = (Button) view.findViewById(R.id.bar_done_button);
+        }
+    }
+
+    public static class OtherViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mDataTextView;
+        private Button mDoneButton;
+
+        public OtherViewHolder(View view) {
+            super(view);
+
+            mDataTextView = (TextView) view.findViewById(R.id.other_data_textview);
+            mDoneButton = (Button) view.findViewById(R.id.other_done_button);
+        }
+    }
+
+    public FooRecyclerViewAdapter(ArrayList<FooDataModel> data) {
+        mData = data;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        FooDataModel data = mData.get(position);
+
+        // this part may be different depending on the data type you use. Either way, return an different integer for each different row you want to represent.
+        switch (data.type) {
+            case "foo":
+                return BULLET_POINT_VIEW_TYPE;
+            case "bar":
+                return SAFETY_CHECK_VIEW_TYPE;
+            case "other":
+                return ACKNOWLEDGEMENT_VIEW_TYPE;
+            default:
+                return BULLET_POINT_VIEW_TYPE;
+        }
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case FOO_VIEW_TYPE:
+                return new FooViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.foo_adapter_row, parent, false));
+            case BAR_VIEW_TYPE:
+                return new BarViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.bar_adapter_row, parent, false));
+            case OTHER_VIEW_TYPE:
+                return new OtherViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.other_adapter_row, parent, false));
+            default:
+                return new FooViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.foo_adapter_row, parent, false));
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        final FooDataModel data = mData.get(position);
+
+        switch (data.type) {
+            case "foo":
+                FooViewHolder fooViewHolder = (FooViewHolder) holder;
+
+                fooViewHolder.mDataTextView.setText(data.text);
+                break;
+            case "bar":
+                BarViewHolder barViewHolder = (BarViewHolder) holder;
+
+                barViewHolder.mDataTextView.setText(data.text);
+                break;
+            case "other":
+                OtherViewHolder otherViewHolder = (OtherViewHolder) holder;
+
+                otherViewHolder.mDataTextView.setText(data.text);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+}
+```

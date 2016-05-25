@@ -83,3 +83,27 @@ startActivityWithTransitions(new Intent(this, DestinationActivity.class), Pair.c
 4. Replace all of your `finish()` calls in the destination activity with: `supportFinishAfterTransition()`. This will reverse the animation back.
 
 That is it. You can setup custom animations and do this between fragments as well. [This is a good guide quickly going over them](https://guides.codepath.com/android/Shared-Element-Activity-Transition)
+
+# Rotation animation
+
+* Create file in `res/anim` for the animation:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<rotate
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="-90" <---- negative means go counter clockwise.
+    android:toDegrees="0"
+    android:pivotX="50%" <------- half of view width is pivot point of the animation
+    android:pivotY="50%" <------- half of view height is pivot point of the animation
+    android:fillAfter="true" <------ after animation complete, keep the view where the animation ended.
+    android:fillEnabled="true" <------ after animation complete, keep the view where the animation ended.
+    android:interpolator="@android:anim/linear_interpolator" <---- interpolator to smoothly transition
+    android:duration="200"/>
+```
+
+* Apply animation to view:
+
+```
+view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.name_of_file_created_above));
+```

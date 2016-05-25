@@ -76,6 +76,8 @@ public class MainActivity extends BaseActivity {
     private NavDrawerListViewAdapter mNavDrawerListViewAdapter;
     private Toolbar mToolbar;
 
+    // you only need this is you want to use the home button to toggle the nav drawer
+    // else, you can call: `mDrawerLayout.openDrawer(mNavDrawerListView)` and `mDrawerLayout.closeDrawer(mNavDrawerListView)` by pressing whatever button you want. 
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override

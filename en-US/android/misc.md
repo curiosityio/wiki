@@ -13,3 +13,14 @@ name: Random Android stuff that doesn't deserve it's own file
     android:layout_height="wrap_content"
     android:imeOptions="actionDone"/>
 ```
+
+# Make ImageView act more like a button
+
+You can add click listeners to imageviews to make them a button but when you press them, there is no visual effect.
+
+Add this to your ImageView's view:
+
+```
+android:background="?attr/selectableItemBackgroundBorderless"
+android:clickable="true"
+```
