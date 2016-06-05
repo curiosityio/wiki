@@ -100,3 +100,15 @@ grant all privileges on database database_name to use_name;
 ```
 
 Done. You can login as this user anytime with: `psql -U user_name -d database_name -h 127.0.0.1 -W`
+
+# Create database connection URL
+
+```
+export DATABASE_URL="postgres://postgres_username:postgres_password@localhost:5432/postgres_db_name"
+```
+
+# Run sql file queries against postgres
+
+```
+psql -U postgres_username -d databasename -f filename.sql -h 127.0.0.1
+```

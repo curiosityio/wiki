@@ -14,6 +14,12 @@ chmod +x node_sites_startup.sh
 ```
 You can name your startup script whatever you want. This one should start node sites. You can create one for peachdocs if you like too.
 
+Install npm forever module
+
+```
+sudo npm install -g forever
+```
+
 Contents of node_sites_startup:
 ```
 #!/bin/sh
@@ -23,7 +29,7 @@ then
     export PATH=/usr/local/bin:$PATH
     export NODE_ENV=production
 	forever start --sourceDir /var/www/ghostblog index.js >> /root/ghost.log 2>&1
-	forever start --sourceDir /var/www/other_ghostblog index.js >> /root/other_blog.log 2>&1
+    forever start --sourceDir /var/www/api app/server.js >> /root/api.log 2>&1
 fi
 ```
 This starts 2 forever scripts. The syntax of `forever start --sourcedir ...` is [forever](https://github.com/foreverjs/forever) syntax.

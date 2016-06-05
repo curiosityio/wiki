@@ -11,5 +11,12 @@ host all all 0.0.0.0/0 md5
 ```
 Of course change the fields above to be more restrictive if you choose to only allow access to certain databases, certain users, certain IPs.
 
+* Restart postgres:
+
+```
+sudo service postgresql stop
+sudo service postgresql start
+```
+
 * Open PGAdmin3, create a new connection and fill in the details like this:
 ![](/docs/images/pg_admin3_new_connection.png)

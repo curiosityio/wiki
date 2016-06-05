@@ -24,4 +24,4 @@ cat ~/.ssh/id_rsa.pub
 ```
 Highlight the output and copy it. Go to your git repo on GitHub, GitLab, Gogs, BitBucket, etc. and add this copied SSH key as a deploy key. This gives your server access to the git repo and allows you to do a git pull.
 
-Clone down the git repo, and then anytime you want to do to a deploy you just do a `git pull`. 
+Clone down the git repo (*Note: You must use HTTPS git link for clone. SSH denied for deploy keys*), and then anytime you want to do to a deploy you just do a `git pull`. 

@@ -107,3 +107,47 @@ That is it. You can setup custom animations and do this between fragments as wel
 ```
 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.name_of_file_created_above));
 ```
+
+# Fragment transaction animations
+
+* Create the animation files for the fragment entering and the fragment exiting:
+
+The slide in and slide out effect is pretty popular so I will go over that one.
+
+Here is `enter_from_right` in `/res/anim` directory.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <translate
+        android:fromXDelta="100%" android:toXDelta="0%"
+        android:fromYDelta="0%" android:toYDelta="0%"
+        android:duration="200" />
+</set>
+```
+
+Here is `exit_to_left`.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <translate
+        android:fromXDelta="0%" android:toXDelta="-100%"
+        android:fromYDelta="0%" android:toYDelta="0%"
+        android:duration="200"/>
+</set>
+```
+
+* Add the animations to the fragment transaction:
+
+```
+getFragmentManager()
+        .beginTransaction()
+        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
+        .replace(R.id.fragment_container, FooFragment.newInstance())
+        .commit(); 
+```
+
+*Note: You must set `.setCustomAnimations()` before the .add() or .replace() call or the animation will not happen.*

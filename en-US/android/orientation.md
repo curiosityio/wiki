@@ -72,9 +72,9 @@ public class FooFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
         outState.putInt(BAR_BUNDLE_KEY, mBar);
+
+        super.onSaveInstanceState(outState); // put after outstate.put_() calls to avoid illegal state exception.
     }
 }
 ```
@@ -169,6 +169,84 @@ public class FooFragmentViewPagerAdapter extends FragmentStatePagerAdapter {
 
         return fragment;
     }
+
+}
+```
+
+* Parcelables
+
+Data objects such as VO objects can be saved into bundles but must implement interface Parcelable.
+
+There is an awesome [plugin](https://github.com/mcharmas/android-parcelable-intellij-plugin) for studio/intellij to make any VO object parcelable with a click.
+
+This should convert regular objects into parcelable just fine.
+
+---
+
+If you have a Realm Model, you can convert these to parcelable as well as they are just VO objects themselves. As long as all nested objects are also parcelable you are find.
+
+One note with Realm however is lists. Realm requires that if you have a List<> or ArrayList<> you instead use RealmList<> (which is just a List<> that holds other realm models). To make a Realm model containing a RealmList parcelable:
+
+```
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FooModel extends RealmObject implements Parcelable {
+
+    @PrimaryKey public long id;
+    public String owner;
+    public Date updated_at;
+    public int organization_id;
+    public RealmList<TagsModel> tags;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.owner);
+        dest.writeLong(this.updated_at != null ? this.updated_at.getTime() : -1);
+        dest.writeInt(this.organization_id);
+        dest.writeList(this.tags);
+    }
+
+    public ProcessModel() {
+    }
+
+    protected ProcessModel(Parcel in) {
+        this.id = in.readLong();
+        this.owner = in.readString();
+        long tmpUpdated_at = in.readLong();
+        this.updated_at = tmpUpdated_at == -1 ? null : new Date(tmpUpdated_at);
+        this.organization_id = in.readInt();
+        this.tags = new RealmList<TagsModel>();
+        in.readList(this.tags, TagsModel.class.getClassLoader());
+    }
+
+    public static final Creator<ProcessModel> CREATOR = new Creator<ProcessModel>() {
+        @Override
+        public ProcessModel createFromParcel(Parcel source) {
+            return new ProcessModel(source);
+        }
+
+        @Override
+        public ProcessModel[] newArray(int size) {
+            return new ProcessModel[size];
+        }
+    };
 
 }
 ```
