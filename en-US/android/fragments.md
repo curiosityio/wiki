@@ -35,3 +35,26 @@ private void swapFragmentContainer(Fragment fragmentToSwapWith) {
                         .commit();
     }
 ```
+
+# Show dialog fragments
+
+There is an issue with displaying dialog fragments using the `show()` function. It gives you an error if you try to show a dialog fragment in onactivityresult or one like it. Error something to do with onSaveInstanceState.
+
+Either way, here is how to get around it:
+
+```
+mDialogFragment = new DialogFragment();
+getChildFragmentManager().beginTransaction().add(mDialogFragment, mDialogFragment.getTag()).commitAllowingStateLoss();
+```
+
+The `commitAllowingStateLoss()` is the secret sauce.
+
+# Dismissing dialog fragments
+
+Just like above with showing, we must allow state loss when dismissing.
+
+```
+mDialogFragment = new DialogFragment();
+// show dialog fragment
+mDialogFragment.dismissAllowingStateLoss();
+```

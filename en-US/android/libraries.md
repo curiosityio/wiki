@@ -24,4 +24,158 @@ public void onBindViewHolder(final ViewHolder holder, final int position) {
 
 Must use `Glide.clear()` to make sure image gets set correctly in each row or it will not be reused properly.
 
-With `Glide.with()...`, using `.asBitmap()` is important for when using some libraries such as CircularImageView. Or it will not be set until the recyclerview gets refreshed. 
+With `Glide.with()...`, using `.asBitmap()` is important for when using some libraries such as CircularImageView. Or it will not be set until the recyclerview gets refreshed.
+
+# Retrofit
+
+## File upload
+
+* In API interface file, add your endpoint:
+
+```
+public interface FooApi {
+
+    @Multipart
+    @PATCH("/users")
+    Call<FooResponseVo> uploadPhoto(@Part MultipartBody.Part photo);
+
+}
+```
+
+The key parts here are `@Multipart` and `@Part MultipartBody.Part foo`. These tell Retrofit we are uploading a file.
+
+* In your Java code:
+
+```
+File picture;
+RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), picture);
+MultipartBody.Part multipartPicture = MultipartBody.Part.createFormData("api_param", picture.getName(), requestFile);
+
+mFooApi.uploadPhoto(multipartPicture);
+```
+
+`api_param` in this case is the key that the API is expecting for the file. We are uploading a photo here, so the API is probably looking for `photo` or `file`. The API docs for the API you are working with will say.
+
+## Upload more then one file
+
+Above works for how to upload one single file. For uploading an array of files, things are different:
+
+In this example, say that the API is expecting "an array of picture files with the key 'photos'."
+
+* In the API interface file, add your endpoint:
+
+```
+public interface FooApi {
+
+    @PATCH("/users")
+    Call<FooResponseVo> uploadManyPhotos(@Body MultipartBody oneOrMorePhotos);
+
+}
+```
+
+* In your java code:
+
+```
+MultipartBody.Builder builder = new MultipartBody.Builder();
+builder.setType(MultipartBody.FORM);
+
+for (File photo: photos) { // where photos is an ArrayList<File> or anything you can iterate over.
+    builder.addFormDataPart("photos[]", photo.getName(), RequestBody.create(MediaType.parse("image/jpeg"), photo));
+}
+
+MultipartBody requestBody = builder.build();
+
+mFooApi.uploadManyPhotos(requestBody);
+```
+
+Retrofit takes care of creating the array for us with `photos[]` as the key. Note that some APIs such as Rails apps will use the `[]` while others may not require it. Up for your testing. I have had success with `[]`. 
+
+# PermissionsDispatcher
+
+When asking for permissions at runtime in Android there is lots of boilerplate code. Use [PermissionsDispatcher](https://github.com/hotchemi/PermissionsDispatcher) instead.
+
+* [Install via Gradle](https://github.com/hotchemi/PermissionsDispatcher#download)
+* Setup your fragment or activity with annotations and functions
+
+```
+@RuntimePermissions
+public class MainActivity extends AppCompatActivity {
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    public void showCamera() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.sample_content_fragment, CameraPreviewFragment.newInstance())
+                .addToBackStack("camera")
+                .commitAllowingStateLoss();
+    }
+
+    @OnShowRationale(Manifest.permission.CAMERA)
+    public void showRationaleForCamera(PermissionRequest request) {
+        new AlertDialog.Builder(this)
+            .setMessage(R.string.permission_camera_rationale)
+            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                request.proceed();
+            }
+        }).show();
+    }
+
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    public void showDeniedForCamera() {
+        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.CAMERA)
+    public void showNeverAskForCamera() {
+        Toast.makeText(this, R.string.permission_camera_neverask, Toast.LENGTH_SHORT).show();
+    }
+}
+```
+
+*Tip: If you need to work with multiple permissions at once such as reading and writing to external storage, you can work with more then one permission:*
+
+```
+@OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+public void showNeverAskForExternalStoragePermission() {
+    Snackbar.make(getView(), R.string.foo, Snackbar.LENGTH_LONG).show();
+}
+```
+
+`@RuntimePermissions` <-- declare a fragment or activity of requiring permissions
+`@NeedsPermission` <--- annotate function that needs permission
+`@OnShowRationale` <-- called if you need to explain to the user why you need permission. This is called if the user denies you once and you want to try to get them to accept.
+`@OnPermissionDenied` <--- permission denied.
+`@OnNeverAskAgain` <-- they marked checkbox saying to never ask again for accepting or denying permission.
+
+The key to these functions is when you ask the user for permissions. Do not ask for permission in the function that is actually writing to external data for example. Ask when a button is pressed. They enter a new fragment. Ask at an appropriate time but not that very second *because* the functions that are annotated cannot return a value they must return void. Therefore, ask in a function that is intended to simply ask the user for permission.
+
+* Build app. This does some processing that needs to happen to continue on. (generates file: `YourActivityOrFragmentNamePermissionsDispatcher`)
+* Implement `onRequestPermissionsResult()` function in your activity/function with the annotated functions:
+
+```
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    // NOTE: delegate the permission handling to generated method
+    MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+}
+```
+
+* Lastly, we need to start this whole asking for permission process:
+
+```
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    findViewById(R.id.button_camera).setOnClickListener(v -> {
+      // Like mentioned before, ask for permission at a button press or something.
+      MainActivityPermissionsDispatcher.showCameraWithCheck(this);
+    });
+    findViewById(R.id.button_contacts).setOnClickListener(v -> {
+      // Like mentioned before, ask for permission at a button press or something.
+      MainActivityPermissionsDispatcher.showContactsWithCheck(this);
+    });
+}
+```

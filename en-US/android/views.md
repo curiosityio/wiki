@@ -1,5 +1,5 @@
 ---
-name: Random Android stuff that doesn't deserve it's own file
+name: Various info about Android widgets and views.
 ---
 
 # Close keyboard when hitting return button with EditText
@@ -24,3 +24,14 @@ Add this to your ImageView's view:
 android:background="?attr/selectableItemBackgroundBorderless"
 android:clickable="true"
 ```
+
+# Display HTML in TextView
+
+TextViews can display HTML text with even hyperlinks.
+
+```
+mFooTextView.setText(Html.fromHtml(htmlString));
+mFooTextView.setMovementMethod(LinkMovementMethod.getInstance());
+```
+
+Automatically opens browser if press on a hyperlink in textview. 
