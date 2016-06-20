@@ -65,6 +65,11 @@ class API {
             let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
             mutableURLRequest.HTTPMethod = method.rawValue
 
+            // If using OAuth2 with tokens, use this to set the token on all requests automatically.
+            if let token = ClientManager.getAccessToken() {
+                mutableURLRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
+
             switch self {
             case .GainLoginAccess(let parameters):
                 return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0
@@ -83,7 +88,7 @@ Alamofire.request(Router.GetUserRepos("curiosityio"))
         // do something with response
     })
 
-// or for the other call with parameters/body 
+// or for the other call with parameters/body
 
 let params: [String: AnyObject] = [
     "email": email,
@@ -94,4 +99,29 @@ Alamofire.request(Router.FooBar(params))
     .responseJSON(completionHandler: { (response: Response<AnyObject, NSError>) in
         // do something with response
     })    
+```
+
+# Set OAuth2 token in header
+
+I use the Alamofire router object to do this for me automatically on every request once token is set after login:
+
+```
+... more router data explained above on section about creating a Router object to house API routes  
+var URLRequest: NSMutableURLRequest {
+    let URL = NSURL(string: Router.baseURL)!
+    let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
+    mutableURLRequest.HTTPMethod = method.rawValue
+
+    // If using OAuth2 with tokens, use this to set the token on all requests automatically.
+    if let token = ClientManager.getAccessToken() { // If a token exists, set it.
+        mutableURLRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
+
+    switch self {
+    case .GainLoginAccess(let parameters):
+        return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0
+    default: // no parameters or body so don't have anything to encode
+        return mutableURLRequest
+    }
+}
 ```

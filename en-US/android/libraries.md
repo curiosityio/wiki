@@ -88,7 +88,9 @@ MultipartBody requestBody = builder.build();
 mFooApi.uploadManyPhotos(requestBody);
 ```
 
-Retrofit takes care of creating the array for us with `photos[]` as the key. Note that some APIs such as Rails apps will use the `[]` while others may not require it. Up for your testing. I have had success with `[]`. 
+Retrofit takes care of creating the array for us with `photos[]` as the key. Note that some APIs such as Rails apps will use the `[]` while others may not require it. Up for your testing. I have had success with `[]`.
+
+Found help from [here](http://stackoverflow.com/a/32275127/1486374). [A completely different approach](http://stackoverflow.com/a/34239432/1486374) that may work for other APIs.
 
 # PermissionsDispatcher
 

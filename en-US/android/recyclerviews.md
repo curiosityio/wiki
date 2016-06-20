@@ -315,3 +315,9 @@ public class FooRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 }
 ```
+
+# Disable overscroll glow
+
+```
+android:overScrollMode="never"
+```

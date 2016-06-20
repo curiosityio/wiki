@@ -34,4 +34,25 @@ mFooTextView.setText(Html.fromHtml(htmlString));
 mFooTextView.setMovementMethod(LinkMovementMethod.getInstance());
 ```
 
-Automatically opens browser if press on a hyperlink in textview. 
+Automatically opens browser if press on a hyperlink in textview.
+
+# Checkbox
+
+## Set color checkbox
+
+```
+<CheckBox
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:buttonTint="@color/CHECK_COLOR" />
+```
+
+You can also do this using AppCompatCheckBox v7 for older APIs:
+```
+<android.support.v7.widget.AppCompatCheckBox
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:buttonTint="@color/COLOR_HERE" />
+```
+
+This sets the outline color of the checkbox and the color of it filled in.
