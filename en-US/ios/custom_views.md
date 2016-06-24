@@ -67,6 +67,13 @@ class UICustomButton: UIButton {
 }
 ```
 
+*Possible issues you may run into:*
+
+* Build warning saying code not key value compliant or that the file is missing.
+Solution: Check the module for the view in the storyboard. Change the name of the module to the name of your project and try rebuilding again to see if error still appears. If you have many different build flavors like I usually do (debug, beta, release) you may need to change the module to another module name such as "Debug". Use the drop down arrow to select the module name.
+
+![](/docs/images/ios_custom_view_module.png)
+
 *Note: [I have heard](http://stackoverflow.com/a/33687844/1486374) that `dynamic` might be required in swift 2.0 for variables to work? Cannot confirm issues yet.*
 
 The important parts to note are the `@IBDesignable` and `@IBInspectable` as well as the 2 constructors. `@IBDesignable` tells the storyboard to render the view and show the changes in the interface builder. If you do not include it, the class will still work at runtime but you will not be able to view it live in the interface builder.
@@ -79,4 +86,4 @@ Notes:
 
 * [Official docs](https://developer.apple.com/library/ios/recipes/xcode_help-IB_objects_media/Chapters/CreatingaLiveViewofaCustomObject.html)
 * If you have a camera view or video player view, at runtime you want to show a video or camera. But in your interface builder you want to show a static image. [The official docs](https://developer.apple.com/library/ios/recipes/xcode_help-IB_objects_media/Chapters/CreatingaLiveViewofaCustomObject.html) at the bottom shares how to do this.
-* [Library](https://github.com/andrew8712/DCKit) with a few custom views that work well with interface builder. 
+* [Library](https://github.com/andrew8712/DCKit) with a few custom views that work well with interface builder.

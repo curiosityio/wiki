@@ -31,4 +31,4 @@ Users however have the option to resubscribe to you (again handled by Twilio) by
 * Go to the [phone numbers dashboard](https://www.twilio.com/console/phone-numbers/dashboard) after your get a phone number and select your phone number you want your application to work with.
 * Enter in details for phone number.
 
-![](/images/twilio_config_phone_num.png)
+![](/docs/images/twilio_config_phone_num.png)

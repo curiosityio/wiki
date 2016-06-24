@@ -5,12 +5,13 @@ name: Realm
 # Delete database
 
 ```
-mRealm.executeTransaction(new Realm.Transaction() {
-    @Override
-    public void execute(Realm realm) {
-        realm.deleteAll();
-    }
-});
+try {
+    RealmConfiguration configuration = Realm.getDefaultInstance().getConfiguration();
+    Realm.getDefaultInstance().close();
+    Realm.deleteRealm(configuration);
+} catch (Exception e) {
+    // .close() can throw an exception. Catch and log it here. 
+}
 ```
 
 # Create realm models but dont save to storage

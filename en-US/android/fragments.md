@@ -58,3 +58,45 @@ mDialogFragment = new DialogFragment();
 // show dialog fragment
 mDialogFragment.dismissAllowingStateLoss();
 ```
+
+# Fragments sitting over another fragment
+
+When you .add() a fragment to a fragment manager, you may run into a couple of issues.
+
+## Background fragment is visible. Fragment on top is transparent.
+
+Solution: For the fragment sitting on top of the background fragment, set it's background color so it is not invisible anymore.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:clickable="true"     
+    android:background="@android:color/white">  <--------------------------
+
+    ...
+
+</RelativeLayout>
+```
+
+## Clicking on 'dead' areas of the front facing fragment can click elements of the fragment behind it.
+
+Solution: For the fragment sitting on top of the background fragment, set it to be clickable.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:clickable="true"     <--------------------------
+    android:background="@android:color/white">
+
+    ...
+
+</RelativeLayout>
+```

@@ -64,3 +64,42 @@ public class UserVo {
     public int user_id;
 }
 ```
+
+# Custom deserializer for property
+
+When deserializing Jackson has a default set of rules for how to deserialize into Java objects. For example with taking a date string and mapping that to a Date object. By default, Jackson uses a format close to `yyyy-MM-dd'T'HH:mm:ss` when you might have a string in the form: `dd/MM/yyyy`. Here is how to give Jackson a custom method for deserializing.
+
+* Create custom deserializer object
+
+```
+public class SlashDateFormatDeserializer extends JsonDeserializer<Date> {
+
+    @Override
+    public Date deserialize(JsonParser jsonparser, DeserializationContext deserializationcontext) throws IOException, JsonProcessingException {
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        String date = jsonparser.getText();
+        try {
+            return format.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+}
+```
+
+* In your Jackson VO object, tell Jackson to use this custom deserializer:
+
+```
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FooVo {
+
+    public int id;
+    public String bar;
+    @JsonDeserialize(using = SlashDateFormatDeserializer.class)
+    public Date date_completed_formatted;
+
+}
+```
