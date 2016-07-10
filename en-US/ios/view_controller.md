@@ -8,12 +8,47 @@ Say for instance the user logs out of your app and you want to present to them t
 
 We take a storyboard by it's filename, and initialize a view controller by it's storyboard ID inside of the storyboard.
 
+* Open your storyboard, open your ViewController you want to present (in this example FooViewController). Where you set the view controller's class name, you will see a property you can set called "Storyboard ID":
+
+![](/docs/images/set_storyboard_id_view_controller.png)
+
+Set the storyboard ID here that we will refer to below:
+
+* In your ViewController code that you want to present the view controller:
+
 ```
-let fooStoryboard = UIStoryboard(name: "NameOfStoryboardHere", bundle: nil).instantiateViewControllerWithIdentifier("StoryboardIDOfViewControllerHere")
-presentViewController(fooStoryboard, animated: true, completion: nil)
+let fooViewController: FooViewController = UIStoryboard(name: "NameOfStoryboardFileHere", bundle: nil).instantiateViewControllerWithIdentifier("StoryboardIDOfViewControllerHere") as! FooViewController
+
+fooViewController.delegate = self
+fooViewController.setFooData(data)
+
+presentViewController(fooViewController, animated: true, completion: nil)
 ```
 
+(`NameOfStoryboardFileHere` would be `Foo` for example if file was named `Foo.storyboard`)
+
 Call presentViewController is where the current view controller presents the new view controller and goes away.
+
+## Launch view controller from another view controller and present it with a navigation bar.
+
+If you want to display a new view controller with it's very own navigation bar which is nice to add "Done" buttons to make the new view controller overlay the existing view controller and then dismiss easily (below is an example):
+
+![](/docs/images/presenet_view_controller_nav_bar.png)
+
+Do the same as above with one little addition:
+
+```
+let fooViewController: FooViewController = UIStoryboard(name: "NameOfStoryboardHere", bundle: nil).instantiateViewControllerWithIdentifier("StoryboardIDOfViewControllerHere") as! FooViewController
+
+let navController = UINavigationController.init(rootViewController: fooViewController) // <-- create nav controller from fooViewController
+
+fooViewController.delegate = self
+fooViewController.setFooData(data)
+
+presentViewController(navController, animated: true, completion: nil) // <--- present navController instead of fooViewController
+```
+
+In your storyboard
 
 # Access view controller inside of UIContainer
 

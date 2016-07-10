@@ -79,7 +79,7 @@ class PullToRefreshTableView: UITableView {
 
         addSubview(refreshControl)
     }
-    
+
     func refresh(sender: AnyObject) {
         pullRefreshDelegate?.pullToRefreshTriggeredTableView()
     }
@@ -89,4 +89,11 @@ class PullToRefreshTableView: UITableView {
     }
 
 }
+```
+
+# Set background color tableview
+
+```
+self.tableView.backgroundColor = yourColor
+self.tableView.backgroundView.backgroundColor = yourColor
 ```

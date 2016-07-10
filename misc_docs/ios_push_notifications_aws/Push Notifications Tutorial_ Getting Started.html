@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://www.raywenderlich.com/123862/push-notifications-tutorial -->
+<html lang="en-US" class="chrome"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" async="" src="./Push Notifications Tutorial_ Getting Started_files/cc.js"></script><script type="text/javascript" async="" src="https://autolinkmaker.itunes.apple.com/js/itunes_autolinkmaker.js"></script><script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script type="text/javascript" async="" src="./Push Notifications Tutorial_ Getting Started_files/cse.js"></script><script id="facebook-jssdk" async="" src="https://connect.facebook.net/en_US/all.js#xfbml=1"></script><script type="text/javascript" lang="en">var rootTag = document.getElementsByTagName("html");var classes = rootTag[0].className;rootTag[0].className = classes.replace("no-js","");if (navigator.appVersion.indexOf("Win")==-1) { classes = rootTag[0].className;rootTag[0].className = classes.replace("windows","") } </script>
+		
+		<meta property="fb:app_id" content="118196468516511">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>Push Notifications Tutorial: Getting Started</title>					<meta name="twitter:card" content="photo">
+					<meta name="twitter:site" content="@rwenderlich">
+					<meta name="twitter:title" content="Push Notifications Tutorial: Getting Started - Ray Wenderlich">
+					<meta name="twitter:description" content="In this push notifications tutorial you&#39;ll learn how to use to notify your users, and perform small tasks even when they aren’t actively using your app!">
+					<meta name="twitter:url" content="https://www.raywenderlich.com:443/123862/push-notifications-tutorial">
+					<meta name="twitter:image" content="http://www.raywenderlich.com/wp-content/uploads/2016/02/push_twitter.png">
+					
+										<meta property="og:title" content="Push Notifications Tutorial: Getting Started">
+				<meta property="og:type" content="article">
+				<meta property="og:site_name" content="Ray Wenderlich">
+       		    <meta property="og:url" content="https://www.raywenderlich.com:443/123862/push-notifications-tutorial">
+				<meta property="og:description" content="In this push notifications tutorial you&#39;ll learn how to use to notify your users, and perform small tasks even when they aren’t actively using your app!">
+									<meta property="og:image" content="https://cdn5.raywenderlich.com/wp-content/uploads/2016/02/push_feature.png">
+					
+<!-- This site is optimized with the Yoast SEO plugin v3.2.5 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this push notifications tutorial you&#39;ll learn how to use to notify your users, and perform small tasks even when they aren’t actively using your app!">
+<meta name="robots" content="noodp">
+<link rel="canonical" href="https://www.raywenderlich.com/123862/push-notifications-tutorial">
+<!-- / Yoast SEO plugin. -->
+
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"https:\/\/www.raywenderlich.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.5.2"}};
+			!function(a,b,c){function d(a){var c,d,e,f=b.createElement("canvas"),g=f.getContext&&f.getContext("2d"),h=String.fromCharCode;if(!g||!g.fillText)return!1;switch(g.textBaseline="top",g.font="600 32px Arial",a){case"flag":return g.fillText(h(55356,56806,55356,56826),0,0),f.toDataURL().length>3e3;case"diversity":return g.fillText(h(55356,57221),0,0),c=g.getImageData(16,16,1,1).data,d=c[0]+","+c[1]+","+c[2]+","+c[3],g.fillText(h(55356,57221,55356,57343),0,0),c=g.getImageData(16,16,1,1).data,e=c[0]+","+c[1]+","+c[2]+","+c[3],d!==e;case"simple":return g.fillText(h(55357,56835),0,0),0!==g.getImageData(16,16,1,1).data[0];case"unicode8":return g.fillText(h(55356,57135),0,0),0!==g.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wpsqt-main-css" href="./Push Notifications Tutorial_ Getting Started_files/main.css" type="text/css" media="all">
+<link rel="stylesheet" id="style-main-css" href="./Push Notifications Tutorial_ Getting Started_files/style.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="contact-form-7-css" href="./Push Notifications Tutorial_ Getting Started_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="swiftype-css" href="./Push Notifications Tutorial_ Getting Started_files/autocomplete.css" type="text/css" media="all">
+<link rel="stylesheet" id="videojs-plugin-css" href="./Push Notifications Tutorial_ Getting Started_files/plugin-styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="videojs-css" href="./Push Notifications Tutorial_ Getting Started_files/video-js.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-polls-css" href="./Push Notifications Tutorial_ Getting Started_files/polls-css.css" type="text/css" media="all">
+<style id="wp-polls-inline-css" type="text/css">
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background-image: url('https://www.raywenderlich.com/wp-content/plugins/wp-polls/images/default/pollbg.gif');
+	border: 1px solid #c8c8c8;
+}
+
+</style>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/jquery.js"></script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/site.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var swiftypeParams = {"engineKey":"omdTFN4ka9Dq1GBywQZq"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/install_swiftype.min.js"></script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/global_combined.1.0.12.js"></script><script type="text/javascript" async="" src="https://cdn1.developermedia.com/a.min.js"></script>
+<link rel="https://api.w.org/" href="https://www.raywenderlich.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.raywenderlich.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://cdn5.raywenderlich.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.5.2">
+<link rel="shortlink" href="https://www.raywenderlich.com/?p=123862">
+<link rel="alternate" type="application/json+oembed" href="https://www.raywenderlich.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial">
+<link rel="alternate" type="text/xml+oembed" href="https://www.raywenderlich.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial&amp;format=xml">
+<script type="text/javascript"><!--
+function powerpress_pinw(pinw_url){window.open(pinw_url, 'PowerPressPlayer','toolbar=0,status=0,resizable=1,width=460,height=320');	return false;}
+//-->
+</script>
+
+		<script type="text/javascript"> document.createElement("video");document.createElement("audio");document.createElement("track"); </script>
+		<style type="text/css">
+/* <![CDATA[ */
+img.latex { vertical-align: middle; border: none; }
+/* ]]> */
+</style>
+		<link rel="stylesheet" href="./Push Notifications Tutorial_ Getting Started_files/print.css" type="text/css" media="print">
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+		<link rel="pingback" href="https://www.raywenderlich.com/xmlrpc.php">
+		<script>var siteUrl = 'https://cdn1.raywenderlich.com/wp-content/themes/raywenderlich'</script>
+
+<noscript>&lt;img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=915433011818742&amp;amp;ev=PixelInitialized" /&gt;</noscript>
+	<style>.single article.post img { max-width:100%; }</style>
+	<script type="text/javascript" async="" src="https://s3.buysellads.com/ac/bsa.js"></script><script type="text/javascript" async="" src="./Push Notifications Tutorial_ Getting Started_files/embed.js"></script><script src="./Push Notifications Tutorial_ Getting Started_files/jsapi" type="text/javascript"></script><link type="text/css" href="https://www.google.com/uds/api/search/1.0/8bdfc79787aa2b2b1ac464140255872c/default+en.css" rel="stylesheet"><link type="text/css" href="./Push Notifications Tutorial_ Getting Started_files/default.css" rel="stylesheet"><script type="text/javascript" src="https://www.google.com/uds/api/search/1.0/8bdfc79787aa2b2b1ac464140255872c/default+en.I.js"></script><link rel="stylesheet" href="blob:https%3A//www.raywenderlich.com/77f1cef1-56bb-4db0-a58d-37300ab5cdf0"><style type="text/css">.react-spinner{position:relative;width:32px;height:32px;top:50%;left:50%}.react-spinner_bar{-webkit-animation:react-spinner_spin 1.2s linear infinite;animation:react-spinner_spin 1.2s linear infinite;border-radius:5px;background-color:#fff;position:absolute;width:20%;height:7.8%;top:-3.9%;left:-10%}@keyframes react-spinner_spin{0%{opacity:1}to{opacity:.15}}@-webkit-keyframes react-spinner_spin{0%{opacity:1}to{opacity:.15}}</style><link rel="stylesheet" href="blob:https%3A//www.raywenderlich.com/3940d45d-9f6f-4272-a313-95d8bcba4a4d"><link rel="stylesheet" href="blob:https%3A//www.raywenderlich.com/c9256fd8-68da-49af-97ff-d4f134b01b0e"><link rel="stylesheet" href="blob:https%3A//www.raywenderlich.com/fa76ce94-2e51-4f12-8a3e-fa84a01886e6"><link rel="stylesheet" href="blob:https%3A//www.raywenderlich.com/f5858e8b-a711-4f00-a8ac-af639b638545"><link rel="stylesheet" href="blob:https%3A//www.raywenderlich.com/08da8805-d90f-4c8d-9ea0-84ad51930392"><link rel="stylesheet" href="blob:https%3A//www.raywenderlich.com/14f26e1a-d346-4fca-b241-4515ee37515c"><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-demo-backdrop{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(99,112,122,.7)}.ot-engage-demo-tooltip{z-index:100000;position:absolute;box-sizing:border-box;width:200px;padding:15px;background:#e8e8e8;border-radius:2px;color:#63707a;text-align:center;font-size:14px;font-family:Roboto,Helvetica,sans-serif!important}.ot-engage-demo-tooltip span.ot-engage-close-demo-tooltip{position:absolute;top:-10px;left:-10px;cursor:pointer;display:block;width:20px;height:20px;border-radius:50%;background:#63707a;color:#fff;font-family:Roboto,Helvetica,sans-serif!important}.ot-engage-demo-tooltip a{display:block;text-align:right;margin-top:5px;color:#5abc4f!important}.ot-engage-demo-tooltip .ot-engage-demo-tooltip-header,.ot-engage-demo-tooltip a{font-family:Roboto,Helvetica,sans-serif!important;font-weight:400!important;text-transform:uppercase!important}.ot-engage-demo-tooltip .ot-engage-demo-tooltip-header{margin:5px 0 15px}.ot-engage-demo-tooltip .ot-engage-demo-tooltip-content{font-family:Roboto,Helvetica,sans-serif!important;font-weight:300!important}.ot-engage-demo-tooltip:after{display:block;content:'';width:0;height:0;border-style:solid}.ot-engage-demo-tooltip.bottom-chevron:after{left:94px}.ot-engage-demo-tooltip.bottom-chevron:after,.ot-engage-demo-tooltip.bottom-left-chevron:after{position:absolute;bottom:-7px;border-width:7px 6.5px 0;border-color:#e8e8e8 transparent transparent}.ot-engage-demo-tooltip.bottom-left-chevron:after{left:33px}.ot-engage-demo-tooltip.top-chevron:after{left:94px}.ot-engage-demo-tooltip.top-chevron:after,.ot-engage-demo-tooltip.top-right-chevron:after{position:absolute;top:-7px;border-width:0 6.5px 7px;border-color:transparent transparent #e8e8e8}.ot-engage-demo-tooltip.top-right-chevron:after{right:33px}@webkit-keyframes bob{0%{transform:translateY(-8px);-webkit-transform:translateY(-8px)}50%{transform:translateY(-4px);-webkit-transform:translateY(-4px)}to{transform:translateY(-8px);-webkit-transform:translateY(-8px)}}@keyframes bob{0%{transform:translateY(-8px);-webkit-transform:translateY(-8px)}50%{transform:translateY(-4px);-webkit-transform:translateY(-4px)}to{transform:translateY(-8px);-webkit-transform:translateY(-8px)}}.ot-engage-demo-tooltip{animation-name:bob,bob;-webkit-animation-name:bob,bob;animation-duration:.5s,1.9s;-webkit-animation-duration:.5s,1.9s;animation-delay:0s,.3s;-webkit-animation-delay:0s,.3s;animation-timing-function:ease-out,ease-in-out;-webkit-animation-timing-function:ease-out,ease-in-out;animation-iteration-count:1,infinite;-webkit-animation-iteration-count:1,infinite;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;animation-direction:normal,alternate;-webkit-animation-direction:normal,alternate}</style><style type="text/css">.ot-audio-visualizer{position:relative;display:table;width:45px;height:10px}.ot-audio-visualizer .ot-sound-bar{position:absolute;top:0;bottom:0;width:3px;height:3px;border-radius:50%;margin:auto;transition:all .3s;background:#abb2bc}@keyframes loading-audio{0%{top:0}50%{top:15px}to{top:-15px}}.ot-audio-visualizer .ot-sound-bar:first-child{animation:loading-audio 1.2s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(2){left:7px;animation:loading-audio 1.2s .2s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(3){left:14px;animation:loading-audio 1.2s .4s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(4){left:21px;animation:loading-audio 1.2s .6s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(5){left:28px;animation:loading-audio 1.2s .8s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(6){left:35px;animation:loading-audio 1.2s 1s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(7){left:42px;animation:loading-audio 1.2s 1.2s infinite ease-in-out alternate}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-recorder-view{z-index:10000;position:fixed;bottom:10px;left:10px;display:flex;width:400px;height:112px;background:url("https://www.opentest.co/assets/img/engage/recorder-shape.svg");background-size:contain;background-repeat:no-repeat}.ot-engage-recorder-view .ot-ffcam-view .ot-engage-recorder-ff-instructions{position:absolute;top:0;display:none;width:105px;height:105px;padding:0 5px}.ot-engage-recorder-view .ot-ffcam-view .ot-engage-recorder-ff-instructions p{position:relative;top:50%;transform:translateY(-50%);margin:0;font-family:Roboto,Helvetica,sans-serif;font-size:12px;text-align:center;color:#fff}.ot-engage-recorder-view .ot-ffcam-view{cursor:pointer;position:relative;top:50%;transform:translateY(-50%);left:3px;width:105px;height:105px;border-radius:50%;background:#abb2bc;-webkit-mask-image:-webkit-radial-gradient(circle,#fff 100%,#000 0)}.ot-engage-recorder-view .ot-ffcam-view.no-stream .ot-engage-recorder-ff-instructions,.ot-engage-recorder-view .ot-ffcam-view:hover .ot-engage-recorder-ff-instructions{display:block}.ot-engage-recorder-view .ot-ffcam-view:hover .ot-engage-recorder-ff-instructions{background:rgba(99,112,122,.75)}.ot-engage-recorder-view .ot-ffcam-view iframe{position:relative;width:150px!important;max-width:none!important;left:-22.5px;border:none}.ot-engage-recorder-view .ot-recorder-question{position:absolute;height:100%;width:260px;left:116px;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px}.ot-engage-recorder-view .ot-recorder-question>span{top:6px;position:absolute;color:#63707a;font-weight:400}.ot-engage-recorder-view .ot-recorder-question>p{margin:28px 0!important;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px;line-height:18px!important;color:#63707a}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls{position:absolute;bottom:5px;right:20px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls a{text-decoration:none;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:400;color:#63707a;transition:color .1s linear}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls a:hover{color:rgba(90,188,79,.9)}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls a:last-child{margin-left:10px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status{position:absolute;bottom:10px;float:left}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>*{float:left}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>:not(:first-child){margin:0 0 0 10px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>.ot-audio-visualizer{margin-left:22px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status p{font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px;color:#abb2bc;line-height:10px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>span{float:left;display:block;width:10px;height:10px;border-radius:50%;background:red;box-shadow:0 0 4px red;transition:box-shadow 1s linear;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>span.pulse{box-shadow:0 0 15px red}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-sentiment-bubble-appear.ot-engage-sentiment-bubble-view{bottom:-15px;opacity:.1;transition:opacity 125ms ease-in,bottom 125ms ease-in}.ot-engage-sentiment-bubble-appear-active.ot-engage-sentiment-bubble-view{bottom:15px;opacity:1}.ot-engage-sentiment-bubble-view{display:flex;justify-content:center;align-items:center;z-index:10000;position:fixed;bottom:15px;left:15px;width:340px;height:45px;background:#abb2bc;box-sizing:content-box;box-shadow:0 4px 15px -3px rgba(0,0,0,.75);-webkit-box-shadow:0 4px 15px -3px rgba(0,0,0,.75);border-radius:22.5px;padding:0 30px;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-weight:300}.ot-engage-sentiment-close{float:left;cursor:pointer;font-size:25px}.ot-engage-sentiment-bubble-view p{float:left;margin:0;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;max-width:260px}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble p{margin-left:15px;max-width:230px}.ot-engage-sentiment-bubble-view span[class*=ot-engage-sentiment-smiley-]{float:left;display:block;width:20px;height:20px;margin-left:10px;background-size:100%}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble span[class*=ot-engage-sentiment-smiley-]{cursor:pointer}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-happy{background:url("https://www.opentest.co/assets/img/engage/sentiment-happy.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-neutral{background:url("https://www.opentest.co/assets/img/engage/sentiment-neutral.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-sad{background:url("https://www.opentest.co/assets/img/engage/sentiment-sad.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-powered-by{position:absolute;left:30px;bottom:-16px;color:#fff;font-size:10px;font-weight:300;font-family:Roboto,Helvetica,sans-serif}.ot-engage-sentiment-bubble-view .ot-engage-powered-by span{font-weight:400}.ot-modal-view-container{z-index:10000;position:fixed;left:37.5px;bottom:80px}.ot-modal-view-container .ot-modal-view{position:relative;height:185px;width:340px;border:2px solid #e8e8e8;border-radius:2px;background:#fff;font-family:Roboto,Helvetica,sans-serif;color:#63707a}.ot-modal-view-container .ot-modal-view:after,.ot-modal-view-container .ot-modal-view:before{position:absolute;display:block;content:'';width:0;height:0;border-style:solid}.ot-modal-view-container .ot-modal-view:before{border-width:13.3px 12px 0;border-color:#e8e8e8 transparent transparent;bottom:-13px;right:11px}.ot-modal-view-container .ot-modal-view:after{border-width:9.7px 8.5px 0;border-color:#fff transparent transparent;bottom:-9px;right:15px}.ot-modal-view .ot-modal-close-icon{cursor:pointer;display:block;position:absolute;top:5px;right:10px;font-size:24px;font-weight:300}.ot-modal-view .ot-modal-contents{padding:10px 20px;height:100%;box-sizing:border-box}.ot-modal-view-container .ot-modal-contents.ot-modal-confetti-bg{background:url("https://www.opentest.co/assets/img/engage/confetti-bg-dark.png");background-size:240%}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-button{cursor:pointer;display:block;width:auto!important;min-width:200px!important;height:60px;margin:0;padding:0 25px!important;border-radius:2px!important;border:1px solid #5abc4f;background:#fff;line-height:60px!important;font-family:Roboto,Helvetica,sans-serif!important;font-size:14px!important;font-weight:400!important;text-transform:uppercase!important;text-align:center!important}.ot-button-green{background:#5abc4f!important;color:#fff!important;transition:background .1s linear}.ot-button-green:hover{background:rgba(90,188,79,.9)!important}.ot-button-white{background:#fff!important;color:#5abc4f!important;transition:background .1s linear}.ot-button-white:hover{background:rgba(90,188,79,.1)!important}.ot-button:disabled{background:#63707a;border:1px solid #63707a;color:#fff}.ot-feedback-complete-modal-view{display:flex;flex-direction:column;justify-content:center;box-sizing:border-box;height:100%;color:#63707a;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;text-align:center}.ot-feedback-complete-modal-view p{margin:0}.ot-feedback-complete-modal-view p:first-child{margin-top:15px;margin-bottom:25px}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-button{cursor:pointer;display:block;width:auto!important;min-width:200px!important;height:60px;margin:0;padding:0 25px!important;border-radius:2px!important;border:1px solid #5abc4f;background:#fff;line-height:60px!important;font-family:Roboto,Helvetica,sans-serif!important;font-size:14px!important;font-weight:400!important;text-transform:uppercase!important;text-align:center!important}.ot-button-green{background:#5abc4f!important;color:#fff!important;transition:background .1s linear}.ot-button-green:hover{background:rgba(90,188,79,.9)!important}.ot-button-white{background:#fff!important;color:#5abc4f!important;transition:background .1s linear}.ot-button-white:hover{background:rgba(90,188,79,.1)!important}.ot-button:disabled{background:#63707a;border:1px solid #63707a;color:#fff}.ot-first-recording-view{z-index:100000;position:fixed;top:0;left:0;right:0;bottom:0;display:block;background:rgba(99,112,122,.8);width:100%;height:100%;padding:0;margin:0}.ot-first-recording-view .ot-button{position:relative;top:50%;transform:translateY(-50);display:block;margin:0 auto;min-width:300px!important;height:90px;font-size:20px!important}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-mic-access-failed-modal-view{font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;text-align:center}.ot-mic-access-failed-modal-view img{display:block;margin:25px auto 0;width:280px}.ot-mic-access-failed-modal-view .ot-after-mic-access-directions{line-height:25px;margin-top:10px}.ot-mic-access-failed-modal-view .ot-icon{position:relative;top:5px;display:inline-block;width:25px;height:25px;margin:0 5px;background-image:url("https://www.opentest.co/assets/img/logo-sq-dark.png");background-size:contain}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-sentiment-bubble-appear.ot-engage-sentiment-bubble-view{bottom:-15px;opacity:.1;transition:opacity 125ms ease-in,bottom 125ms ease-in}.ot-engage-sentiment-bubble-appear-active.ot-engage-sentiment-bubble-view{bottom:15px;opacity:1}.ot-engage-sentiment-bubble-view{display:flex;justify-content:center;align-items:center;z-index:10000;position:fixed;bottom:15px;left:15px;width:340px;height:45px;background:#abb2bc;box-sizing:content-box;box-shadow:0 4px 15px -3px rgba(0,0,0,.75);-webkit-box-shadow:0 4px 15px -3px rgba(0,0,0,.75);border-radius:22.5px;padding:0 30px;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-weight:300}.ot-engage-sentiment-close{float:left;cursor:pointer;font-size:25px}.ot-engage-sentiment-bubble-view p{float:left;margin:0;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;max-width:260px}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble p{margin-left:15px;max-width:230px}.ot-engage-sentiment-bubble-view span[class*=ot-engage-sentiment-smiley-]{float:left;display:block;width:20px;height:20px;margin-left:10px;background-size:100%}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble span[class*=ot-engage-sentiment-smiley-]{cursor:pointer}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-happy{background:url("https://www.opentest.co/assets/img/engage/sentiment-happy.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-neutral{background:url("https://www.opentest.co/assets/img/engage/sentiment-neutral.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-sad{background:url("https://www.opentest.co/assets/img/engage/sentiment-sad.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-powered-by{position:absolute;left:30px;bottom:-16px;color:#fff;font-size:10px;font-weight:300;font-family:Roboto,Helvetica,sans-serif}.ot-engage-sentiment-bubble-view .ot-engage-powered-by span{font-weight:400}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-standalone-recorder-view{z-index:101000;position:fixed;bottom:10px;left:10px;display:flex;width:140px;height:140px;background:#fff;border-radius:50%;box-shadow:0 4px 15px -3px rgba(0,0,0,.75);-webkit-box-shadow:0 4px 15px -3px rgba(0,0,0,.75)}.ot-engage-standalone-recorder-view .ot-ffcam-view .ot-engage-standalone-recorder-ff-instructions{position:absolute;top:0;display:none;width:135px;height:135px}.ot-engage-standalone-recorder-view .ot-ffcam-view .ot-engage-standalone-recorder-ff-instructions p{position:relative;top:50%;transform:translateY(-50%);margin:0;font-family:Roboto,Helvetica,sans-serif;font-size:12px;text-align:center;color:#fff}.ot-engage-standalone-recorder-view .ot-ffcam-view{cursor:pointer;position:relative;top:50%;transform:translateY(-50%);margin:0 auto;width:135px;height:135px;border-radius:50%;background:#abb2bc;-webkit-mask-image:-webkit-radial-gradient(circle,#fff 100%,#000 0)}.ot-engage-standalone-recorder-view .ot-ffcam-view.no-stream .ot-engage-standalone-recorder-ff-instructions,.ot-engage-standalone-recorder-view .ot-ffcam-view:hover .ot-engage-standalone-recorder-ff-instructions{display:block}.ot-engage-standalone-recorder-view .ot-ffcam-view:hover .ot-engage-standalone-recorder-ff-instructions{background:rgba(99,112,122,.75)}.ot-engage-standalone-recorder-view .ot-ffcam-view iframe{position:relative;width:180px!important;max-width:none!important;top:-2px;left:-22.5px}.ot-engage-standalone-recorder-view .ot-recorder-question{position:absolute;height:100%;width:230px;left:116px;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px}</style><script type="text/javascript" async="" src="https://cdn2.developermedia.com/a.min.js"></script></head>
+	<body class="single single-post postid-123862 single-format-standard"><div id="StayFocusd-infobar" style="display: none; top: 9701px;">
+    <img src="chrome-extension://laankejkbhbdhmipfmgcngdelahlfoji/common/img/eye_19x19_red.png">
+    <span id="StayFocusd-infobar-msg"></span>
+    <span id="StayFocusd-infobar-links">
+        <a id="StayFocusd-infobar-never-show">hide forever</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a id="StayFocusd-infobar-hide">hide once</a>
+    </span>
+</div>
+            <!-- BuySellAds Ad Code -->
+            <script type="text/javascript">
+            (function(){
+              var bsa = document.createElement('script');
+                 bsa.type = 'text/javascript';
+                 bsa.async = true;
+                 bsa.src = '//s3.buysellads.com/ac/bsa.js';
+              (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+            })();
+            </script>
+            <!-- End BuySellAds Ad Code -->
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=118196468516511";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		<div id="wrapper">
+			<header id="branding" class="rw_subservice">
+				<div id="site-details" class="wrapper clearfix rw_subservice">
+					<hgroup id="site-logo" class="clearfix">
+						<h1 id="site-title"><a href="https://www.raywenderlich.com/" title="Ray Wenderlich" class="image" rel="home">Ray Wenderlich</a></h1>
+						<h2 id="site-name"><a href="https://www.raywenderlich.com/"><span class="first-name">RAY</span><span class="last-name">WENDERLICH</span></a></h2>
+						<h2 id="site-motto"><a href="https://www.raywenderlich.com/">TUTORIALS FOR DEVELOPERS &amp; GAMERS</a></h2>
+						<h2 id="site-description"><a href="https://www.raywenderlich.com/" border="0">Tutorials for iPhone / iOS Developers and Gamers</a></h2>
+					</hgroup>
+					<nav class="navtext">
+						<h1>Site Navigation</h1>
+						<ul id="user-account-navigation" class="logged-in">
+							<li class="login">
+
+				<ul id="user-account-navigation" class="logged-out">
+					<li class="login-link"><a href="https://www.raywenderlich.com/session/new?mode=login&amp;redirect_uri=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial">LOGIN</a></li>
+					<li class="separator"></li>
+					<li class="sign-out-link"><a href="https://www.raywenderlich.com/session/new?mode=signup">SIGN UP</a></li>
+				</ul>
+
+</li>
+							<script>
+								jQuery.ajax({
+									type : "POST",
+									data : { "javascript" : "false", "url"  : window.location.href  },
+									url : "https://www.raywenderlich.com/wp-content/themes/raywenderlich/templates/login_area.php",
+									cache : false,
+								}).done(function(html) {
+									jQuery("#user-account-navigation li").html(html);
+								})
+							</script>
+						</ul>
+						<ul id="sitewide-nagivation">
+							<li class="about"><a href="https://www.raywenderlich.com/104320/open-call-for-writers-and-editors" style="margin-right: 10px;">Write For Us</a></li>
+							<li class="about"><a href="https://www.raywenderlich.com/about">About</a></li>
+							<li class="language">
+								<ul id="languagenav">
+			    	    			<li id="language">
+			    	    							    	    			</li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div class="navigation-band rw_subservice">
+					<div class="wrapper clearfix">
+						<ul id="subnav" class="navtext">
+							<li class="ios-games separator"></li>
+							<li id="all-tutorials"><a class="verbose-link" href="https://www.raywenderlich.com/tutorials">Written Tutorials</a><a class="abridged-link" href="https://www.raywenderlich.com/tutorials">Written</a>
+								<ul class="expanded-subnav">
+									<li><h3>LANGUAGES</h3>
+									</li><li>
+										<ul class="site-subcategories">
+											<li class="last-item"><a href="https://www.raywenderlich.com/swift-language-tutorials">Swift</a></li>
+										</ul>
+									</li>
+									<li><h3>APP DEVELOPMENT</h3>
+									</li><li>
+										<ul class="site-subcategories">
+											<li><a href="https://www.raywenderlich.com/ios-tutorials">iOS</a></li>
+											<li><a href="https://www.raywenderlich.com/android-tutorials">Android</a></li>
+											<li class="last-item"><a href="https://www.raywenderlich.com/os-x-tutorials">OS X</a></li>
+										</ul>
+									</li>
+									<li><h3>GAME DEVELOPMENT</h3>
+									</li><li>
+										<ul class="site-subcategories">
+											<li><a href="https://www.raywenderlich.com/apple-game-frameworks-tutorials">Apple Game Frameworks</a></li>
+											<li><a href="https://www.raywenderlich.com/unity-tutorials">Unity</a></li>
+										</ul>
+									</li>
+									<li><h3>OTHER</h3>
+									</li><li>
+										<ul class="site-subcategories">
+											<li><a href="https://www.raywenderlich.com/articles">Articles</a></li>
+											<li class="last-item"><a href="https://www.raywenderlich.com/tutorial-archive">Archive</a></li>
+										</ul>
+									</li>
+								</ul>
+								<style>
+									#all-tutorials .expanded-subnav { display:none; }
+									#all-tutorials:hover .expanded-subnav, #all-tutorials:focus .expanded-subnav { display:block; }
+									.expanded-subnav { position:absolute;background-color:#005C30;min-width: 244px;left: 1px;border-right: 1px solid #007B41;border-left: 1px solid #007B41;padding-bottom:13px; }
+									.expanded-subnav h3 { margin-left:9px;color:#002413;font-family: 'Open Sans',sans-serif;font-weight:700;font-size:12px; }
+									#subnav .expanded-subnav li { float:none; }
+									#subnav .expanded-subnav li .site-subcategories { margin-left:23px; }
+									#subnav  #all-tutorials .expanded-subnav a { background:none;padding:4px;width:192px;border-bottom:1px solid #00411d;font-size:16px;color:#A2C8B6;height:31px;padding-bottom:0;margin-top:2px; }
+									#subnav #all-tutorials .expanded-subnav a:hover { color:#fff; }
+									#subnav #all-tutorials .expanded-subnav .last-item  a { border-bottom:none; }
+									.page #mc_embed_signup .mc-field-group .asterisk {  position: relative;top: 5px;right:0; }
+									.page #mc_embed_signup .mc-field-group { padding-bottom:0; }
+									.page #mc_embed_signup .mc-field-group input { margin-top:-11px; }
+								</style>
+								<script>
+									jQuery(document).ready(function() {
+										jQuery("#all-tutorials .verbose-link, #all-tutorials .abridged-link").click(function() {
+											return false;
+										});
+										jQuery("#all-tutorials").bind("touchstart", function(event){
+        									event.stopPropagation();
+										});
+										jQuery(document).bind('touchstart', function(e) {
+									        jQuery("#all-tutorials .expanded-subnav").fadeOut(300);
+										});
+										jQuery("#all-tutorials .expanded-subnav a").click(function () {
+										      $("#all-tutorials .expanded-subnav").fadeOut(300);
+										});
+									});
+
+
+								</script>
+							</li>
+							<li class="separator"></li>
+							<li id="videos"><a class="verbose-link" href="https://www.raywenderlich.com/video-tutorials">Video Tutorials</a><a href="https://www.raywenderlich.com/video-tutorials" class="abridged-link">Video</a></li>
+							<li class="separator"></li>
+							<li id="podcasts"><a href="https://www.raywenderlich.com/rwpodcast">Podcast</a></li>
+							<li class="separator"></li>
+							<li id="ios-gaming"><a href="https://forums.raywenderlich.com/">Forums</a></li>
+							<li class="separator"></li>
+							<li id="art"><a href="http://www.gameartguppy.com/" target="_blank">Art</a></li>
+							<li class="separator"></li>
+							<li id="games"><a href="https://www.raywenderlich.com/store">Store</a></li>
+							<li class="separator"></li>
+							<li class="search">
+								<form action="https://www.raywenderlich.com/" class="searchform clearfix" method="get">
+									<label class="assistive-text" for="s">Search</label>
+									<input type="text" placeholder="Search for a tutorial" class="s field" name="s" autocomplete="off">
+									<input type="hidden" name="cof" value="FORID:10">
+								</form>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="subnav-band "></div>
+							<!-- .wrapper -->
+			</header>
+		</div>
+
+		<div class="wrapper clearfix" id="print-header" style="display:none">
+			<img src="./Push Notifications Tutorial_ Getting Started_files/print-header.png" width="1202" height="102">
+		</div>
+		<div id="main" class="wrapper clearfix">
+			<div id="container">
+    <div id="primary" class="no-margin-left">
+        <div id="primary-container">
+            <div class="banner-ad" syle="overflow:hidden">
+                <!-- BuySellAds.com Ad Code -->
+                <div id="bsap_1272017" class="bsarocks bsap_39fcef7ed4520883d78f129c33995fd2"></div>
+                <!-- End BuySellAds.com Ad Code -->
+            </div>
+            <div id="content">
+                                <article id="post-123862" class="clearfix post-123862 post type-post status-publish format-standard has-post-thumbnail hentry category-other-core-apis tag-ios tag-jack-wu tag-push-notifications tag-tutorial">
+                    <header class="entry-header">
+                        <h2 class="entry-title">
+                            <a href="https://www.raywenderlich.com/123862/push-notifications-tutorial" title="Push Notifications Tutorial: Getting Started">Push Notifications Tutorial: Getting Started</a>
+                        </h2>
+                        <div class="tutorial-meta" id="larger-screens">
+                            <div class="author-meta">
+                                <a href="https://www.raywenderlich.com/u/jack_wu"><img src="./Push Notifications Tutorial_ Getting Started_files/5af9128542232e286456dbde59128b30" alt="" width="100" height="100" class="user-avatar"></a> <a href="https://www.raywenderlich.com/u/jack_wu" class="author-name">                                        Jack</a> <span class="author-post-date">on March 17, 2016 </span>
+                                                                    </div>
+                            <div class="social-links">
+                                <ul>
+                                                                                <li class="twitter"><div id="tweetbutton123862m" class="tw_button" style="margin-bottom:10px;"><a href="http://twitter.com/share?url=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial&amp;via=rwenderlich&amp;text=Push%20Notifications%20Tutorial%3A%20Getting%20Started&amp;related=JackTripleU&amp;lang=en&amp;count=horizontal&amp;counturl=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial" class="twitter-share-button" style="width:55px;height:22px;background:transparent url(&#39;https://cdn3.raywenderlich.com/wp-content/plugins/wp-tweet-button/tweetn.png&#39;) no-repeat  0 0;text-align:left;text-indent:-9999px;display:block;"><iframe style="width: 30px; height: 19px; border: 0px;"></iframe></a></div></li>
+                                                                                <li class="facebook" style="width: 52px;"><div class="fb-like" data-href="https://www.raywenderlich.com/123862/push-notifications-tutorial" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" style="display: block;"><iframe style="width: 30px; height: 19px; border: 0px;"></iframe></div></li>
+                                    <li class="facebook iframe-link" style="position: relative;top: 0px;left: 11px;width: 52px;"><iframe src="./Push Notifications Tutorial_ Getting Started_files/like.html" allowtransparency="true" frameborder="0" scrolling="no" style="width: 74px; height: 20px; display: block;"><iframe style="width: 30px; height: 19px; border: 0px;" src="./Push Notifications Tutorial_ Getting Started_files/saved_resource(2).html"></iframe></iframe></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="content-wrapper">
+                        <div id="attachment_126673" style="width: 260px" class="wp-caption alignright"><img src="./Push Notifications Tutorial_ Getting Started_files/push_feature-250x250.png" alt="push notifications tutorial" width="250" height="250" class="size-thumbnail wp-image-126673" srcset="https://cdn1.raywenderlich.com/wp-content/uploads/2016/02/push_feature-250x250.png 250w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/02/push_feature-320x320.png 320w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/02/push_feature.png 500w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/02/push_feature-32x32.png 32w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/02/push_feature-64x64.png 64w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/02/push_feature-96x96.png 96w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/02/push_feature-128x128.png 128w" sizes="(max-width: 250px) 100vw, 250px"><p class="wp-caption-text">Learn how to get started with push notifications!</p></div>
+<p><em>Note</em>: Updated for Xcode 7.3, iOS 9.3, and Swift 2.2 on 04-03-2016</p>
+<p>iOS developers love to imagine users of their awesome app using the app all day, every day. Unfortunately, the cold hard truth is that users will sometimes have to close the app and perform other activities. Laundry doesn’t fold itself, you know :]</p>
+<p>Happily, <em>push notifications</em> allow developers to reach users and perform small tasks even when users aren’t actively using an app!</p>
+<p>Push notifications have become more and more powerful since they were first introduced. In iOS 9, push notifications can:</p>
+<ul>
+<li>Display a short text message
+</li><li>Play a notification sound
+</li><li>Set a badge number on the app’s icon
+</li><li>Provide actions the user can take without opening the app
+</li><li>Be silent, allowing the app to wake up in the background and perform a task
+</li></ul>
+<p>This push notifications tutorial will go over how push notifications work, and let you try out their features.</p>
+<p>Before you get started, you will need the following to test push notifications:</p>
+<ul>
+<li><em>An iOS device</em>. Push notifications do not work in the simulator, so you’ll need an actual device.
+</li><li><em>An Apple Developer Program Membership</em>. Since Xcode 7, you can now test apps on your device without a program membership. However, to configure push notifications you need a push notification certificate for your App ID, which requires the program membership.
+</li></ul>
+<h2>Getting Started</h2>
+<p>There are three main tasks that must be performed in order to send and receive a push notification:</p>
+<ol>
+<li>The app must be configured properly and registered with the Apple Push Notification Service (APNS) to receive push notifications upon every start-up.</li>
+<li>A server must send a push notification to APNS directed to one or more specific devices.</li>
+<li>The app must receive the push notification; it can then perform tasks or handle user actions using callbacks in the application delegate.</li>
+</ol>
+<p>Tasks 1 and 3 will be the main focus of this push notifications tutorial, since they are the responsibility of an iOS developer.</p>
+<p>Task 2 will also be briefly covered, mostly for testing purposes. Sending push notifications is a responsibility of the app’s server-component and is usually implemented differently from one app to the next. Many apps use third-parties (ex. <a href="https://parse.com/" target="_blank">Parse.com</a> or <a href="https://developers.google.com/cloud-messaging/" target="_blank">Google Cloud Messaging</a>) to send push notifications, while others use custom solutions and/or popular libraries (ex. <a href="https://github.com/nomad/houston" target="_blank">Houston</a>).</p>
+<p>To get started, download the <a href="https://cdn5.raywenderlich.com/wp-content/uploads/2016/03/WenderCast-Starter-1.1.zip" rel="">starter project</a> of <em>WenderCast</em>. WenderCast is everyone’s go-to source for raywenderlich.com podcasts and breaking news. </p>
+<p>Open <em>WenderCast.xcodeproj</em> in Xcode and take a peek around. Build and run to see the latest podcasts:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun1.png"><img src="./Push Notifications Tutorial_ Getting Started_files/BuildAndRun1-281x500.png" alt="push notifications tutorial" width="281" height="500" class="aligncenter size-large wp-image-123864" srcset="https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun1-281x500.png 281w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun1-180x320.png 180w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun1.png 750w" sizes="(max-width: 281px) 100vw, 281px"></a></p>
+<p>The problem with the app is that it doesn’t let users know when a new podcast is available. It also doesn’t really have any news to display. You’ll soon fix all that with the power of push notifications!</p>
+<h2>Configuring an App for Push Notifications</h2>
+<p>Push notifications require a <i>lot</i> of security. This is quite important, since you don’t want anyone else to send push notifications to your users. What this means is that there are quite a few hoops to jump through to configure apps for push notifications.</p>
+<h3>Enabling the Push Notification Service</h3>
+<p>The first step is to change the App ID. Go to <em>App Settings -&gt; General</em> and change <em>Bundle Identifier</em> to something unique:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/ChangeBundleID.png"><img src="./Push Notifications Tutorial_ Getting Started_files/ChangeBundleID.png" alt="push notifications tutorial" width="316" height="36" class="aligncenter size-full wp-image-123867"></a></p>
+<p>Next, you need to create an App ID in your developer account that has the push notification entitlement enabled. Luckily, Xcode has a simple way to do this. Go to <em>App Settings -&gt; Capabilities</em> and flip the switch for <em>Push Notifications</em> to <em>On</em>. </p>
+<p>After some loading, it should look like this:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/PushNotificaitonCapability.png"><img src="./Push Notifications Tutorial_ Getting Started_files/PushNotificaitonCapability.png" alt="push notifications tutorial" width="460" height="108" class="aligncenter size-full wp-image-123878"></a></p>
+<p>Behind the scenes, this creates the App ID in your member center if it doesn’t exist already, then adds the push notifications entitlement to it. You can log in and verify this:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1.png"><img src="./Push Notifications Tutorial_ Getting Started_files/MemberCenter1-499x500.png" alt="push notifications tutorial" width="499" height="500" class="aligncenter size-large wp-image-123875" srcset="https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1-499x500.png 499w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1-250x250.png 250w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1-319x320.png 319w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1-32x32.png 32w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1-64x64.png 64w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1-96x96.png 96w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1-128x128.png 128w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/MemberCenter1.png 721w" sizes="(max-width: 499px) 100vw, 499px"></a></p>
+<p>If any issues occur, manually create the App ID or add the push notifications entitlement in the member center by using the <em>+</em> or <em>Edit</em> buttons.</p>
+<p>That’s all you need to configure for now.</p>
+<h3>Registering for Push Notifications</h3>
+<p>There are two steps to register for push notifications. First, you must obtain the user’s permission to show <i>any</i> kind of notification, after which you can register for remote notifications. If all goes well, the system will then provide you with a <em>device token</em>, which you can think of as an “address” to this device.</p>
+<p>In WenderCast, you will register for push notifications immediately after the app launches. </p>
+<p>Open <em>AppDelegate.swift</em> and add the following method to the end of <code>AppDelegate</code>:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238621"><td class="code" id="p123862code1"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> registerForPushNotifications<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span><span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+  <span style="color: #a61390;">let</span> notificationSettings <span style="color: #002200;">=</span> UIUserNotificationSettings<span style="color: #002200;">(</span>
+    forTypes<span style="color: #002200;">:</span> <span style="color: #002200;">[</span>.Badge, .Sound, .Alert<span style="color: #002200;">]</span>, categories<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">)</span>
+  application.registerUserNotificationSettings<span style="color: #002200;">(</span>notificationSettings<span style="color: #002200;">)</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>This method creates an instance of <code>UIUserNotificationSettings</code> and passes it to <code>registerUserNotificationSettings(_:)</code>.</p>
+<p><code>UIUserNotificationSettings</code> stores settings for the type of notification your app will use. For the <code>UIUserNotificationType</code>s, you can use any combination of the following:</p>
+<ul>
+<li><code>.Badge</code> allows the app to display a number on the corner of the app’s icon.</li>
+<li><code>.Sound</code> allows the app to play a sound.</li>
+<li><code>.Alert</code> allows the app to display text.</li>
+</ul>
+<p>The set of <code>UIUserNotificationCategory</code>s that you currently pass <code>nil</code> to allows you to specify different categories of notifications your app can handle. This becomes necessary when you want to implement actionable notifications, which you will use later.</p>
+<p>Add a call to <code>registerForPushNotifications(_:)</code> as the first line in <code>application(_:didFinishLaunchingWithOptions:launchOptions:)</code>:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238622"><td class="code" id="p123862code2"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, didFinishLaunchingWithOptions launchOptions<span style="color: #002200;">:</span> <span style="color: #002200;">[</span><span style="color: #400080;">NSObject</span><span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span>?<span style="color: #002200;">)</span> <span style="color: #002200;">-</span>&gt; <span style="color: #a61390;">Bool</span> <span style="color: #002200;">{</span>
+  registerForPushNotifications<span style="color: #002200;">(</span>application<span style="color: #002200;">)</span>
+  <span style="color: #11740a; font-style: italic;">//...</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>Build and run. When the app launches, you should receive a prompt that asks for permission to send you notifications:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun2.png"><img src="./Push Notifications Tutorial_ Getting Started_files/BuildAndRun2-281x500.png" alt="push notifications tutorial" width="281" height="500" class="aligncenter size-large wp-image-123865" srcset="https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun2-281x500.png 281w, https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun2-180x320.png 180w, https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRun2.png 750w" sizes="(max-width: 281px) 100vw, 281px"></a></p>
+<p>Tap <em>OK</em> and poof! The app can now display notifications. Great! But what now? What if the user declines the permissions?</p>
+<p>When the user accepts or declines your permissions or has already made that selection in the past, a delegate method of <code>UIApplicationDelegate</code> gets called. Add this method inside <code>AppDelegate</code>:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238623"><td class="code" id="p123862code3"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, didRegisterUserNotificationSettings notificationSettings<span style="color: #002200;">:</span> UIUserNotificationSettings<span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+&nbsp;
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>In this method, you get passed another <code>UIUserNotificationSettings</code>. This one is <i>very different</i> from the previous one you passed in. That one specified the settings you <i>want</i>, while this one specifies the settings the user has <i>granted</i>. </p>
+<p>It’s extremely important to call <code>registerUserNotificationSettings(_:)</code> <i>every time</i> the app launches. This is because the user can, at any time, go into the Settings app and change the notification permissions. <code>application(_:didRegisterUserNotificationSettings:)</code> will always provide you with what permissions the user currently has allowed for your app.</p>
+<p>Step 1 is now complete, and you can now register for remote notifications. This is slightly easier, since you don’t need more permissions from the user. Update <code>application(_:didRegisterUserNotificationSettings:)</code> with the following:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238624"><td class="code" id="p123862code4"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, didRegisterUserNotificationSettings notificationSettings<span style="color: #002200;">:</span> UIUserNotificationSettings<span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+  <span style="color: #a61390;">if</span> notificationSettings.types <span style="color: #002200;">!=</span> .None <span style="color: #002200;">{</span>
+    application.registerForRemoteNotifications<span style="color: #002200;">(</span><span style="color: #002200;">)</span>
+  <span style="color: #002200;">}</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>Here, you first check whether the user has granted you <i>any</i> notification permissions; if they have, you directly call <code>registerForRemoteNotifications()</code>.</p>
+<p>Again, methods in <code>UIApplicationDelegate</code> are called to inform you about the status of <code>registerForRemoteNotifications()</code>. </p>
+<p>Add the following two methods to <code>AppDelegate</code>:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238625"><td class="code" id="p123862code5"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, didRegisterForRemoteNotificationsWithDeviceToken deviceToken<span style="color: #002200;">:</span> <span style="color: #400080;">NSData</span><span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+  <span style="color: #a61390;">let</span> tokenChars <span style="color: #002200;">=</span> UnsafePointer&lt;CChar&gt;<span style="color: #002200;">(</span>deviceToken.bytes<span style="color: #002200;">)</span>
+  <span style="color: #a61390;">var</span> tokenString <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">""</span>
+&nbsp;
+  <span style="color: #a61390;">for</span> i <span style="color: #a61390;">in</span> <span style="color: #2400d9;">0</span>..&lt;deviceToken.length <span style="color: #002200;">{</span>
+    tokenString <span style="color: #002200;">+=</span> <span style="color: #a61390;">String</span><span style="color: #002200;">(</span>format<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">"%02.2hhx"</span>, arguments<span style="color: #002200;">:</span> <span style="color: #002200;">[</span>tokenChars<span style="color: #002200;">[</span>i<span style="color: #002200;">]</span><span style="color: #002200;">]</span><span style="color: #002200;">)</span>
+  <span style="color: #002200;">}</span>
+&nbsp;
+  <span style="color: #a61390;">print</span><span style="color: #002200;">(</span><span style="color: #bf1d1a;">"Device Token:"</span>, tokenString<span style="color: #002200;">)</span>
+<span style="color: #002200;">}</span>
+&nbsp;
+<span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, didFailToRegisterForRemoteNotificationsWithError error<span style="color: #002200;">:</span> <span style="color: #400080;">NSError</span><span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+  <span style="color: #a61390;">print</span><span style="color: #002200;">(</span><span style="color: #bf1d1a;">"Failed to register:"</span>, error<span style="color: #002200;">)</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>As the names suggest, the system calls <code>application(_:didRegisterForRemoteNotificationsWithDeviceToken:)</code> when the registration is successful, and otherwise calls <code>application(_:didFailToRegisterForRemoteNotificationsWithError:)</code>.</p>
+<p>The current implementation of <code>application(_:didRegisterForRemoteNotificationsWithDeviceToken:)</code> looks cryptic, but it is simply taking <code>deviceToken</code> and converting it to a string. The device token is the fruit of this process. It is a token provided by APNS that uniquely identifies this app on this particular device. When sending a push notification, the app uses device tokens as “addresses” to direct notifications to the correct devices. </p>
+<div class="note">
+<p><em>Note:</em> There are several reasons why registration might fail. Most of the time it’s because the app is running on a simulator, or because the App ID configuration was not done properly. The error message generally provides a good hint as to what is wrong.</p>
+</div>
+<p>That’s it! Build and run. Make sure you are running on a device, and you should receive a device token in the console output. Here’s what mine looks like:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/DeviceToken.png"><img src="./Push Notifications Tutorial_ Getting Started_files/DeviceToken.png" alt="push notifications tutorial" width="543" height="20" class="aligncenter size-full wp-image-123870" srcset="https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/DeviceToken.png 543w, https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/DeviceToken-480x18.png 480w" sizes="(max-width: 543px) 100vw, 543px"></a></p>
+<p>Copy this token somewhere handy. </p>
+<p>You have a bit more configuration to do before you can send a push notification, so return to Apple’s Developer Member Center.</p>
+<h3>Creating an SSL Certificate and PEM file</h3>
+<p>In your member center, go to <em>Certificates, Identifiers &amp; Profiles -&gt; Identifiers -&gt; App IDs</em> and find the App ID for your app. Under <em>Application Services</em>, Push Notifications should be <em>Configurable</em>:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/ConfigurablePushNotifications.png"><img src="./Push Notifications Tutorial_ Getting Started_files/ConfigurablePushNotifications.png" alt="push notifications tutorial" width="569" height="40" class="aligncenter size-full wp-image-123868" srcset="https://cdn3.raywenderlich.com/wp-content/uploads/2016/01/ConfigurablePushNotifications.png 569w, https://cdn3.raywenderlich.com/wp-content/uploads/2016/01/ConfigurablePushNotifications-480x34.png 480w" sizes="(max-width: 569px) 100vw, 569px"></a></p>
+<p>Click <em>Edit</em> and scroll down to <em>Push Notifications</em>:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/CreateCertificate.png"><img src="./Push Notifications Tutorial_ Getting Started_files/CreateCertificate.png" alt="push notifications tutorial" width="664" height="404" class="aligncenter size-full wp-image-123869" srcset="https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/CreateCertificate.png 664w, https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/CreateCertificate-480x292.png 480w" sizes="(max-width: 664px) 100vw, 664px"></a></p>
+<p>In <em>Development SSL Certificate</em>, click <em>Create Certificate…</em> and follow the steps to create a <em>CSR</em>. Once you have your CSR, click <em>continue</em> and <em>Generate</em> your certificate using the CSR. Finally, download the certificate and run it, which should add it to your Keychain, paired with a private key:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/KeychainCertificate.png"><img src="./Push Notifications Tutorial_ Getting Started_files/KeychainCertificate-700x47.png" alt="push notifications tutorial" width="700" height="47" class="aligncenter size-large wp-image-123874" srcset="https://cdn3.raywenderlich.com/wp-content/uploads/2016/01/KeychainCertificate-700x47.png 700w, https://cdn3.raywenderlich.com/wp-content/uploads/2016/01/KeychainCertificate-480x32.png 480w, https://cdn3.raywenderlich.com/wp-content/uploads/2016/01/KeychainCertificate.png 873w" sizes="(max-width: 700px) 100vw, 700px"></a></p>
+<p>Back in the member center, your App ID should now have push notifications enabled for development:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/PushNotificationEnabled.png"><img src="./Push Notifications Tutorial_ Getting Started_files/PushNotificationEnabled.png" alt="push notifications tutorial" width="566" height="41" class="aligncenter size-full wp-image-123879" srcset="https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/PushNotificationEnabled.png 566w, https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/PushNotificationEnabled-480x35.png 480w" sizes="(max-width: 566px) 100vw, 566px"></a></p>
+<p>There is one last thing you need before you close Keychain Access. Right-click on your new push certificate and choose <em>Export</em>:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/ExportCertificate.png"><img src="./Push Notifications Tutorial_ Getting Started_files/ExportCertificate-700x149.png" alt="push notifications tutorial" width="700" height="149" class="aligncenter size-large wp-image-123872" srcset="https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/ExportCertificate-700x149.png 700w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/ExportCertificate-480x102.png 480w, https://cdn1.raywenderlich.com/wp-content/uploads/2016/01/ExportCertificate.png 787w" sizes="(max-width: 700px) 100vw, 700px"></a></p>
+<p>Save it as <em>WenderCastPush.p12</em> to <em>Desktop</em> as a <em>.p12</em> file:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/SaveP12.png"><img src="./Push Notifications Tutorial_ Getting Started_files/SaveP12.png" alt="push notifications tutorial" width="424" height="223" class="aligncenter size-full wp-image-123881"></a></p>
+<p>You will be prompted to enter a password for the p12. You can either leave this blank or enter a password of your choosing. I used “WenderCastPush” as the password. You’ll then need to enter your log-in password to permit the export.</p>
+<p>Next, open up your terminal and run the following commands to generate a PEM file from the p12 file:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238626"><td class="code" id="p123862code6"><pre class="bash" style="font-family:monospace;">$ <span style="color: #7a0874; font-weight: bold;">cd</span> ~<span style="color: #000000; font-weight: bold;">/</span>Desktop
+$ openssl pkcs12 <span style="color: #660033;">-in</span> WenderCastPush.p12 <span style="color: #660033;">-out</span> WenderCastPush.pem <span style="color: #660033;">-nodes</span> <span style="color: #660033;">-clcerts</span></pre></td></tr></tbody></table></div>
+
+<p>If you created a password for the p12 file, you will need to enter it here. </p>
+<p>Whew! That was a lot to get through, but it was all worth it — with your new <em>WenderCastPush.pem</em> file, you are now ready to send your first push notification!</p>
+<h2>Sending a Push Notification</h2>
+<p>The starter kit includes a folder called <em>WenderCastPush</em>; inside are two simple scripts that send push notifications. The one you will be using is <em>newspush.php</em>. As its name suggests, this script sends breaking news to your users.</p>
+<p>Sending push notifications requires an SSL connection to APNS, secured by the push certificate you just created. That’s where <em>WenderCastPush.pem</em> comes in. Rename <em>WenderCastPush.pem</em> to <em>ck.pem</em> and replace the existing <em>ck.pem</em> in the <em>WenderCastPush</em> folder.</p>
+<p>Open <em>newspush.php</em> and update <code>$deviceToken</code> to the one you received earlier, and <code>$passphrase</code> to the password you gave your push certificate when exporting:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238627"><td class="code" id="p123862code7"><pre class="php" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// Put your device token here (without spaces):</span>
+<span style="color: #000088;">$deviceToken</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">'43e798c31a282d129a34d84472bbdd7632562ff0732b58a85a27c5d9fdf59b69'</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Put your private key's passphrase here:</span>
+<span style="color: #000088;">$passphrase</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">'WenderCastPush'</span><span style="color: #339933;">;</span></pre></td></tr></tbody></table></div>
+
+<p>Open your terminal, <code>cd</code> to the folder containing <code>newspush.php</code> and type:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238628"><td class="code" id="p123862code8"><pre class="bash" style="font-family:monospace;">$ php newspush.php <span style="color: #ff0000;">'Breaking News'</span> <span style="color: #ff0000;">'https://raywenderlich.com'</span></pre></td></tr></tbody></table></div>
+
+<p>If all goes well, your terminal should display:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p1238629"><td class="code" id="p123862code9"><pre class="bash" style="font-family:monospace;">Connected to APNS
+Message successfully delivered</pre></td></tr></tbody></table></div>
+
+<p>You should receive your first push notification:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/FirstPush.png"><img src="./Push Notifications Tutorial_ Getting Started_files/FirstPush-281x500.png" alt="push notifications tutorial" width="281" height="500" class="aligncenter size-large wp-image-123873" srcset="https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/FirstPush-281x500.png 281w, https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/FirstPush-180x320.png 180w, https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/FirstPush.png 1242w" sizes="(max-width: 281px) 100vw, 281px"></a></p>
+<div class="note">
+<p><em>Note:</em> You won’t see anything if the app is open and running in the foreground. The notification is delivered, but there’s nothing in the app to handle it yet. Simply close the app and send the notification again.</p>
+</div>
+<h3>Common Issues</h3>
+<p>There are a couple problems that might arise:</p>
+<p><em>Some notifications received but not all:</em> If you’re sending multiple push notifications simultaneously and only a few are received, fear not! That is intended behaviour. APNS maintains a QoS (Quality of Service) queue for each device with a push app. The size of this queue is 1, so if you send multiple notifications, the last notification is overridden.</p>
+<p><em>Problem connecting to Push Notification Service:</em> One possibility could be that there is a firewall blocking the ports used by APNS. Make sure you unblock these ports. Another possibility might be that the private key and CSR file are wrong. Remember that each App ID has a unique CSR and private key combination.</p>
+<h3>Anatomy of a Basic Push Notification</h3>
+<p>Before you move on to Task 3, handling push notifications, take a look at <em>newspush.php</em> to get a basic idea of what a push notification looks like.</p>
+<p>Pay attention to lines 32-40. Here the payload body is created and encoded as JSON. This is what actually gets sent to APNS. In this case, the payload looks like this:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386210"><td class="code" id="p123862code10"><pre class="json" style="font-family:monospace;">{
+  "aps":
+  {
+    "alert": "Breaking News!",
+    "sound": "default"
+    "link_url" : "https://raywenderlich.com,
+  }
+}</pre></td></tr></tbody></table></div>
+
+<p>For the JSON-uninitiated, a block delimited by curly { } brackets contains a dictionary that consists of key/value pairs (just like an <code>NSDictionary</code>).</p>
+<p>The payload is a dictionary that contains at least one item, <em>aps</em>, which itself is also a dictionary. In this example, “aps” contains the fields “alert,” “sound,” and “link_url.” When this push notification is received, it shows an alert view with the text “Breaking News!” and plays the standard sound effect.</p>
+<p>“link_url” is actually a custom field. You can add custom fields to the payload like this and they will get delivered to your application. Since you aren’t handling it inside the app yet, this key/value pair currently does nothing.</p>
+<p>There are five keys you can add to the <code>aps</code> dictionary:</p>
+<ul>
+<li><code>alert</code>. This can be a string, like in the previous example, or a dictionary itself. As a dictionary, it can localize the text or change other aspects of the notification. See <a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW1" target="_blank">Apple’s documentation</a> for all the keys it can support.</li>
+<li><code>badge</code>. This is a number that will display in the corner of the app icon. You can remove the badge by setting this to 0.</li>
+<li><code>sound</code>. By setting this key, you can play custom notification sounds located in the app in place of the default notification sound. Custom notification sounds must be shorter than 30 seconds and have a few restrictions, which you can see in <a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html#//apple_ref/doc/uid/TP40008194-CH103-SW6" target="_blank">Apple’s documentation</a>.</li>
+<li><code>content-available</code>. By setting this key to <code>1</code>, the push notification becomes a silent one. This will be explored later in this push notifications tutorial.</li>
+<li><code>category</code>. This defines the category of the notification, which is is used to show custom actions on the notification. You will also be exploring this shortly.</li>
+</ul>
+<p>Outside of these, you can add as much custom data as you want, as long as the payload does not exceed the maximum size of 4096 bytes.</p>
+<p>Once you’ve had enough fun sending push notifications to your device, move on to the next section. :]</p>
+<h2>Handling Push Notifications</h2>
+<p>In this section, you’ll learn how to perform actions in your app when push notifications are received and/or when users tap on them.</p>
+<h3>What Happens When You Receive a Push Notification?</h3>
+<p>When your app receives a push notification, a method in <code>UIApplicationDelegate</code> is called. </p>
+<p>The notification needs to be handled differently depending on what state your app is in when it’s received:</p>
+<ul>
+<li>If your app wasn’t running and the user launches it by tapping the push notification, the push notification is passed to your app in the <code>launchOptions</code> of <code>application(_:didFinishLaunchingWithOptions:)</code>.</li>
+<li>If your app was running and in the foreground, the push notification will not be shown, but <code>application(_:didReceiveRemoteNotification:)</code> will be called immediately.</li>
+<li>If your app was running or suspended in the background and the user brings it to the foreground by tapping the push notification, <code>application(_:didReceiveRemoteNotification:)</code> will be called.</li>
+</ul>
+<p>In the first case, WenderCast will create the news item and open up directly to the news section. Add the following code to the end of <code>application(_:didFinishLaunchingWithOptions:)</code>, before the return statement:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386211"><td class="code" id="p123862code11"><pre class="swift" style="font-family:monospace;"><span style="color: #11740a; font-style: italic;">// Check if launched from notification</span>
+<span style="color: #11740a; font-style: italic;">// 1</span>
+<span style="color: #a61390;">if</span> <span style="color: #a61390;">let</span> notification <span style="color: #002200;">=</span> launchOptions?<span style="color: #002200;">[</span>UIApplicationLaunchOptionsRemoteNotificationKey<span style="color: #002200;">]</span> <span style="color: #a61390;">as?</span> <span style="color: #002200;">[</span><span style="color: #a61390;">String</span><span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span> <span style="color: #002200;">{</span>
+  <span style="color: #11740a; font-style: italic;">// 2</span>
+  <span style="color: #a61390;">let</span> aps <span style="color: #002200;">=</span> notification<span style="color: #002200;">[</span><span style="color: #bf1d1a;">"aps"</span><span style="color: #002200;">]</span> <span style="color: #a61390;">as</span><span style="color: #002200;">!</span> <span style="color: #002200;">[</span><span style="color: #a61390;">String</span><span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span>
+  createNewNewsItem<span style="color: #002200;">(</span>aps<span style="color: #002200;">)</span>
+  <span style="color: #11740a; font-style: italic;">// 3</span>
+  <span style="color: #002200;">(</span>window?.rootViewController <span style="color: #a61390;">as?</span> <span style="color: #400080;">UITabBarController</span><span style="color: #002200;">)</span>?.selectedIndex <span style="color: #002200;">=</span> <span style="color: #2400d9;">1</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>This code does three things:</p>
+<ol>
+<li>It checks whether the value for <code>UIApplicationLaunchOptionsRemoteNotificationKey</code> exists in <code>launchOptions</code>. If it does, this will be the push notification payload you sent.</li>
+<li>If it exists, you grab the <code>aps</code> dictionary from it and pass it to <code>createNewNewsItem(_:)</code>, which is a helper method provided to create a <code>NewsItem</code> from the dictionary and refresh the news table.</li>
+<li>Changes the selected tab of the tab controller to <code>1</code>, the news section.</li>
+</ol>
+<p>To test this, you need to edit the scheme of WenderCast:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/EditScheme.png"><img src="./Push Notifications Tutorial_ Getting Started_files/EditScheme.png" alt="push notifications tutorial" width="308" height="100" class="aligncenter size-full wp-image-123871"></a></p>
+<p>Under <em>Run -&gt; Info</em>, select <em>Wait for executable to be launched</em>:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/WaitForLaunch.png"><img src="./Push Notifications Tutorial_ Getting Started_files/WaitForLaunch.png" alt="push notifications tutorial" width="382" height="58" class="aligncenter size-full wp-image-123883"></a></p>
+<p>This option will make the debugger wait for the app to be launched for the first time after installing to attach to it. </p>
+<p>Build and run. Once it’s done installing, send out some breaking news again. Tap on the notification, and the app should open up to some news:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRunFirstNews.png"><img src="./Push Notifications Tutorial_ Getting Started_files/BuildAndRunFirstNews-281x500.png" alt="push notifications tutorial" width="281" height="500" class="aligncenter size-large wp-image-123866" srcset="https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRunFirstNews-281x500.png 281w, https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRunFirstNews-180x320.png 180w, https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/BuildAndRunFirstNews.png 1242w" sizes="(max-width: 281px) 100vw, 281px"></a></p>
+<div class="note">
+<p><em>Note:</em> If you stop receiving push notifications, it is likely that your device token has changed. This can happen if you uninstall and reinstall the app. Double check the device token to make sure.</p>
+</div>
+<p>To handle the other two cases, add the following method to <code>AppDelegate</code>:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386212"><td class="code" id="p123862code12"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, didReceiveRemoteNotification userInfo<span style="color: #002200;">:</span> <span style="color: #002200;">[</span><span style="color: #400080;">NSObject</span> <span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span><span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+  <span style="color: #a61390;">let</span> aps <span style="color: #002200;">=</span> userInfo<span style="color: #002200;">[</span><span style="color: #bf1d1a;">"aps"</span><span style="color: #002200;">]</span> <span style="color: #a61390;">as</span><span style="color: #002200;">!</span> <span style="color: #002200;">[</span><span style="color: #a61390;">String</span><span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span>
+  createNewNewsItem<span style="color: #002200;">(</span>aps<span style="color: #002200;">)</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>This method directly uses the helper function to create a new <code>NewsItem</code>. You can now change the scheme back to launching the app automatically if you like.</p>
+<p>Build and run. Keep the app running in the foreground and on the News section. Send another news push notification and watch as it magically appears in the feed:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/NewNews.png"><img src="./Push Notifications Tutorial_ Getting Started_files/NewNews-281x500.png" alt="push notifications tutorial" width="281" height="500" class="aligncenter size-large wp-image-123876" srcset="https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/NewNews-281x500.png 281w, https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/NewNews-180x320.png 180w, https://cdn2.raywenderlich.com/wp-content/uploads/2016/01/NewNews.png 1242w" sizes="(max-width: 281px) 100vw, 281px"></a></p>
+<p>That’s it! Your app can now handle breaking news in this basic way. </p>
+<p>Something important thing to note: many times, push notifications may be missed. This is ok for WenderCast, since having the full list of news isn’t too important in this app, but in general you should not use push notifications as the only way of delivering content. Instead, push notifications should signal that there is new content <i>available</i> and let the app download the content from the source. WenderCast is a bit limited in this sense, as it doesn’t have a proper server-side component.</p>
+<h3>Actionable Notifications</h3>
+<p>Actionable notifications let you add custom buttons to the notification itself. You may have noticed this on email notifications or Tweets that let you “reply” or “favorite” on the spot.</p>
+<p>Actionable notifications are defined by your app when you register for notifications by using <em>categories</em>. Each category of notification can have a few preset custom actions. </p>
+<p>Once registered, your server can set the category of a push notification; the corresponding actions will be available to the user when received.</p>
+<p>For WenderCast, you will define a “News” category with a custom action “View” which allows users to directly view the news article in the app if they choose to.</p>
+<p>Add the following code to the beginning of <code>registerForPushNotifications(_:)</code>:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386213"><td class="code" id="p123862code13"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">let</span> viewAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">(</span><span style="color: #002200;">)</span>
+viewAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">"VIEW_IDENTIFIER"</span>
+viewAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">"View"</span>
+viewAction.activationMode <span style="color: #002200;">=</span> .Foreground</pre></td></tr></tbody></table></div>
+
+<p>This creates a new notification action with the title <em>View</em> on the button, and opens the app into the foreground when triggered. The action has the identifier <em>VIEW_IDENTIFIER</em>, which is used to differentiate between different actions on the same notification.</p>
+<p>Add the following snippet right after the previous one:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386214"><td class="code" id="p123862code14"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">let</span> newsCategory <span style="color: #002200;">=</span> UIMutableUserNotificationCategory<span style="color: #002200;">(</span><span style="color: #002200;">)</span>
+newsCategory.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">"NEWS_CATEGORY"</span>
+newsCategory.setActions<span style="color: #002200;">(</span><span style="color: #002200;">[</span>viewAction<span style="color: #002200;">]</span>, forContext<span style="color: #002200;">:</span> .Default<span style="color: #002200;">)</span></pre></td></tr></tbody></table></div>
+
+<p>This defines the news category with the view action for a default context. The identifier <em>NEWS_CATEGORY</em> is what your payload will need to contain to specify that the push notification belongs to this category.</p>
+<p>Finally, pass it into the constructor for <code>UIUserNotificationSettings</code> by changing the existing line to:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386215"><td class="code" id="p123862code15"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">let</span> notificationSettings <span style="color: #002200;">=</span> UIUserNotificationSettings<span style="color: #002200;">(</span>forTypes<span style="color: #002200;">:</span> <span style="color: #002200;">[</span>.Badge, .Sound, .Alert<span style="color: #002200;">]</span>, categories<span style="color: #002200;">:</span> <span style="color: #002200;">[</span>newsCategory<span style="color: #002200;">]</span><span style="color: #002200;">)</span></pre></td></tr></tbody></table></div>
+
+<p>That’s it! Build and run the app to register the new notification settings. Press the home button to close the app so the push notification will be visible.</p>
+<p>Before you run newspush.php again, first perform a small modification to specify the category. Open <em>newspush.php</em> and modify the payload body to include the category:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386216"><td class="code" id="p123862code16"><pre class="java" style="font-family:monospace;">$body<span style="color: #009900;">[</span><span style="color: #0000ff;">'aps'</span><span style="color: #009900;">]</span> <span style="color: #339933;">=</span> array<span style="color: #009900;">(</span>
+  <span style="color: #0000ff;">'alert'</span> <span style="color: #339933;">=&gt;</span> $message,
+  <span style="color: #0000ff;">'sound'</span> <span style="color: #339933;">=&gt;</span> <span style="color: #0000ff;">'default'</span>,
+  <span style="color: #0000ff;">'link_url'</span> <span style="color: #339933;">=&gt;</span> $url,
+  <span style="color: #0000ff;">'category'</span> <span style="color: #339933;">=&gt;</span> <span style="color: #0000ff;">'NEWS_CATEGORY'</span>,
+  <span style="color: #009900;">)</span><span style="color: #339933;">;</span></pre></td></tr></tbody></table></div>
+
+<p>Save and close newspush.php, then run it to send another push notification. If all goes well, you should be able to pull down or swipe on the notification to reveal the View action:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/ViewAction.png"><img src="./Push Notifications Tutorial_ Getting Started_files/ViewAction-281x500.png" alt="push notifications tutorial" width="281" height="500" class="aligncenter size-large wp-image-123882" srcset="https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/ViewAction-281x500.png 281w, https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/ViewAction-180x320.png 180w, https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/ViewAction.png 1242w" sizes="(max-width: 281px) 100vw, 281px"></a></p>
+<p>Nice! Tapping on it will launch WenderCast but not do anything. To get it to display the news item, you need to do some more event handling in the delegate.</p>
+<h3>Handling Notification Actions</h3>
+<p>Back in <em>AppDelegate.swift</em>, add another method:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386217"><td class="code" id="p123862code17"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, handleActionWithIdentifier identifier<span style="color: #002200;">:</span> <span style="color: #a61390;">String</span>?, forRemoteNotification userInfo<span style="color: #002200;">:</span> <span style="color: #002200;">[</span><span style="color: #400080;">NSObject</span> <span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span>, completionHandler<span style="color: #002200;">:</span> <span style="color: #002200;">(</span><span style="color: #002200;">)</span> <span style="color: #002200;">-</span>&gt; <span style="color: #a61390;">Void</span><span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+  <span style="color: #11740a; font-style: italic;">// 1</span>
+  <span style="color: #a61390;">let</span> aps <span style="color: #002200;">=</span> userInfo<span style="color: #002200;">[</span><span style="color: #bf1d1a;">"aps"</span><span style="color: #002200;">]</span> <span style="color: #a61390;">as</span><span style="color: #002200;">!</span> <span style="color: #002200;">[</span><span style="color: #a61390;">String</span><span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span>
+&nbsp;
+  <span style="color: #11740a; font-style: italic;">// 2</span>
+  <span style="color: #a61390;">if</span> <span style="color: #a61390;">let</span> newsItem <span style="color: #002200;">=</span> createNewNewsItem<span style="color: #002200;">(</span>aps<span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+    <span style="color: #002200;">(</span>window?.rootViewController <span style="color: #a61390;">as?</span> <span style="color: #400080;">UITabBarController</span><span style="color: #002200;">)</span>?.selectedIndex <span style="color: #002200;">=</span> <span style="color: #2400d9;">1</span>
+&nbsp;
+    <span style="color: #11740a; font-style: italic;">// 3</span>
+    <span style="color: #a61390;">if</span> identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">"VIEW_IDENTIFIER"</span>, <span style="color: #a61390;">let</span> url <span style="color: #002200;">=</span> <span style="color: #400080;">NSURL</span><span style="color: #002200;">(</span>string<span style="color: #002200;">:</span> newsItem.link<span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+      <span style="color: #a61390;">let</span> safari <span style="color: #002200;">=</span> SFSafariViewController<span style="color: #002200;">(</span>URL<span style="color: #002200;">:</span> url<span style="color: #002200;">)</span>
+      window?.rootViewController?.presentViewController<span style="color: #002200;">(</span>safari, animated<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span>, completion<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">)</span>
+    <span style="color: #002200;">}</span>
+  <span style="color: #002200;">}</span>
+&nbsp;
+  <span style="color: #11740a; font-style: italic;">// 4</span>
+  completionHandler<span style="color: #002200;">(</span><span style="color: #002200;">)</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>This is the callback you get when the app is opened by a custom action. It might look like there’s a lot going on, but there’s really not much new here. The code:</p>
+<ol>
+<li>Gets the <code>aps</code> dictionary.</li>
+<li>Creates the <code>NewsItem</code> from the dictionary and goes to the News section.</li>
+<li>Checks the action identifier, which is passed in as <code>identifier</code>. If it is the “View” action and the link is a valid URL, it displays the link in a <code>SFSafariViewController</code>.</li>
+<li>Calls the completion handler that is passed to you by the system after handling the action.</li>
+</ol>
+<p>Build and run. Close the app again, then send another news notification. Make sure the URL is valid:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386218"><td class="code" id="p123862code18"><pre class="bash" style="font-family:monospace;">$ php newspush.php <span style="color: #ff0000;">'New Posts!'</span> <span style="color: #ff0000;">'https://raywenderlich.com'</span></pre></td></tr></tbody></table></div>
+
+<p>Tap on the action, and you should see WenderCast present a Safari View Controller right after it launches:</p>
+<p><a href="http://www.raywenderlich.com/wp-content/uploads/2016/01/SafariVC.png"><img src="./Push Notifications Tutorial_ Getting Started_files/SafariVC-281x500.png" alt="push notifications tutorial" width="281" height="500" class="aligncenter size-large wp-image-123880" srcset="https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/SafariVC-281x500.png 281w, https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/SafariVC-180x320.png 180w, https://cdn5.raywenderlich.com/wp-content/uploads/2016/01/SafariVC.png 1242w" sizes="(max-width: 281px) 100vw, 281px"></a></p>
+<p>Congratulations, you’ve just implemented an actionable notification! Send a few more and try opening the notification in different ways to see how it behaves.</p>
+<h3>Silent Push Notifications</h3>
+<p>Silent push notifications can wake your app up silently to perform some tasks in the background. WenderCast can use this feature to quietly refresh the podcast list.</p>
+<p>As you can imagine, with a proper server-component this can be very efficient. Your app won’t need to poll for data constantly — you can send it a silent push notification whenever new data is available.</p>
+<p>To get started, go to <em>App Settings -&gt; Capabilites</em> and turn on <em>Background Modes</em> for WenderCast. Check the last option, <em>Remote Notifications</em>:</p>
+<p><a href="./Push Notifications Tutorial_ Getting Started_files/BackgroundModes.png"><img src="./Push Notifications Tutorial_ Getting Started_files/BackgroundModes.png" alt="push notifications tutorial" width="648" height="281" class="aligncenter size-full wp-image-123863" srcset="https://cdn3.raywenderlich.com/wp-content/uploads/2016/01/BackgroundModes.png 648w, https://cdn3.raywenderlich.com/wp-content/uploads/2016/01/BackgroundModes-480x208.png 480w" sizes="(max-width: 648px) 100vw, 648px"></a></p>
+<p>Now your app will wake up in the background when it receives one of these push notifications.</p>
+<p>Inside <code>AppDelegate</code>, replace <code>application(_:didReceiveRemoteNotification:)</code> with this more powerful version:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386219"><td class="code" id="p123862code19"><pre class="swift" style="font-family:monospace;"><span style="color: #a61390;">func</span> application<span style="color: #002200;">(</span>application<span style="color: #002200;">:</span> <span style="color: #400080;">UIApplication</span>, didReceiveRemoteNotification userInfo<span style="color: #002200;">:</span> <span style="color: #002200;">[</span><span style="color: #400080;">NSObject</span> <span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span>, fetchCompletionHandler completionHandler<span style="color: #002200;">:</span> <span style="color: #002200;">(</span>UIBackgroundFetchResult<span style="color: #002200;">)</span> <span style="color: #002200;">-</span>&gt; <span style="color: #a61390;">Void</span><span style="color: #002200;">)</span> <span style="color: #002200;">{</span>
+  <span style="color: #a61390;">let</span> aps <span style="color: #002200;">=</span> userInfo<span style="color: #002200;">[</span><span style="color: #bf1d1a;">"aps"</span><span style="color: #002200;">]</span> <span style="color: #a61390;">as</span><span style="color: #002200;">!</span> <span style="color: #002200;">[</span><span style="color: #a61390;">String</span><span style="color: #002200;">:</span> <span style="color: #a61390;">AnyObject</span><span style="color: #002200;">]</span>
+&nbsp;
+  <span style="color: #11740a; font-style: italic;">// 1</span>
+  <span style="color: #a61390;">if</span> <span style="color: #002200;">(</span>aps<span style="color: #002200;">[</span><span style="color: #bf1d1a;">"content-available"</span><span style="color: #002200;">]</span> <span style="color: #a61390;">as?</span> <span style="color: #400080;">NSString</span><span style="color: #002200;">)</span>?.integerValue <span style="color: #002200;">==</span> <span style="color: #2400d9;">1</span> <span style="color: #002200;">{</span>
+    <span style="color: #11740a; font-style: italic;">// Refresh Podcast</span>
+    <span style="color: #11740a; font-style: italic;">// 2</span>
+    <span style="color: #a61390;">let</span> podcastStore <span style="color: #002200;">=</span> PodcastStore.sharedStore
+    podcastStore.refreshItems <span style="color: #002200;">{</span> didLoadNewItems <span style="color: #a61390;">in</span>
+      <span style="color: #11740a; font-style: italic;">// 3</span>
+      completionHandler<span style="color: #002200;">(</span>didLoadNewItems ? .NewData <span style="color: #002200;">:</span> .NoData<span style="color: #002200;">)</span>
+    <span style="color: #002200;">}</span>
+  <span style="color: #002200;">}</span> <span style="color: #a61390;">else</span>  <span style="color: #002200;">{</span>
+    <span style="color: #11740a; font-style: italic;">// News</span>
+    <span style="color: #11740a; font-style: italic;">// 4</span>
+    createNewNewsItem<span style="color: #002200;">(</span>aps<span style="color: #002200;">)</span>
+    completionHandler<span style="color: #002200;">(</span>.NewData<span style="color: #002200;">)</span>
+  <span style="color: #002200;">}</span>
+<span style="color: #002200;">}</span></pre></td></tr></tbody></table></div>
+
+<p>This code:</p>
+<ol>
+<li>Checks to see if <code>content-available</code> is set to 1, to see whether or not it is a silent notification.</li>
+<li>Refreshes the podcast list, which is a network call and therefore asynchronous.</li>
+<li>When the list is refreshed, calls the completion handler and lets the system know whether any new data was loaded.</li>
+<li>If it isn’t a silent notification, assumes it is news again and create a news item.</li>
+</ol>
+<p>Be sure to call the completion handler and be honest about the result. The system measures the battery consumption and time that your app uses in the background, and may throttle you if needed.</p>
+<p>That’s all there is to it; now you can use <em>contentpush.php</em> to send the silent push notification to your app. Make sure to modify the settings of that script as well:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386220"><td class="code" id="p123862code20"><pre class="php" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// Put your device token here (without spaces):</span>
+<span style="color: #000088;">$deviceToken</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">'43e798c31a282d129a34d84472bbdd7632562ff0732b58a85a27c5d9fdf59b69'</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Put your private key's passphrase here:</span>
+<span style="color: #000088;">$passphrase</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">'WenderCastPush'</span><span style="color: #339933;">;</span></pre></td></tr></tbody></table></div>
+
+<p>Directly run it in the terminal:</p>
+
+<div class="wp_codebox"><table><tbody><tr id="p12386221"><td class="code" id="p123862code21"><pre class="bash" style="font-family:monospace;">$ php contentpush.php</pre></td></tr></tbody></table></div>
+
+<p>If all goes well, nothing should happen! To see the code being run, change the scheme to “Wait for executable to be launched” again and set a breakpoint within <code>application(_:didReceiveRemoteNotification:fetchCompletionHandler:)</code> to make sure it runs.</p>
+<h2>Where To Go From Here?</h2>
+<p>Congrats — you’ve completed this push notifications tutorial and made WenderCast a fully-featured app with push notifications! </p>
+<p>You can download the completed project <a href="https://cdn2.raywenderlich.com/wp-content/uploads/2016/03/WenderCast-Final-1.1.zip" rel="">here</a>. Remember that you will still need to change the bundle ID and create certificates to make it work.</p>
+<p>Even though push notifications are an important part of apps nowadays, it’s also very common for users to decline permissions to your app if notifications are sent too often. But with thoughtful design, push notifications can keep your users coming back to your app again and again!</p>
+<div id="attachment_124825" style="width: 490px" class="wp-caption aligncenter"><img src="./Push Notifications Tutorial_ Getting Started_files/cat-1136365_1280-480x320.jpg" alt="push notifications tutorial" width="480" height="320" class="size-medium wp-image-124825" srcset="https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/cat-1136365_1280-480x320.jpg 480w, https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/cat-1136365_1280-768x512.jpg 768w, https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/cat-1136365_1280-700x466.jpg 700w, https://cdn4.raywenderlich.com/wp-content/uploads/2016/01/cat-1136365_1280.jpg 1280w" sizes="(max-width: 480px) 100vw, 480px"><p class="wp-caption-text">This cat received a push notification that his dinner was ready</p></div>
+<p>I hope you’ve enjoyed this push notifications tutorial; if you have any questions feel free to leave them in the discussion below.</p>
+	
+                    </div>
+                    <footer>
+                        <div class="social-links">
+                            <ul>
+                                                                    <li class="twitter"><div id="tweetbutton123862m" class="tw_button" style="margin-bottom:10px;"><a href="http://twitter.com/share?url=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial&amp;via=rwenderlich&amp;text=Push%20Notifications%20Tutorial%3A%20Getting%20Started&amp;related=JackTripleU&amp;lang=en&amp;count=horizontal&amp;counturl=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial" class="twitter-share-button" style="width:55px;height:22px;background:transparent url(&#39;https://cdn3.raywenderlich.com/wp-content/plugins/wp-tweet-button/tweetn.png&#39;) no-repeat  0 0;text-align:left;text-indent:-9999px;display:block;"><iframe style="width: 30px; height: 19px; border: 0px;"></iframe></a></div></li>
+                                                                    <li class="facebook" style="position: relative;top: 1px;left: 11px;width: 52px;display:inline-block;overflow:hidden"><div class="fb-like" data-href="https://www.raywenderlich.com/123862/push-notifications-tutorial" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" style="display: block;"><iframe style="width: 30px; height: 19px; border: 0px;"></iframe></div></li>
+                                <li class="facebook iframe-link" style="position: relative;top: 0px;left: 11px;width: 52px;"><iframe src="./Push Notifications Tutorial_ Getting Started_files/like(1).html" allowtransparency="true" frameborder="0" scrolling="no" style="width: 50px; height: 20px; display: block;"><iframe style="width: 30px; height: 19px; border: 0px;" src="./Push Notifications Tutorial_ Getting Started_files/saved_resource(5).html"></iframe></iframe></li>
+                            </ul>
+                        </div>
+                    </footer>
+                </article>
+                <div id="author-information" class="clearfix">
+                    <img src="./Push Notifications Tutorial_ Getting Started_files/arrow@2x.png" width="40" height="21" id="arrow">
+                    			
+                        <div class="author-photo">
+                            <img src="./Push Notifications Tutorial_ Getting Started_files/5af9128542232e286456dbde59128b30" alt="" width="100" height="100" class="user-avatar">                        </div>
+                        <div class="author-meta">
+                            <a href="https://www.raywenderlich.com/u/jack_wu">Jack Wu</a>                            <p class="bio">Jack is the lead mobile developer at ModiFace. He has built dozens of iOS apps and enjoys it very much. Outside of work, Jack enjoys coding on the beach, coding by the pool, and sometimes just having a quick code in the park.<br>
+<br>
+You can find Jack on <a href="http://www.linkedin.com/profile/view?id=76163311">LinkedIn</a> or <a href="https://twitter.com/JackTripleU">Twitter</a>.</p>	
+                        </div>
+                                                        <ul class="follow-links">
+                                    <li class="twitter"><a href="http://www.twitter.com/JackTripleU" target="_block">Follow Jack Wu on Twitter</a></li>
+                                </ul>
+                                                </div>
+                                    <section id="comments">
+                                <div class="excerpt" style="display:none">In this push notifications tutorial you'll learn how to use to notify your users, and perform small tasks even when they aren’t actively using your app!</div>
+        <div id="discourse-comments" style="padding:10px 30px 30px 30px"><iframe src="./Push Notifications Tutorial_ Getting Started_files/comments.html" id="discourse-embed-frame" width="100%" frameborder="0" scrolling="no" height="11717px"></iframe></div>
+        ​        <script type="text/javascript">
+            DiscourseEmbed = { discourseUrl: "https://forums.raywenderlich.com/",
+                               discourseEmbedUrl: "https://www.raywenderlich.com/123862/push-notifications-tutorial",
+                               discourseUserName: "jack_wu"};
+            (function() {
+              var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
+              d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
+            })();
+        </script>
+      
+
+                    </section>                            
+                                </div>
+        </div>
+    </div>
+    <section id="secondary">
+	<h1 id="other-items-of-interest">Other Items of Interest</h1>
+	<section id="newsletter-signup" class="rw-module">
+		<header>
+			<h1>raywenderlich.com Weekly</h1>
+		</header>
+		<div>
+			<img src="./Push Notifications Tutorial_ Getting Started_files/starter-kit@2x.png" width="109" height="139">
+			<p>Sign up to receive the latest tutorials from raywenderlich.com each week, and receive a <em>free epic-length tutorial</em> as a bonus!</p>
+			<img src="https://www.raywenderlich.com/123862/push-notifications-tutorial">
+			<form novalidate="" target="_blank" class="validate" name="mc-embedded-subscribe-form" id="mc-embedded-subscribe-form" method="post" action="https://raywenderlich.us1.list-manage.com/subscribe/post?u=1bc8e630b1599df629818e59b&amp;id=83b6edc87f">
+				<input type="text" id="mce-NAME" class="required" name="NAME" value="" placeholder="Your full name">
+				<input type="email" id="mce-EMAIL" class="required email" name="EMAIL" value="" placeholder="Your best email">
+				<input type="submit" class="button" id="mc-embedded-subscribe" name="subscribe" value="Sign Up!">
+			</form>
+		</div>
+	</section>
+	<section id="site-ads">
+		<h1>Advertise with Us!</h1>
+		<!-- BuySellAds.com Ad Code -->
+		<!-- End BuySellAds.com Ad Code -->
+		<!-- BuySellAds Zone Code -->
+
+
+	        <div id="bsap_1274837" class="bsarocks bsap_39fcef7ed4520883d78f129c33995fd2"></div>
+	        <!-- End BuySellAds Zone Code -->
+
+	        <!-- BuySellAds.com Zone Code -->
+	        <div id="smallads">
+	        	<div id="bsap_1260352" class="bsarocks bsap_39fcef7ed4520883d78f129c33995fd2 clearfix"></div>
+	        	<div style="clear:both"></div>
+	        </div>
+	        <div id="razeware_ads">
+	        	<a href="https://itunes.apple.com/us/app/math-ninja-hd/id370144476?mt=8&amp;uo=4&amp;at=11ld4k" target="_blank" class="razewareads"><img src="./Push Notifications Tutorial_ Getting Started_files/MathNinja_125.gif" width="125" height="125" style="margin-left:15px"></a>
+                <!--<a href="http://rwdevcon.com/" target="_blank" class="razewareads"><img src="//cdn1.raywenderlich.com/downloads/rwdevcon-16-125x125.png" width="125" height="125" style="margin-left:15px"></a>-->
+                <a href="http://www.fivepackcreative.com/alt-u/" target="_blank" class="razewareads"><img src="https://cdn1.raywenderlich.com/wp-content/themes/raywenderlich/images/ads/altu.png" alt="Come check out Alt U" width="125" height="125" style="margin-left: 15px; display: none !important;"></a>
+            </div>
+
+	        <!-- End BuySellAds.com Zone Code -->
+	        <a href="http://www.raywenderlich.com/advertise" class="rw-button2" id="advertise-with-us">Advertise Here!</a>
+	</section>
+
+	<!--
+	<section id="rwdevcon" class="rw-module">
+	<a href="http://www.rwdevcon.com"><img src="http://www.raywenderlich.com/downloads/rwdevcon-website-ad.jpg"/></a>
+	</section>
+	//-->
+
+	<!--<section id="site-poll" class="rw-module">
+		<header>
+			<h1>Vote for Our Next Tutorial!</h1>
+		</header>
+						<div id="recent-posts" class="sidebar-entry">
+	            <p>Every week, we alternate between Gaming and Non-Gaming tutorial votes.  This week: Gaming!</p>
+	            <ul>
+	                <div id="polls-92" class="wp-polls">
+	<form id="polls_form_92" class="wp-polls-form" action="/index.php" method="post">
+		<p style="display: none;"><input type="hidden" id="poll_92_nonce" name="wp-polls-nonce" value="54d9c3de1a" /></p>
+		<p style="display: none;"><input type="hidden" name="poll_id" value="92" /></p>
+		<div id="polls-92-ans" class="wp-polls-ans"><ul class="wp-polls-ul">
+		<li><input type="radio" id="poll-answer-565" name="poll_92" value="565" /> <label class="poll-answer-label" for="poll-answer-565">How To Make a Game Like Candy Crush with Unity 2D</label></li>
+		<li><input type="radio" id="poll-answer-566" name="poll_92" value="566" /> <label class="poll-answer-label" for="poll-answer-566">How To Make a Simple 3D Game with Scene Kit</label></li>
+		<li><input type="radio" id="poll-answer-567" name="poll_92" value="567" /> <label class="poll-answer-label" for="poll-answer-567">Adding iAds to a Sprite Kit Game</label></li>
+		<li><input type="radio" id="poll-answer-568" name="poll_92" value="568" /> <label class="poll-answer-label" for="poll-answer-568">Adding In-App Purchases into a Sprite Kit Game</label></li>
+		<li><input type="radio" id="poll-answer-569" name="poll_92" value="569" /> <label class="poll-answer-label" for="poll-answer-569">Adding In-App Purchases into a Unity 2D Game</label></li>
+		<li><input type="radio" id="poll-answer-570" name="poll_92" value="570" /> <label class="poll-answer-label" for="poll-answer-570">Updated Tutorial for Cocos2D-X</label></li>
+		</ul><p><input type="button" id="vote" name="vote" value="CAST YOUR VOTE" class="Buttons" onclick="poll_vote(92);" /></p></div>
+	</form>
+</div>
+<div id="polls-92-loading" class="wp-polls-loading"><img src="https://www.raywenderlich.com/wp-content/plugins/wp-polls/images/loading.gif" width="16" height="16" alt="Loading ..." title="Loading ..." class="wp-polls-image" />&nbsp;Loading ...</div>
+	            </ul>
+
+	    		<p><em>Last week's winner</em>:<span class="next-weeks-tutorial"> Core Data Sync.</span>				<p class="suggest-a-tutorial"><a href="http://www.raywenderlich.com/forums/viewtopic.php?f=2&t=284">Suggest a Tutorial</a> - <a href="http://www.raywenderlich.com/tutorial-vote-results">Past Results</a></p>
+	        </div>
+	        	</section>-->
+
+	<!--<section id="site-poll" class="rw-module">
+		<header>
+			<h1>Hang Out With Us!</h1>
+		</header>
+			<div class="sidebar-entry">
+	            <p>Every month, we have a free live Tech Talk - come hang out with us!</p><br/>
+	            <p>Coming up in March: View Debugging with Xcode and Reveal.</p>
+	            <a href="https://plus.google.com/u/0/events/ck7m53i0ed07lj4mlc5jaqq0nt0" class="rw-button2">Sign Up - March</a>
+	        </div>
+	</section>-->
+
+	<!--<section id="site-poll" class="rw-module">
+		<header>
+			<h1>Unity Starter Kit!</h1>
+		</header>
+						<div id="recent-posts" class="sidebar-entry">
+	            <p>We are considering writing a new starter kit on making a game in C# with Unity.</p>
+	            <p>Would this be something you'd be interested in, and if so which option would you prefer?</p>
+	            <ul>
+	                <div id="polls-94" class="wp-polls">
+	<form id="polls_form_94" class="wp-polls-form" action="/index.php" method="post">
+		<p style="display: none;"><input type="hidden" id="poll_94_nonce" name="wp-polls-nonce" value="6401ef34ac" /></p>
+		<p style="display: none;"><input type="hidden" name="poll_id" value="94" /></p>
+		<div id="polls-94-ans" class="wp-polls-ans"><ul class="wp-polls-ul">
+		<li><input type="radio" id="poll-answer-577" name="poll_94" value="577" /> <label class="poll-answer-label" for="poll-answer-577">Platformer Game Starter Kit</label></li>
+		<li><input type="radio" id="poll-answer-578" name="poll_94" value="578" /> <label class="poll-answer-label" for="poll-answer-578">Beat 'Em Up Game Starter Kit (Flat 2D style)</label></li>
+		<li><input type="radio" id="poll-answer-579" name="poll_94" value="579" /> <label class="poll-answer-label" for="poll-answer-579">Beat 'Em Up Game Starter Kit (Isometric style)</label></li>
+		<li><input type="radio" id="poll-answer-580" name="poll_94" value="580" /> <label class="poll-answer-label" for="poll-answer-580">Space Game Starter Kit</label></li>
+		<li><input type="radio" id="poll-answer-581" name="poll_94" value="581" /> <label class="poll-answer-label" for="poll-answer-581">Match 3 Game Starter Kit</label></li>
+		<li><input type="radio" id="poll-answer-582" name="poll_94" value="582" /> <label class="poll-answer-label" for="poll-answer-582">Not Interested - Prefer Sprite Kit</label></li>
+		<li><input type="radio" id="poll-answer-583" name="poll_94" value="583" /> <label class="poll-answer-label" for="poll-answer-583">Not Interested - Don't Like/Need Starter Kits</label></li>
+		</ul><p><input type="button" id="vote" name="vote" value="CAST YOUR VOTE" class="Buttons" onclick="poll_vote(94);" /></p></div>
+	</form>
+</div>
+<div id="polls-94-loading" class="wp-polls-loading"><img src="https://www.raywenderlich.com/wp-content/plugins/wp-polls/images/loading.gif" width="16" height="16" alt="Loading ..." title="Loading ..." class="wp-polls-image" />&nbsp;Loading ...</div>
+	            </ul>
+	        </div>
+	        	</section>-->
+
+	<section id="our-books" class="rw-module">
+		<header>
+			<h1>Our Books</h1>
+		</header>
+		<div>
+			<ul class="books">
+				<li><a href="http://www.raywenderlich.com/store/ios-apprentice"><img src="./Push Notifications Tutorial_ Getting Started_files/ia1234@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/tvos-apprentice"><img src="./Push Notifications Tutorial_ Getting Started_files/tvt@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/watchos-2-by-tutorials"><img src="./Push Notifications Tutorial_ Getting Started_files/w2t@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/rwdevcon2016-vault"><img src="./Push Notifications Tutorial_ Getting Started_files/rwdevcon@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/swift-apprentice"><img src="./Push Notifications Tutorial_ Getting Started_files/sa@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/core-data-by-tutorials"><img src="./Push Notifications Tutorial_ Getting Started_files/cdt@2x.png" width="110" height="142"></a></li><li><a href="https://www.raywenderlich.com/store/3d-ios-games-by-tutorials"><img src="./Push Notifications Tutorial_ Getting Started_files/igt2@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/ios-10-by-tutorials"><img src="./Push Notifications Tutorial_ Getting Started_files/i10t@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/ios-animations-by-tutorials"><img src="./Push Notifications Tutorial_ Getting Started_files/iat@2x.png" width="110" height="142"></a></li><li><a href="http://www.raywenderlich.com/store/2d-ios-tvos-games-by-tutorials"><img src="./Push Notifications Tutorial_ Getting Started_files/igt1@2x.png" width="110" height="142"></a></li>			</ul>
+		</div>
+	</section>
+        	<section id="tutorial-team" class="rw-module">
+		<header>
+			<h1>Our Team</h1>
+		</header>
+		<div>
+			<h2>Video Team</h2><ul><li><a href="https://www.raywenderlich.com/about#mpringle"><img src="./Push Notifications Tutorial_ Getting Started_files/4172b0c9cc00ea2075256f8e2540576f" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#tmitra"><img src="./Push Notifications Tutorial_ Getting Started_files/380380c628716a259a768acc7968345d" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#rwenderlich"><img src="./Push Notifications Tutorial_ Getting Started_files/f615a3b8a3dfdf3fb7f7f6bdc5732355" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_video-team">9 total!</a></p><h2>Swift Team</h2><ul><li><a href="https://www.raywenderlich.com/about#mkonutgan"><img src="./Push Notifications Tutorial_ Getting Started_files/bf725cb6d25d664d07023f57cb985bc5" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#ecerney"><img src="./Push Notifications Tutorial_ Getting Started_files/e8b0db0ba4b627a2a8c2e00e2733851f" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#rfix"><img src="./Push Notifications Tutorial_ Getting Started_files/2af8daf170a3ed693e577a9471ea1f10" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_tut-swift">15 total!</a></p><h2>iOS Team</h2><ul><li><a href="https://www.raywenderlich.com/about#ahegedüs"><img src="./Push Notifications Tutorial_ Getting Started_files/7e3aa3786f8b6115a3d07759dfe1eb18" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#eparto"><img src="./Push Notifications Tutorial_ Getting Started_files/0ef3f1e5fb774f0c5cd3de4552e80543" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#tdahbura"><img src="./Push Notifications Tutorial_ Getting Started_files/ed76e483120f732a5fe8d9ba1166ab3d" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_tut-ios">47 total!</a></p><h2>Android Team</h2><ul><li><a href="https://www.raywenderlich.com/about#mbambra"><img src="./Push Notifications Tutorial_ Getting Started_files/ce008dc1d4d5eaa6948c1b7ad471b1d5" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#asreekumar"><img src="./Push Notifications Tutorial_ Getting Started_files/832a260528bc5594e0b3d00154bfea32" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#akholodnyi"><img src="./Push Notifications Tutorial_ Getting Started_files/8a7ae26907131f9d50e9b70189837431" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_tut-android">14 total!</a></p><h2>OS X Team</h2><ul><li><a href="https://www.raywenderlich.com/about#wburton"><img src="./Push Notifications Tutorial_ Getting Started_files/9c31d32e2b91a8b6559f95db3163bd27" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#sdavies"><img src="./Push Notifications Tutorial_ Getting Started_files/9d11d40a12a8355996db28b33aa61190" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#mmorey"><img src="./Push Notifications Tutorial_ Getting Started_files/2345435ebf5920b1d600b7ee7d2221a1" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_tut-osx">11 total!</a></p><h2>Apple Game Frameworks Team</h2><ul><li><a href="https://www.raywenderlich.com/about#bbroom"><img src="./Push Notifications Tutorial_ Getting Started_files/72ddd6509156a7dd3c301b87a46c5219" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#mfaarkrog"><img src="./Push Notifications Tutorial_ Getting Started_files/4fe99865b3f7f668378b57f0665ef836" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#tcoron"><img src="./Push Notifications Tutorial_ Getting Started_files/8fd1b38cca33b95917aff0824414010b" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_tut-apple-game-frameworks">14 total!</a></p><h2>Unity Team</h2><ul><li><a href="https://www.raywenderlich.com/about#ekerckhove"><img src="./Push Notifications Tutorial_ Getting Started_files/0246542bb895e5255caf32d83b06bc32" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#bmoakley"><img src="./Push Notifications Tutorial_ Getting Started_files/184e7fed489d4a5552e1d34df58fc65f" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#gbannenberg"><img src="./Push Notifications Tutorial_ Getting Started_files/cf364d84d637ff3adec30ba8a2b41a2c" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_tut-unity">10 total!</a></p><h2>Articles Team</h2><ul><li><a href="https://www.raywenderlich.com/about#flaso-marsetti"><img src="./Push Notifications Tutorial_ Getting Started_files/4f52a9d7f2822805340846b36efbdf5f" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#tmitra"><img src="./Push Notifications Tutorial_ Getting Started_files/380380c628716a259a768acc7968345d" alt="" width="100" height="100" class="user-avatar"></a></li><li><a href="https://www.raywenderlich.com/about#kmanglani"><img src="./Push Notifications Tutorial_ Getting Started_files/9dfd6787029d68047fe1efa189e96f73" alt="" width="100" height="100" class="user-avatar"></a></li></ul><p>... <a href="https://www.raywenderlich.com/about#abt_article">8 total!</a></p>		</div>
+	</section>
+</section>
+    </div>
+</div>
+		<footer id="colophon" class="clearfix">
+		<h1 id="about-raywenderlich">About RayWenderlich.com</h1><div class="wrapper clearfix"><div id="css-table-enclosure"><div class="forum-posts-sep footer-separator first table-col"></div><div class="forum-posts table-col"><h2>Recent Forum Posts</h2><ul class="comments"><li><img src="./Push Notifications Tutorial_ Getting Started_files/8eadb82b0b101c4485b76766538ad0a7" alt="" width="30" height="30" class="user-avatar"><div>Hi,
+
+I want to submit a question/comment to a specific video tutorial but I can't figure out how to  ... in <a href="https://forums.raywenderlich.com/t/how-do-i-submit-a-question-to-a-specific-vid-tutorial/17138">How do I submit a question to a specific vid tutorial</a></div></li><li><img src="./Push Notifications Tutorial_ Getting Started_files/ceb2734a01afdcf39b0eab827497347c" alt="" width="30" height="30" class="user-avatar"><div>With CoreData, I don't have to delete and then insert right?  I have managed classes that let me  ... in <a href="https://forums.raywenderlich.com/t/editing-mode-and-tableviewcontrollers-how-to-update-and-save/15708">Editing Mode and TableViewControllers:How to Update and Save</a></div></li></ul><a href="https://forums.raywenderlich.com/" class="RWButton">VISIT THE FORUM »</a></div><div class="facebook-page-sep footer-separator table-col"></div><div class="facebook-page table-col"><h2>Like Us on Facebook</h2><div class="like-box"><img src="./Push Notifications Tutorial_ Getting Started_files/small-logo@2x.png" width="50" height="50" id="small-logo"><h3>Ray Wenderlich</h3>							<iframe src="./Push Notifications Tutorial_ Getting Started_files/like(2).html" allowtransparency="true" frameborder="0" scrolling="no" style="width: 50px; height: 20px; display: block;"><iframe style="width: 30px; height: 19px; border: 0px;" src="./Push Notifications Tutorial_ Getting Started_files/saved_resource(6).html"></iframe></iframe>
+							</div>						    <p class="page-like-count"><span id="like-count">12281</span> people like <a href="https://www.facebook.com/raywenderlich" target="_blank">Ray Wenderlich</a></p>
+							<div class="fb-window">
+								<div style="display: block;"><iframe style="width: 100%; border: 1px solid rgb(204, 204, 204); height: 80px;" src="./Push Notifications Tutorial_ Getting Started_files/saved_resource(7).html"></iframe></div>
+							</div>
+						</div><div class="latest-tweets-sep footer-separator table-col"></div><div class="latest-tweets table-col"><h2>Our Recent Tweets</h2><ul id="rw-tweet-list"><li><a href="http://twitter.com/r0unak" target="_blank" class="tweet-author"><img src="./Push Notifications Tutorial_ Getting Started_files/miDLiKdq_normal.jpeg" alt="r0unak" width="48" height="48"></a><div class="tweet-content"><img src="./Push Notifications Tutorial_ Getting Started_files/tweet-arrow@2x.png" class="tweet-arrow" width="8" height="14">Snapchat went from "we'll delete these photos asap" to "we'll keep your photos on our servers" real quick<br><a href="http://twitter.com/r0unak" target="_blank">Rounak Jain</a> -<span class="tweet-time">45 minutes ago</span></div></li><li><a href="http://twitter.com/RedQueenCoder" target="_blank" class="tweet-author"><img src="./Push Notifications Tutorial_ Getting Started_files/Fl3-XSJ4_normal.jpeg" alt="RedQueenCoder" width="48" height="48"></a><div class="tweet-content"><img src="./Push Notifications Tutorial_ Getting Started_files/tweet-arrow@2x.png" class="tweet-arrow" width="8" height="14">All you need is pug <a href="https://t.co/ee9kMo2QLX" target="_blank">https://t.co/ee9kMo2QLX</a><br><a href="http://twitter.com/RedQueenCoder" target="_blank">Janie Clayton</a> -<span class="tweet-time">49 minutes ago</span></div></li></ul><a href="https://twitter.com/rwenderlich/lists/raywenderlich-com-team" class="RWButton">FOLLOW US ON TWITTER</a></div><div class="footer-separator last table-col"></div></div></div><div class="navigation-band"><div class="wrapper"><div class="left-col">© 2016 <a href="http://www.razeware.com/">Razeware LLC. All rights reserved.</a></div><div class="right-col"><ul><li><a href="https://www.raywenderlich.com/write-for-us">WRITE FOR US</a></li><li><a href="https://www.raywenderlich.com/faq">FAQ</a></li><li><a href="https://www.raywenderlich.com/advertise">ADVERTISE</a></li><li><a href="https://www.raywenderlich.com/contact">CONTACT</a></li></ul></div></div></div><div id="gearbox"><div class="wrapper"><div id="left-gears"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_small@2x.png" width="56" height="56" class="left-gear clockwise-motion small-gear gear" id="gear1"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_medium@2x.png" width="66" height="66" class="left-gear counter-clockwise-motion  medium-gear gear" id="gear2"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_large@2x.png" width="96" height="96" class="left-gear clockwise-motion large-gear gear" id="gear3"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_medium@2x.png" width="67" height="67" class="left-gear counter-clockwise-motion medium-gear gear" id="gear4"></div><a href="https://www.raywenderlich.com/" id="footer-logo"><img src="./Push Notifications Tutorial_ Getting Started_files/logo_stage5@2x.png" width="160" height="75" border="0" class="logo-sat"><img src="./Push Notifications Tutorial_ Getting Started_files/logo_stage1@2x.png" width="160" height="75" border="0" class="logo">
+									</a><div id="right-gears"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_small@2x.png" width="51" height="50" class="right-gear clockwise-motion small-gear gear" id="gear5"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_medium@2x.png" width="67" height="67" class="right-gear counter-clockwise-motion  medium-gear gear" id="gear6"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_large@2x.png" width="96" height="96" class="right-gear clockwise-motion large-gear gear" id="gear7"><img src="./Push Notifications Tutorial_ Getting Started_files/gear_medium@2x.png" width="67" height="67" class="right-gear counter-clockwise-motion  medium-gear gear" id="gear8"></div></div></div><footer><script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/jquery.cookie.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var count;
+        if ( !jQuery.cookie('wwsgd_visits') ) {
+            count = 1;
+        }
+        else {
+            count = parseInt(jQuery.cookie('wwsgd_visits'), 10) + 1;
+        }
+        jQuery.cookie('wwsgd_visits', count, { expires: 365, path: "/" });
+
+        if ( count <= 5 ) {
+            jQuery(".wwsgd").show();
+        }
+    });
+</script>
+<script type="text/javascript" src="https://platform.twitter.com/widgets.js?ver=1.1"></script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/jquery.form.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"https:\/\/www.raywenderlich.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","recaptchaEmpty":"Please verify that you are not a robot.","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/scripts.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var qpprFrontData = {"linkData":{"https:\/\/www.raywenderlich.com\/352\/cocos2d-tutorial-for-ios-how-to-make-a-simple-iphone-game":[0,0,""],"https:\/\/www.raywenderlich.com\/457\/box2d-tutorial-for-ios-bouncing-balls":[0,0,""],"https:\/\/www.raywenderlich.com\/475\/box2d-tutorial-for-ios-how-to-create-a-breakout-game-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/505\/box2d-tutorial-for-ios-how-to-create-a-breakout-game-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/692\/cocos2d-tutorial-for-ios-how-to-make-a-simple-iphone-game-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/782\/cocos2d-tutorial-for-ios-harder-monsters-and-more-levels-how-to-make-a-simple-iphone-game-with-cocos2d-part-3":[0,0,""],"https:\/\/www.raywenderlich.com\/980\/core-data-tutorial-for-ios-how-to-preload-import-existing-data":[0,0,""],"https:\/\/www.raywenderlich.com\/1040\/ipad-tutorial-for-ios-uisplitview-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/1056\/ipad-tutorial-for-ios-uipopovercontroller-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/1063\/ipad-tutorial-for-ios-custom-input-view-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/1163\/cocos2d-tutorial-for-ios-how-to-make-a-tile-based-game":[0,0,""],"https:\/\/www.raywenderlich.com\/1186\/cocos2d-tutorial-for-ios-collisions-and-collectables":[0,0,""],"https:\/\/www.raywenderlich.com\/1271\/cocos2d-tutorial-for-ios-how-to-use-animations-and-sprite-sheets":[0,0,""],"https:\/\/www.raywenderlich.com\/2797\/in-app-purchases-tutorial-for-ios":[0,0,""],"https:\/\/www.raywenderlich.com\/2847\/mapkit-tutorial-for-ios":[0,0,""],"https:\/\/www.raywenderlich.com\/2033\/core-graphics-tutorial-for-ios-lines-rectangles-and-gradients":[0,0,""],"https:\/\/www.raywenderlich.com\/2079\/core-graphics-tutorial-for-ios-shadows-and-gloss":[0,0,""],"https:\/\/www.raywenderlich.com\/2134\/core-graphics-tutorial-for-ios-glossy-buttons":[0,0,""],"https:\/\/www.raywenderlich.com\/2167\/core-graphics-tutorial-for-ios-patterns":[0,0,""],"https:\/\/www.raywenderlich.com\/2361\/texture-packer-tutorial-how-to-create-and-optimize-sprite-sheets-in-cocos2d-with-pixel-formats":[0,0,""],"https:\/\/www.raywenderlich.com\/11283\/cocos2d-x-for-ios-and-android-getting-started":[0,0,""],"https:\/\/www.raywenderlich.com\/2106\/core-graphics-tutorial-for-ios-arcs-and-paths":[0,0,""],"https:\/\/www.raywenderlich.com\/11338\/cocos2d-x-for-ios-and-android-space-game":[0,0,""],"https:\/\/www.raywenderlich.com\/3857\/ccrendertexture-tutorial-for-ios-how-to-create-dynamic-textures":[0,0,""],"https:\/\/www.raywenderlich.com\/3888\/cocos2d-tutorial-for-ios-how-to-create-a-game-like-tiny-wings-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/3913\/cocos2d-tutorial-for-ios-how-to-create-a-game-like-tiny-wings-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/3443\/apple-push-notification-services-tutorial-for-ios-part-12":[0,0,""],"https:\/\/www.raywenderlich.com\/3525\/apple-push-notification-services-tutorial-for-ios-part-22":[0,0,""],"https:\/\/www.raywenderlich.com\/15730\/how-to-make-a-tower-defense-game":[0,0,""],"https:\/\/www.raywenderlich.com\/96188\/video-tutorial-introduction-swift-part-2-optionals":[0,0,""],"https:\/\/www.raywenderlich.com\/4344\/user-interface-customization-in-ios-5":[0,0,""],"https:\/\/www.raywenderlich.com\/77\/facebook-tutorial-in-ios-how-to-post-from-your-app":[0,0,""],"https:\/\/www.raywenderlich.com\/130\/uicollectionview-tutorial-for-ios-how-to-write-a-custom-image-picker-like-uiimagepicker":[0,0,""],"https:\/\/www.raywenderlich.com\/77878\/video-tutorial-introduction-swift-part-9-tuples":[0,0,""],"https:\/\/www.raywenderlich.com\/77048\/video-tutorial-introduction-to-swift-part-8-classes":[0,0,""],"https:\/\/www.raywenderlich.com\/7261\/monkey-jump":[0,0,""],"https:\/\/www.raywenderlich.com\/7884\/how-to-build-a-monkey-jump-game-using-cocos2d-physicseditor-texturepacker-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/9715\/how-to-build-a-monkey-jump-game-using-cocos2d-physicseditor-texturepacker-part-3":[0,0,""],"https:\/\/www.raywenderlich.com\/74518\/video-tutorial-introduction-swift-part-1-variables-constants":[0,0,""],"https:\/\/www.raywenderlich.com\/76260\/video-tutorial-introduction-swift-part-7-functions":[0,0,""],"https:\/\/www.raywenderlich.com\/75545\/video-tutorial-introduction-swift-part-5-dictionaries":[0,0,""],"https:\/\/www.raywenderlich.com\/75041\/video-tutorial-introduction-swift-part-3-strings":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/ios-5-by-tutorials-2":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/ios-starter-kit-bundle":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/ios-6-by-tutorials-2":[0,0,""],"https:\/\/www.raywenderlich.com\/5689\/beginning-core-image-in-ios-5":[0,0,""],"https:\/\/www.raywenderlich.com\/79536\/video-tutorial-introduction-swift-part-10-enums":[0,0,""],"https:\/\/www.raywenderlich.com\/30445\/afnetworking-crash-course":[0,0,""],"https:\/\/www.raywenderlich.com\/13097\/intro-to-restkit-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/12139\/introduction-to-cocoapods":[0,0,""],"https:\/\/www.raywenderlich.com\/2876\/localization-tutorial-for-ios":[0,0,""],"https:\/\/www.raywenderlich.com\/204\/audio-tutorial-for-ios-file-and-data-formats":[0,0,""],"https:\/\/www.raywenderlich.com\/233\/audio-tutorial-for-ios-converting-and-recording":[0,0,""],"https:\/\/www.raywenderlich.com\/259\/audio-tutorial-for-ios-playing-audio-programatically":[0,0,""],"https:\/\/www.raywenderlich.com\/monkeyjump":[0,0,""],"https:\/\/www.raywenderlich.com\/75578\/video-tutorial-introduction-swift-part-6-control-flow":[0,0,""],"https:\/\/www.raywenderlich.com\/swift-language-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/ios-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/android-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/os-x-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/sprite-kit-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/unity-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/unreal-engine-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/articles":[0,0,""],"https:\/\/www.raywenderlich.com\/75148\/video-tutorial-introduction-swift-part-4-arrays":[0,0,""],"https:\/\/www.raywenderlich.com\/81103\/introduction-google-maps-ios-sdk-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/75601\/learn-to-code-ios-apps-with-swift-tutorial-1":[0,0,""],"https:\/\/www.raywenderlich.com\/75919\/learn-to-code-ios-apps-with-swift-tutorial-2":[0,0,""],"https:\/\/www.raywenderlich.com\/76044\/learn-to-code-ios-apps-with-swift-tutorial-3":[0,0,""],"https:\/\/www.raywenderlich.com\/77176\/learn-to-code-ios-apps-with-swift-tutorial-4":[0,0,""],"https:\/\/www.raywenderlich.com\/78264\/learn-to-code-ios-apps-with-swift-tutorial-5":[0,0,""],"https:\/\/www.raywenderlich.com\/74514\/video-tutorial-introduction-swift-part-0-introduction":[0,0,""],"https:\/\/www.raywenderlich.com\/74438\/swift-tutorial-a-quick-start":[0,0,""],"https:\/\/www.raywenderlich.com\/74904\/swift-tutorial-part-2-simple-ios-app":[0,0,""],"https:\/\/www.raywenderlich.com\/75289\/swift-tutorial-part-3-tuples-protocols-delegates-table-views":[0,0,""],"https:\/\/www.raywenderlich.com\/81879\/storyboards-tutorial-swift-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/81880\/storyboards-tutorial-swift-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/83129\/beginning-auto-layout-tutorial-swift-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/83130\/beginning-auto-layout-tutorial-swift-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/83276\/beginning-adaptive-layout-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/102702\/video-tutorial-intermediate-swift-part-0-overview":[0,0,""],"https:\/\/www.raywenderlich.com\/102709\/video-tutorial-intermediate-swift-part-1-structs":[0,0,""],"https:\/\/www.raywenderlich.com\/102726\/video-tutorial-intermediate-swift-part-2-properties":[0,0,""],"https:\/\/www.raywenderlich.com\/103264\/video-tutorial-intermediate-swift-part-3-protocols":[0,0,""],"https:\/\/www.raywenderlich.com\/103400\/video-tutorial-intermediate-swift-part-4-extensions":[0,0,""],"https:\/\/www.raywenderlich.com\/103481\/video-tutorial-intermediate-swift-part-5-closures":[0,0,""],"https:\/\/www.raywenderlich.com\/103830\/video-tutorial-intermediate-swift-part-6-access-control":[0,0,""],"https:\/\/www.raywenderlich.com\/103995\/video-tutorial-intermediate-swift-part-7-initializers":[0,0,""],"https:\/\/www.raywenderlich.com\/104137\/video-tutorial-intermediate-swift-part-8-generics":[0,0,""],"https:\/\/www.raywenderlich.com\/104152\/video-tutorial-intermediate-swift-part-9-memory-management":[0,0,""],"https:\/\/www.raywenderlich.com\/104528\/video-tutorial-intermediate-swift-part-10-operator-overloading":[0,0,""],"https:\/\/www.raywenderlich.com\/104537\/video-tutorial-intermediate-swift-part-11-wrap-up":[0,0,""],"https:\/\/www.raywenderlich.com\/95910\/uiview-animation-swift-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/96062\/custom-view-controller-presentation-transitions-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/92849\/video-tutorial-ios101-swift-part-0-overview":[0,0,""],"https:\/\/www.raywenderlich.com\/92857\/video-tutorial-ios101-swift-part-1-app-structure":[0,0,""],"https:\/\/www.raywenderlich.com\/92894\/video-tutorial-ios-101-swift-part-2-common-uikit-controls":[0,0,""],"https:\/\/www.raywenderlich.com\/92960\/video-tutorial-ios-101-swift-part-3-beginning-auto-layout":[0,0,""],"https:\/\/www.raywenderlich.com\/92980\/video-tutorial-ios-101-swift-part-4-storyboards-segues":[0,0,""],"https:\/\/www.raywenderlich.com\/92996\/video-tutorial-ios-101-swift-part-5-navigation-view-controllers":[0,0,""],"https:\/\/www.raywenderlich.com\/93014\/video-tutorial-ios-101-with-swift-part-6-tab-bar-view-controllers":[0,0,""],"https:\/\/www.raywenderlich.com\/85578\/first-core-data-app-using-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/84642\/multiple-managed-object-contexts-in-core-data-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/86136\/lightweight-migrations-core-data-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/89562\/watchkit-tutorial-with-swift-getting-started":[0,0,""],"https:\/\/www.raywenderlich.com\/96589\/watchkit-tutorial-swift-tables-network-requests":[0,0,""],"https:\/\/www.raywenderlich.com\/96741\/watchkit-tutorial-with-swift-tables-glances-and-handoff":[0,0,""],"https:\/\/www.raywenderlich.com\/94563\/video-tutorial-intro-auto-layout-part-0-introduction":[0,0,""],"https:\/\/www.raywenderlich.com\/94562\/video-tutorial-intro-auto-layout-part-1-constraints":[0,0,""],"https:\/\/www.raywenderlich.com\/94750\/video-tutorial-intro-auto-layout-part-2-constraints-ii":[0,0,""],"https:\/\/www.raywenderlich.com\/94793\/video-tutorial-intro-to-auto-layout-part-3-constraints-iii":[0,0,""],"https:\/\/www.raywenderlich.com\/94794\/video-tutorial-intro-auto-layout-part-4-intrinsic-content-size":[0,0,""],"https:\/\/www.raywenderlich.com\/95068\/video-tutorial-intro-auto-layout-part-5-multipliers":[0,0,""],"https:\/\/www.raywenderlich.com\/95095\/video-tutorial-intro-auto-layout-part-6-interface-builder-constraints":[0,0,""],"https:\/\/www.raywenderlich.com\/95249\/video-tutorial-intro-auto-layout-part-7-priorities":[0,0,""],"https:\/\/www.raywenderlich.com\/95423\/video-tutorial-intro-auto-layout-part-8-constraints-code":[0,0,""],"https:\/\/www.raywenderlich.com\/95617\/video-tutorial-intro-to-autolayout-part-9-visual-format-language":[0,0,""],"https:\/\/www.raywenderlich.com\/95823\/video-tutorial-intro-autolayout-part-10-visual-format-language-ii":[0,0,""],"https:\/\/www.raywenderlich.com\/95955\/video-tutorial-intro-autolayout-part-11-debugging-auto-layout":[0,0,""],"https:\/\/www.raywenderlich.com\/96102\/video-tutorial-intro-auto-layout-part-12-animating-constraints":[0,0,""],"https:\/\/www.raywenderlich.com\/96282\/video-tutorial-intro-auto-layout-part-13-auto-layout-library-snap":[0,0,""],"https:\/\/www.raywenderlich.com\/96386\/video-tutorial-intro-auto-layout-part-14-auto-layout-library-cartography":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/mega-swift-bundle-2":[0,0,""],"https:\/\/www.raywenderlich.com\/84434\/sprite-kit-swift-tutorial-beginners":[0,0,""],"https:\/\/www.raywenderlich.com\/78675\/unity-new-gui-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/79031\/unity-new-gui-tutorial-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/79046\/unity-new-gui-tutorial-part-3":[0,0,""],"https:\/\/www.raywenderlich.com\/21081\/introduction-to-in-app-purchases-in-ios-6-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/64546\/introduction-to-cocoapods-2":[0,0,""],"https:\/\/www.raywenderlich.com\/23037\/how-to-use-instruments-in-xcode":[0,0,""],"https:\/\/www.raywenderlich.com\/73602\/dynamic-table-view-cell-height-auto-layout":[0,0,""],"https:\/\/www.raywenderlich.com\/19788\/how-to-use-nsoperations-and-nsoperationqueues":[0,0,""],"https:\/\/www.raywenderlich.com\/16873\/how-to-add-search-into-a-table-view":[0,0,""],"https:\/\/www.raywenderlich.com\/76519\/add-table-view-search-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/105249\/video-tutorial-monetizing-your-app-with-iad-part-1-introduction-to-iad":[0,0,""],"https:\/\/www.raywenderlich.com\/105250\/video-tutorial-monetizing-your-app-with-iad-part-2-intermediate-iad":[0,0,""],"https:\/\/www.raywenderlich.com\/105251\/video-tutorial-monetizing-your-app-with-iad-part-3-ad-mediation-with-google-admob":[0,0,""],"https:\/\/www.raywenderlich.com\/96554\/video-tutorial-adaptive-layout-part-0-introduction":[0,0,""],"https:\/\/www.raywenderlich.com\/96564\/video-tutorial-adaptive-layout-part-1-size-classes":[0,0,""],"https:\/\/www.raywenderlich.com\/96665\/video-tutorial-adaptive-layout-part-2-constraints":[0,0,""],"https:\/\/www.raywenderlich.com\/96864\/video-tutorial-adaptive-layout-part-3-views":[0,0,""],"https:\/\/www.raywenderlich.com\/97288\/video-tutorial-adaptive-layout-part-4-fonts-images":[0,0,""],"https:\/\/www.raywenderlich.com\/tutorial-team-old\/payments":[0,0,""],"https:\/\/www.raywenderlich.com\/82706\/working-with-json-in-swift-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/85080\/beginning-alamofire-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/87595\/intermediate-alamofire-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/32960\/apple-push-notification-services-in-ios-6-tutorial-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/32963\/apple-push-notification-services-in-ios-6-tutorial-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/51127\/nsurlsession-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/76436\/use-uiscrollview-scroll-zoom-content-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/22324\/beginning-uicollectionview-in-ios-6-part-12":[0,0,""],"https:\/\/www.raywenderlich.com\/22417\/beginning-uicollectionview-in-ios-6-part-22":[0,0,""],"https:\/\/www.raywenderlich.com\/10518\/how-to-use-uiscrollview-to-scroll-and-zoom-content":[0,0,""],"https:\/\/www.raywenderlich.com\/105365\/in-app-purchases-tutorial-getting-started":[0,0,""],"https:\/\/www.raywenderlich.com\/934\/core-data-tutorial-for-ios-getting-started":[0,0,""],"https:\/\/www.raywenderlich.com\/99473\/introducing-react-native-building-apps-javascript":[0,0,""],"https:\/\/www.raywenderlich.com\/36537\/nstask-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/apple-game-frameworks-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/76740\/make-game-like-space-invaders-sprite-kit-and-swift-tutorial-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/76741\/make-game-like-space-invaders-sprite-kit-and-swift-tutorial-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/80917\/sprite-kit-inverse-kinematics-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/84341\/create-breakout-game-sprite-kit-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/79850\/collection-data-structures-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/87002\/getting-started-with-os-x-and-swift-tutorial-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/87003\/getting-started-with-os-x-and-swift-tutorial-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/87004\/getting-started-with-os-x-and-swift-tutorial-part-3":[0,0,""],"https:\/\/www.raywenderlich.com\/session":[0,0,""],"https:\/\/www.raywenderlich.com\/75270\/make-game-like-candy-crush-with-swift-tutorial-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/75273\/make-game-like-candy-crush-with-swift-tutorial-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/swift-by-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/ios-games-by-tutorials":[0,0,""],"https:\/\/www.raywenderlich.com\/79764\/custom-subscripting-swift-tutorial":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/intermediate-swift-bundle":[0,0,""],"https:\/\/www.raywenderlich.com\/store\/mega-swift-bundle-4":[0,0,""],"https:\/\/www.raywenderlich.com\/8003\/how-to-submit-your-app-to-apple-from-no-account-to-app-store-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/8045\/how-to-submit-your-app-to-apple-from-no-account-to-app-store-part-2":[0,0,""],"https:\/\/www.raywenderlich.com\/87975\/dynamic-table-view-cell-height-ios-8-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/76718\/card-game-mechanics-sprite-kit-swift":[0,0,""],"https:\/\/www.raywenderlich.com\/13269\/how-to-draw-graphs-with-core-plot-part-1":[0,0,""],"https:\/\/www.raywenderlich.com\/13271\/how-to-draw-graphs-with-core-plot-part-2":[0,0,""]},"siteURL":"https:\/\/www.raywenderlich.com","siteURLq":"https:\/\/www.raywenderlich.com"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/qppr_frontend_script.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"https:\/\/www.raywenderlich.com\/wp-admin\/admin-ajax.php","text_wait":"Your last request is still being processed. Please wait a while ...","text_valid":"Please choose a valid poll answer.","text_multiple":"Maximum number of choices allowed: ","show_loading":"1","show_fading":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/polls-js.js"></script>
+<script type="text/javascript" src="./Push Notifications Tutorial_ Getting Started_files/wp-embed.min.js"></script>
+		
+		<script type="text/javascript">var _merchantSettings=_merchantSettings || [];_merchantSettings.push(['AT', '11ld4k']);(function(){var autolink=document.createElement('script');autolink.type='text/javascript';autolink.async=true; autolink.src='https://autolinkmaker.itunes.apple.com/js/itunes_autolinkmaker.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(autolink, s);})();</script>
+		<script>
+			if (jQuery.browser.msie) { jQuery("html").addClass("msie"); }
+			if (typeof window.chrome === "object") { jQuery("html").addClass("chrome"); }
+		</script>
+	
+
+
+
+<!-- Dynamic page generated in 1.371 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2016-07-09 21:42:46 -->
+
+<!-- Compression = gzip --></footer></footer><div class="swiftype-widget"><div class="autocomplete" style="position: absolute; z-index: 9999; top: 97px; left: 1035px; width: 203px; display: none;"><ul></ul></div></div><div id="ot-engage-ext-container"></div><script aria-hidden="true" type="application/x-lastpass" id="hiddenlpsubmitdiv" style="display: none;"></script><script>try{(function() { for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){ var lastpass_f = document.forms[lastpass_iter]; if(typeof(lastpass_f.lpsubmitorig2)=="undefined"){ lastpass_f.lpsubmitorig2 = lastpass_f.submit; if (typeof(lastpass_f.lpsubmitorig2)=='object'){ continue;}lastpass_f.submit = function(){ var form=this; var customEvent = document.createEvent("Event"); customEvent.initEvent("lpCustomEvent", true, true); var d = document.getElementById("hiddenlpsubmitdiv"); if (d) {for(var i = 0; i < document.forms.length; i++){ if(document.forms[i]==form){ if (typeof(d.innerText) != 'undefined') { d.innerText=i.toString(); } else { d.textContent=i.toString(); } } } d.dispatchEvent(customEvent); }form.lpsubmitorig2(); } } }})()}catch(e){}</script></body></html>

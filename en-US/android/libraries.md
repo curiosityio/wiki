@@ -56,6 +56,35 @@ mFooApi.uploadPhoto(multipartPicture);
 
 `api_param` in this case is the key that the API is expecting for the file. We are uploading a photo here, so the API is probably looking for `photo` or `file`. The API docs for the API you are working with will say.
 
+*Note: When using @Multipart, ALL other properties of an API call must also be @Part. You cannot use @FormUrlEncoded and @Multipart in the same API call.*
+
+```
+@Multipart
+@POST("/api/update_profile")
+Call<FooResponseVo> fooApiCall(@Part("username") String username, @Part MultipartBody.Part profilePicture);
+```
+
+In this example, we have the String username which would usually be `@FormUrlEncoded` and be a `@Field()` or `@Body` (actually, I have not tested body yet. Body might work fine with `@Multipart`) but here, it is a `@Part`.
+
+This takes a String, username, as a part. Some APIs may not be able to process this as the String is sent to API surrounded with double quotes around it. You may need to try this instead:
+
+```
+File picture;
+RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), picture);
+MultipartBody.Part multipartPicture = MultipartBody.Part.createFormData("api_param", picture.getName(), requestFile);
+MultipartBody.Part usernamePart = MultipartBody.Part.createFormData("username", usernameHere);
+
+mFooApi.uploadPhoto(multipartPicture, usernamePart);
+```
+
+with interface defined:
+
+```
+@Multipart
+@POST("/api/update_profile")
+Call<FooResponseVo> fooApiCall(@Part MultipartBody.Part profilePicture, @Part MultipartBody.Part username);
+```
+
 ## Upload more then one file
 
 Above works for how to upload one single file. For uploading an array of files, things are different:

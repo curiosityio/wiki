@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<!-- saved from url=(0159)https://forums.raywenderlich.com/embed/comments?embed_url=https%3A%2F%2Fwww.raywenderlich.com%2F123862%2Fpush-notifications-tutorial&discourse_username=jack_wu -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    <link rel="stylesheet" media="screen" href="./embed-c23a8266759c719c181564f1afe9be567a7dd7feb8a475793fa4a155b4b63919.css">
+      
+    <script src="./break_string-cc617154cd957804f2f6a1f3bc68258c9cdca3d4b9a322bf777d145fed04790e.js"></script>
+
+      <title>Push Notifications Tutorial: Getting Started - Official Tutorials - Ray Wenderlich | Tutorials for Developers &amp; Gamers</title>
+
+    <script>
+      (function() {
+
+        function postUp(msg) {
+          if (parent) {
+            parent.postMessage(msg, 'https://www.raywenderlich.com/123862/push-notifications-tutorial');
+          }
+        }
+
+        function clickPostLink(e) {
+          var postId = e.target.getAttribute('data-link-to-post');
+          if (postId) {
+            var postElement = document.getElementById('post-' + postId);
+            if (postElement) {
+              var rect = postElement.getBoundingClientRect();
+              if (rect && rect.top) {
+                postUp({type: 'discourse-scroll', top: rect.top});
+                e.preventDefault();
+                return false;
+              }
+            }
+          }
+        }
+
+        window.onload = function() {
+          // Send a post message with our loaded height
+          postUp({type: 'discourse-resize', height: document['body'].offsetHeight});
+
+          var postLinks = document.querySelectorAll("a[data-link-to-post]"),
+              i;
+
+          for (i=0; i<postLinks.length; i++) {
+            postLinks[i].onclick = clickPostLink;
+          }
+
+          // Make sure all links in the iframe point to _blank
+          var cookedLinks = document.querySelectorAll('.cooked a');
+          for (i=0; i<cookedLinks.length; i++) {
+            cookedLinks[i].target = "_blank";
+          }
+
+          // Adjust all names
+          var names = document.querySelectorAll('.username a');
+          for (i=0; i<names.length; i++) {
+            var username = names[i].innerHTML;
+            if (username) {
+              names[i].innerHTML = new BreakString(username).break();
+            }
+          }
+
+        };
+
+      })();
+    </script>
+  <link rel="stylesheet" type="text/css" href="chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji.css"></head>
+  <body>
+    <header class="discourse">
+    <a class="button" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/2">Continue Discussion</a>
+  <span class="replies">61 replies</span>
+</header>
+
+    <article class="post" id="post-10691">
+      <a title="March 17, 2016  7:17pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/2">17 Mar</a>
+        <a data-link-to-post="10625" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/1"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> jack_wu</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/kvebeeck" target="_blank"><img src="./33398_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/kvebeeck" target="_blank" class="">kvebeeck</a>
+        </h3>
+        <p>dear jack<br>can i ask why you choose to use a outside server instead of using CloudKit to send the messages ?<br>i would think its cheaper to just use CloudKit<br>and i know its possible to send push notifications from CloudKit, i tried it</p>
+
+            <a data-link-to-post="10711" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/2" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-10711">
+      <a title="March 17, 2016  7:50pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/3">17 Mar</a>
+        <a data-link-to-post="10691" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/2"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> kvebeeck</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank"><img src="./190_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank" class="">jack_<wbr>​wu</a>
+        </h3>
+        <p>A few reasons actually.</p>
+
+<p>First of all this article isn't about the server side, and the script provided is just meant for testing that the notifications work. The focus is on the iOS app's side and what you need to do to receive and handle different kinds of notifications. There are many ways you could implement the server-component of an iOS app and there probably needs to be a tutorial here that covers that. :]</p>
+
+<p>Secondly, as far as I know, CloudKit doesn't send general push notifications. You can "subscribe" to certain changes in the database and it will send a <code>content-available</code> silent push notification when needed. Due to this, it wouldn't serve the purpose of a general push notification server and also would be quite difficult to help test our push notifications in this tutorial!</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-10764">
+      <a title="March 18, 2016  2:17am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/4">18 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/studyios" target="_blank"><img src="./36402_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/studyios" target="_blank" class="">studyios</a>
+        </h3>
+        <aside class="quote" data-post="1" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./190_1(1).png" class="avatar">jack_wu:</div>
+<blockquote><p>rn how to use to notify your users, and perform small tasks even when they aren’t actively using your app!</p></blockquote></aside>
+
+<p>When the system language is set to Chinese, the date parser will go wrong. I think it's something about locale?</p>
+
+            <a class="post-replies button" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/4">2 replies</a>
+      </div>
+    </article>
+    <article class="post" id="post-10794">
+      <a title="March 18, 2016  8:51am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/5">18 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/stefannestorov" target="_blank"><img src="./35721_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/stefannestorov" target="_blank" class="">stefannestorov</a>
+        </h3>
+        <p>Hi, Jack <br>I have question about silent push notifications.. I read that if user manualy killed the app (app switcher for example) the delegate method wont be called. Do you know something about that ?</p>
+
+            <a data-link-to-post="10851" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/5" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-10809">
+      <a title="March 18, 2016 10:28am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/6">18 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/deeksha" target="_blank"><img src="./9826_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/deeksha" target="_blank" class="new-user">deeksha</a>
+        </h3>
+        <p>In this blog i came to know about the push notifications concept it is really nice and informative thanks for sharing this concept.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-10850">
+      <a title="March 18, 2016  2:53pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/7">18 Mar</a>
+        <a data-link-to-post="10764" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/4"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> studyios</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank"><img src="./190_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank" class="">jack_<wbr>​wu</a>
+        </h3>
+        <p>Thanks for reporting that, I'll look into it. Very likely to have to do with the locale. If you already fixed it let me know :]</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-10851">
+      <a title="March 18, 2016  2:56pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/8">18 Mar</a>
+        <a data-link-to-post="10794" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/5"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> stefannestorov</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank"><img src="./190_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank" class="">jack_<wbr>​wu</a>
+        </h3>
+        <p>You are correct and this is stated in the documentation:</p>
+
+<blockquote><p>However, the system does not automatically launch your app if the user has force-quit it. In that situation, the user must relaunch your app or restart the device before the system attempts to launch your app automatically again.</p></blockquote>
+
+      </div>
+    </article>
+    <article class="post" id="post-11054">
+      <a title="March 21, 2016  5:46am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/9">21 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/vakas" target="_blank"><img src="./3514_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/vakas" target="_blank" class="">vakas</a>
+        </h3>
+        <p>Great tutorial, thanks.</p>
+
+<p>How can we send a notification to a specific device? Do we have to save all the app-id’s on the server and then decide choose a specific app-id to send notification to it?<br>Or there’s any other better way to achieve this?</p>
+
+            <a data-link-to-post="13492" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/9" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-11101">
+      <a title="March 21, 2016  2:13pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/10">21 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/huralnyk" target="_blank"><img src="./33183_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/huralnyk" target="_blank" class="">huralnyk</a>
+        </h3>
+        <p>Thank you, Jack, for great and handy tutorial.</p>
+
+<aside class="quote" data-post="4" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./10183_1.png" class="avatar">studyios:</div>
+<blockquote><p>When the system language is set to Chinese, the date parser will go wrong. I think it's something about locale?</p></blockquote></aside>
+
+<p>Application crashes on me with different sets of Language and Region settings (ex. Russian:Ukraine, English:United States, Russian:United States). Just hardcode locale of dateFormatter to en_US worked for me.</p>
+
+<pre><code>static func dateWithPodcastDateString(dateString: String) -&gt; NSDate? {
+    dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+    dateFormatter.dateFormat = "EEE, dd, MMM yyyy HH:mm:ss Z"
+    return dateFormatter.dateFromString(dateString)
+}</code></pre>
+
+<p>But anyway it's a bit strange and unclear to me why we use exact this date format with two commas <code>"EEE, dd, MMM yyyy HH:mm:ss Z"</code>, when our date string looks like this: "<code>Wed, 04 Nov 2015 21:00:14 +0000</code>"</p>
+
+<p>Maybe somebody, could clarify.</p>
+
+            <a data-link-to-post="11844" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/10" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-11140">
+      <a title="March 21, 2016  4:00pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/11">21 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/tex-twil" target="_blank"><img src="./10229_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/tex-twil" target="_blank" class="new-user">tex-<wbr>​twil</a>
+        </h3>
+        <p>In my case, it is this delegate method that is called all the time. </p>
+
+<p><code>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler</code></p>
+
+<p>In which cases is the </p>
+
+<p><code>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo</code> </p>
+
+<p>supposed to be called?</p>
+
+            <a data-link-to-post="13492" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/11" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-11561">
+      <a title="March 22, 2016  8:09pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/12">22 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/ilandbt" target="_blank"><img src="./11109_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/ilandbt" target="_blank" class="new-user">ilandbt</a>
+        </h3>
+        <p>Hi,<br>Does silent push notification work all the time?<br>Or only when the app is in background?<br>Thanks</p>
+
+            <a data-link-to-post="13492" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/12" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-11646">
+      <a title="March 23, 2016  2:53am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/13">23 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/yevgeniyb16" target="_blank"><img src="./10923_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/yevgeniyb16" target="_blank" class="new-user">yevgeniyb<wbr>​16</a>
+        </h3>
+        <p>Hi Jack,</p>
+
+<p>Thank you for he fantastically detailed article!</p>
+
+<p>I'm especially interested in a Silent Notification option, which we'd like to use in Wallet cards update, instead of for the application.</p>
+
+<p>Is there any way a wallet card can be updated without disturbing the user with push notification?</p>
+
+<p>Many thanks!</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-11844">
+      <a title="March 24, 2016  2:00am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/14">24 Mar</a>
+        <a data-link-to-post="11101" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/10"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> huralnyk</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/hssong" target="_blank"><img src="./31274_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/hssong" target="_blank" class="">hssong</a>
+        </h3>
+        <p>Thanks huralnyk.</p>
+
+<p>I have same problem.<br>your patch works for me.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-11845">
+      <a title="March 24, 2016  2:24am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/15">24 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank"><img src="./190_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank" class="">jack_<wbr>​wu</a>
+        </h3>
+        <p>Thanks guys for all the feedback!</p>
+
+<p>I'll be updating the code in the next few days for full Swift 2.2 support as well as fix the locale bug that you guys found. :]</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-11888">
+      <a title="March 24, 2016  9:15am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/16">24 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/torokzsolt" target="_blank"><img src="./33889_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/torokzsolt" target="_blank" class="">torokzsolt</a>
+        </h3>
+        <p>Hi Jack!</p>
+
+<p>First of all, many thanks for the great tutorial.<br>Do you have any idea about what should I do, if I'd like to perform some tasks in the background, but don't want the notification to be silent? I want to send to the server something like an ACK, that the message was arrived, but I also want the user to be notified at the same time.<br>Do you have any solution for that?</p>
+
+<p>Thanks in advance<br>Zsolt</p>
+
+            <a data-link-to-post="13492" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/16" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-11916">
+      <a title="March 24, 2016  1:30pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/17">24 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/timbojill" target="_blank"><img src="./36512_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/timbojill" target="_blank" class="">timbojill</a>
+        </h3>
+        <p>I am newbie developer. I need some real help. I currently use Parse.com for Push Notifications for one app. I am a master with using that system. I know how to configure and send push notifications with it. I followed their documentation to the letter. I now need to send specific notifications. the way it works right now all users get the notification I send out no matter what. I want the user to choose to receive certain notifications. Like all news, breaking news, top stories, etc. I am unclear on how to do so. I anyone know of a guide that shows this kindly email me at timbojill@gmail.com.</p>
+
+<p>I know Parse.com is closing down soon. If someone has a guide or know how to do it with Parse.com let me know. Someone was telling me that Pushwoosh does it but I couldn't figure it out.</p>
+
+            <a data-link-to-post="13492" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/17" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-12733">
+      <a title="March 30, 2016 10:18am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/18">30 Mar</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/mansur" target="_blank"><img src="./12440_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/mansur" target="_blank" class="new-user">mansur</a>
+        </h3>
+        <p>Please provide the link for Previous Tutorial for apple push notification services in iOS 6 tutorial part 1</p>
+
+<p>thank you</p>
+
+            <a data-link-to-post="13492" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/18" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-13083">
+      <a title="April  1, 2016  8:05am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/19"> 1 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/rakesh" target="_blank"><img src="./33370_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/rakesh" target="_blank" class="new-user">rakesh</a>
+        </h3>
+        <p>Can you tell me is there any way to handle notification when app was killed (removed from background).</p>
+
+<p>I need to store some data into database and based on some validations I need to schedule a local notification.</p>
+
+<p>In some forums they are saying , we can't schedule a local notification when app in killed state.</p>
+
+<p>Please respond to this.</p>
+
+<p>Thanks.</p>
+
+            <a class="post-replies button" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/19">2 replies</a>
+      </div>
+    </article>
+    <article class="post" id="post-13492">
+      <a title="April  4, 2016  2:56am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/20"> 4 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank"><img src="./190_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank" class="">jack_<wbr>​wu</a>
+        </h3>
+        <p>Thanks for all your feedback and even help with fixing this project! The starter project has been updated to address all the NSDateFormatter related issues as well as support for Swift 2.2.</p>
+
+<p>To answer some specific questions in the thread here:</p>
+
+<aside class="quote" data-post="9" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./3514_1(1).png" class="avatar">vakas:</div>
+<blockquote><p>How can we send a notification to a specific device? Do we have to save all the app-id’s on the server and then decide choose a specific app-id to send notification to it?Or there’s any other better way to achieve this?</p></blockquote></aside>
+
+<p>The <strong>Device Token</strong> represents the "address" of a single device. If you were to build your backend yourself, you must save all device tokens in your database. Generally you would associate it with a specific user so that your server will know which device(s) to send to when it needs to send a notification. Again, there are many services and frameworks that can do this for you.</p>
+
+<aside class="quote" data-post="11" data-topic="10056" data-full="true"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./10229_1(1).png" class="avatar">tex-twil:</div>
+<blockquote>
+<p>In my case, it is this delegate method that is called all the time. </p>
+<p>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler</p>
+<p>In which cases is the </p>
+<p>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo </p>
+<p>supposed to be called?</p>
+</blockquote></aside>
+
+<p>The 2nd method here would only be called if the first one is not implemented. Quote from Apple documentation:</p>
+
+<blockquote><p>Implement the application:didReceiveRemoteNotification:fetchCompletionHandler: method instead of this one whenever possible. If your delegate implements both methods, the app object calls the application:didReceiveRemoteNotification:fetchCompletionHandler: method.</p></blockquote>
+
+<aside class="quote" data-post="12" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./11109_1(1).png" class="avatar">ilandbt:</div>
+<blockquote><p>Does silent push notification work all the time?Or only when the app is in background?</p></blockquote></aside>
+
+<p>These should work all the time, unless the user "swipes up" and kills your app.</p>
+
+<aside class="quote" data-post="16" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./11205_1.png" class="avatar">torokzsolt:</div>
+<blockquote><p>Do you have any idea about what should I do, if I'd like to perform some tasks in the background, but don't want the notification to be silent? I want to send to the server something like an ACK, that the message was arrived, but I also want the user to be notified at the same time.Do you have any solution for that?</p></blockquote></aside>
+
+<p>When your app receives the silent notification, you get a chance to run any code you want. You can send a request back to your server and also schedule a local, non-silent notification that your user can see. Just keep in mind that any time you spend here counts towards your "quota" and your background time may be limited by the system if you run too often or take too long.</p>
+
+<aside class="quote" data-post="17" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./6991_1.png" class="avatar">timbojill:</div>
+<blockquote><p>I know Parse.com is closing down soon. If someone has a guide or know how to do it with Parse.com let me know. Someone was telling me that Pushwoosh does it but I couldn't figure it out.</p></blockquote></aside>
+
+<p>Check out this tutorial: <a href="https://www.raywenderlich.com/126098/top-5-parse-alternatives" rel="nofollow" target="_blank">https://www.raywenderlich.com/126098/top-5-parse-alternatives</a>. Also, there is an upcoming tutorial using Parse-server so stay tuned!</p>
+
+<aside class="quote" data-post="18" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./12440_1(1).png" class="avatar">mansur:</div>
+<blockquote><p>Please provide the link for Previous Tutorial for apple push notification services in iOS 6 tutorial part 1</p></blockquote></aside>
+
+<p>Sorry but this tutorial has replaced that one. If you have any specific questions, i can help you here!</p>
+
+<aside class="quote" data-post="19" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./14345_1.png" class="avatar">rakesh:</div>
+<blockquote><p>Can you tell me is there any way to handle notification when app was killed (removed from background).</p></blockquote></aside>
+
+<p>As far as I know there isn't anything you can do if the user has killed your app. Let me know if you find any workarounds!</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-14251">
+      <a title="April  7, 2016  1:54pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/21"> 7 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/alitorabi" target="_blank"><img src="./23004_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/alitorabi" target="_blank" class="new-user">alitorabi</a>
+        </h3>
+        <p>Hi, <br>I cannot run the starter project on my device, I get this message:<br>"dyld: Library not loaded: <span class="mention">@rpath</span>/libswiftCore.dylib<br>  Referenced from: /var/containers/Bundle/Application/7A0D9F6D-66A2-4BDF-87B7-6FC4547BB80D/WenderCast.app/WenderCast<br>  Reason: no suitable image found."<br>What I am doing wrong?</p>
+
+            <a data-link-to-post="14677" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/21" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-14381">
+      <a title="April  8, 2016 10:59am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/22"> 8 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/connectmark" target="_blank"><img src="./23991_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/connectmark" target="_blank" class="new-user">connectmark</a>
+        </h3>
+        <p>Push notifications is really a necessary task for users and your tutorial helps for how to integrate push notifications within the mobile applications in a smart way...</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-14677">
+      <a title="April 10, 2016  6:41pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/23">10 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank"><img src="./190_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank" class="">jack_<wbr>​wu</a>
+        </h3>
+        <aside class="quote" data-post="21" data-topic="10056" data-full="true"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./23004_1(1).png" class="avatar">alitorabi:</div>
+<blockquote><p>Hi, I cannot run the starter project on my device, I get this message:"dyld: Library not loaded: <span class="mention">@rpath</span>/libswiftCore.dylib  Referenced from: /var/containers/Bundle/Application/7A0D9F6D-66A2-4BDF-87B7-6FC4547BB80D/WenderCast.app/WenderCast  Reason: no suitable image found."What I am doing wrong?</p></blockquote></aside>
+
+<p>This might be a small Xcode bug as noted here: <a href="http://stackoverflow.com/questions/32730312/reason-no-suitable-image-found" rel="nofollow" target="_blank">http://stackoverflow.com/questions/32730312/reason-no-suitable-image-found</a></p>
+
+<p>According to the answers try cleaning the project and deleting Derived Data as well. If that doesn't work check your certificates &amp; profiles. Thanks!</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-15183">
+      <a title="April 14, 2016  4:19pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/24">14 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/bshega" target="_blank"><img src="./30684_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/bshega" target="_blank" class="new-user">bshega</a>
+        </h3>
+        <p>Are you going to redo the part of the tutorial for creating the ck.pem and related files at all?  We had to redo all of ours and now this tutorial doesn't have those steps <img src="./frowning.png" title=":frowning:" class="emoji" alt=":frowning:"></p>
+
+            <a data-link-to-post="15186" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/24" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-15186">
+      <a title="April 14, 2016  4:31pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/25">14 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank"><img src="./190_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jack_wu" target="_blank" class="">jack_<wbr>​wu</a>
+        </h3>
+        <aside class="quote" data-post="24" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./30684_1(1).png" class="avatar">bshega:</div>
+<blockquote><p>Are you going to redo the part of the tutorial for creating the ck.pem and related files at all?  We had to redo all of ours and now this tutorial doesn't have those steps <img src="./frowning.png" title=":frowning:" class="emoji" alt=":frowning:"></p></blockquote></aside>
+
+<p>Not sure what you mean! What do you need that the "Creating an SSL Certificate and PEM file" section isn't covering?</p>
+
+            <a data-link-to-post="15192" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/25" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-15192">
+      <a title="April 14, 2016  6:00pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/26">14 Apr</a>
+        <a data-link-to-post="15186" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/25"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> jack_wu</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/bshega" target="_blank"><img src="./30684_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/bshega" target="_blank" class="new-user">bshega</a>
+        </h3>
+        <p>Oh perhaps, that is a new way of doing it.  I remember there being more steps to it. Thanks.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-15373">
+      <a title="April 17, 2016  3:46am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/27">17 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/teddyboy1009" target="_blank"><img src="./30812_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/teddyboy1009" target="_blank" class="new-user">teddyboy<wbr>​1009</a>
+        </h3>
+        <p>Can you provide objective-c code? I'm would like to learn objective-c since you update the code with swift 2.2</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-15549">
+      <a title="April 19, 2016  9:04pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/28">19 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/hawt0031" target="_blank"><img src="./30943_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/hawt0031" target="_blank" class="new-user">hawt<wbr>​0031</a>
+        </h3>
+        <p>Hi Jack. Just wondering, how would we get started beefing up that PHP script for a production environment? If all we want to do is send a push notification to some device token that we just retrieved from the database, how do we do that? Is there a lot more work that needs to be done to this script for just that simple task? I already have a server with PHP and the device tokens are already saved in a database. Can you point us to a few resources that would teach us how to do that? Thanks.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-15688">
+      <a title="April 21, 2016  5:35pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/29">21 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/immorto" target="_blank"><img src="./31044_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/immorto" target="_blank" class="new-user">immorto</a>
+        </h3>
+        <p>I just want to write thanks a lot! With your tutorial I spend much less time on the whole process to get my first push notification in my app!<br>Thanks once again!</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-15755">
+      <a title="April 22, 2016 10:16am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/30">22 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/girish6171" target="_blank"><img src="./31078_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/girish6171" target="_blank" class="new-user">girish<wbr>​6171</a>
+        </h3>
+        <p>Thanks <br>superb this tutorial <br>i have get below  out put on  the terminal but not get any notification in the device <br>Connected to APNS<br>Message successfully delivered</p>
+
+<p>how to do solve this problem .???<br>please help me.....</p>
+
+            <a data-link-to-post="15798" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/30" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-15756">
+      <a title="April 22, 2016 10:24am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/31">22 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/girish6171" target="_blank"><img src="./31078_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/girish6171" target="_blank" class="new-user">girish<wbr>​6171</a>
+        </h3>
+        <p>Connected to APNS<br>Message successfully delivered</p>
+
+<p>i have get this type of message on terminal but not get notification on device <br>where is missing ?<br>how to do solve it ??</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-15798">
+      <a title="April 22, 2016  8:15pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/32">22 Apr</a>
+        <a data-link-to-post="15755" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/30"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> girish6171</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/vishalsrv25" target="_blank"><img src="./31107_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/vishalsrv25" target="_blank" class="new-user">vishalsrv<wbr>​25</a>
+        </h3>
+        <p>This is bcoz, possibility might be that the private key and CSR file are wrong. Remember that each App ID has a unique CSR and private key combination.</p>
+
+<p>This simply means the device token used for sending notification is with some different private key and CSR combination, also for developer profile, apns uses sandbox server and for production = true, apns sends notification through apns server. so check on that one as well.</p>
+
+            <a data-link-to-post="15944" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/32" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-15799">
+      <a title="April 22, 2016  8:18pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/33">22 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/vishalsrv25" target="_blank"><img src="./31107_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/vishalsrv25" target="_blank" class="new-user">vishalsrv<wbr>​25</a>
+        </h3>
+        <p>I have a query here, what if the user was getting notification successfully until now and suddenly he has turned off device level notification for the app or if he has switched off his device, in that case how will the sender know that the notification is delivered successfully or not.</p>
+
+<p>In this scenario the apns notification call returns , transmission = succes, delivered = success.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-15944">
+      <a title="April 25, 2016  5:51am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/34">25 Apr</a>
+        <a data-link-to-post="15798" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/32"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> vishalsrv25</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/girish6171" target="_blank"><img src="./31078_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/girish6171" target="_blank" class="new-user">girish<wbr>​6171</a>
+        </h3>
+        <p>Thank you very much....</p>
+
+<p>I have solve it</p>
+
+            <a data-link-to-post="16257" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/34" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-16063">
+      <a title="April 25, 2016  6:26pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/35">25 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jhtang" target="_blank"><img src="./9600_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jhtang" target="_blank" class="">jhtang</a>
+        </h3>
+        <p>Hi Jack,<br>Thank you very much for your tutorial.<br>I used some of your ideas to build push notification on my app. After spending so much time on setting up the certificate correctly, I could be able to push notification on my iPhone through APN tester inDev environment.<br>However, when I tried to build the app in enterprise environment with the production APN certificate, my iPhone didn't receive any push sent by the APN tester using the same device token but production certificate.</p>
+
+<p>Would you please help me to resolve the issue?</p>
+
+<p>Sincerely,<br>Joseph</p>
+
+            <a class="post-replies button" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/35">2 replies</a>
+      </div>
+    </article>
+    <article class="post" id="post-16210">
+      <a title="April 26, 2016 11:18am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/36">26 Apr</a>
+        <a data-link-to-post="10625" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/1"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> jack_wu</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/memetcircus" target="_blank"><img src="./31469_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/memetcircus" target="_blank" class="">memetcircus</a>
+        </h3>
+        <p>Hi Jack!<br>I don't understand the part saying Under Run -&gt; Info, select Wait for executable to be launched. Could you please explain why we need this? In which other scenarious should we use this debugging technique?</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-16257">
+      <a title="April 26, 2016  4:58pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/37">26 Apr</a>
+        <a data-link-to-post="15944" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/34"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> girish6171</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/rundeks" target="_blank"><img src="./31416_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/rundeks" target="_blank" class="new-user">rundeks</a>
+        </h3>
+        <p>What did you do to solve your problem? I am having a the same issue and am hoping what ever you did will help me.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-16388">
+      <a title="April 27, 2016  6:05pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/38">27 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/rarias84" target="_blank"><img src="./35231_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/rarias84" target="_blank" class="">rarias<wbr>​84</a>
+        </h3>
+        <p>I can`t obtain device token anymore.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-16509">
+      <a title="April 28, 2016  5:34pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/39">28 Apr</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/mahi504" target="_blank"><img src="./31613_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/mahi504" target="_blank" class="new-user">mahi<wbr>​504</a>
+        </h3>
+        <p>Awesome tutorial<br>I have a question i will receive silent push notification from my server side once i get push I should make API call i want to make post request can I do this if yes please help</p>
+
+<p>Thanks</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-16583">
+      <a title="April 29, 2016  4:17pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/40">29 Apr</a>
+        <a data-link-to-post="16063" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/35"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> jhtang</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/memetcircus" target="_blank"><img src="./31469_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/memetcircus" target="_blank" class="">memetcircus</a>
+        </h3>
+        <p>It is because of your corporate firewall, somehow the php request is blocked or changed, the solution is mobile hotspot and send the php message through this</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-16744">
+      <a title="May  2, 2016  5:23am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/41"> 2 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/bajocode" target="_blank"><img src="./31856_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/bajocode" target="_blank" class="new-user">bajocode</a>
+        </h3>
+        <p>More of these Jack! Important topic, easy for beginners, covers the fundamental components, easy to read!</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-16883">
+      <a title="May  3, 2016 12:22pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/42"> 3 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/lironsamara" target="_blank"><img src="./31965_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/lironsamara" target="_blank" class="new-user">lironsamara</a>
+        </h3>
+        <p>Hi Jack,</p>
+
+<p>Thanks for the great tutorial!<br>Can you please explain about the conversion between NSData to the token string?<br>What does the format "%02.2hhx" means?</p>
+
+<p>Thanks!</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-17042">
+      <a title="May  5, 2016  8:38am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/43"> 5 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/techno" target="_blank"><img src="./32076_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/techno" target="_blank" class="new-user">techno</a>
+        </h3>
+        <p>Easier way is to integrate with push notification websites like</p>
+
+<p>pushalive.com</p>
+
+<p>This way you dont need any coding.</p>
+
+            <a data-link-to-post="17339" class="post-replies button" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/43" target="_blank">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-17339">
+      <a title="May 10, 2016  2:31pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/44">10 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/akonakov" target="_blank"><img src="./35606_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/akonakov" target="_blank" class="">akonakov</a>
+        </h3>
+        <aside class="quote" data-post="43" data-topic="10056"><div class="title">
+<div class="quote-controls"></div>
+<img alt="" width="20" height="20" src="./32076_1(1).png" class="avatar">techno:</div>
+<blockquote><p>pushalive.com</p></blockquote></aside>
+
+<p>I think it's not about iOS Push technology.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-17972">
+      <a title="May 20, 2016 11:42pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/45">20 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/miguelangel004" target="_blank"><img src="./32810_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/miguelangel004" target="_blank" class="new-user">miguelangel<wbr>​004</a>
+        </h3>
+        <p>Hello Jack, we really appreciated the effort to bring us the knowledge, Im looking for the past tutorial write in objective -c to push notification, Could you provide us the url where we can find it please</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-18052">
+      <a title="May 23, 2016  7:23am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/46">23 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/robpea" target="_blank"><img src="./32896_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/robpea" target="_blank" class="new-user">robpea</a>
+        </h3>
+        <p>Hi Jack, </p>
+
+<p>Is it possible to still have access to the old Obj-C version of this article? I know swift is the drug of choice these days but my app is in obj-c, I got halfway through this article when it was in obj-c, and now I can't find a cached version of it anywhere.</p>
+
+<p>Thanks, <br>Rob</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-18413">
+      <a title="May 28, 2016  1:14pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/47">28 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/royhenderson" target="_blank"><img src="./36572_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/royhenderson" target="_blank" class="new-user">royhenderson</a>
+        </h3>
+        <p>Jack,</p>
+
+<p>Just want to say thank you for an excellent tutorial! A couple of hours saw me able to send notifications to an app on my iPad from a Raspberry Pi. I only hit one problem which took a little bit of searching to fix - first time round the option to save as .p12 in Keychain Assistant was inactive so I saved as .pem and skipped the OpenSSL step. However, that crashed and burned. Clicking on Certificates in Keychain Assistant before selecting the certificate for export activated the save as .p12 option and everything else was a walk in the park.</p>
+
+<p>Thanks again for sharing your skill and helping starters like me ...</p>
+
+<p>Roy</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-18544">
+      <a title="May 31, 2016  4:46am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/48">31 May</a>
+        <a data-link-to-post="13083" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/19"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> rakesh</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/vaibhavdev" target="_blank"><img src="./36371_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/vaibhavdev" target="_blank" class="">vaibhavdev</a>
+        </h3>
+        <p>You can store and validate according to the user . For example if you want some local notification only at particular weekdays or weekends . just see the below coding . Hope you understand from these .</p>
+
+<p>-(void) weekEndNotificationOnWeekday: (int)weekday :(UILocalNotification <em>)notification : (NSDate</em>) alramDate<br>{<br>    NSCalendar *calendar = [NSCalendar currentCalendar];</p>
+
+<pre><code>NSDateComponents *componentsForFireDate = [calendar components:(NSYearCalendarUnit | NSWeekCalendarUnit |  NSHourCalendarUnit | NSMinuteCalendarUnit| NSSecondCalendarUnit | NSWeekdayCalendarUnit) fromDate: alramDate];
+[componentsForFireDate setWeekday: weekday] ; //for fixing Sunday</code></pre>
+
+<p>  //   [componentsForFireDate setHour: 20] ; //for fixing 8PM hour<br> //    [componentsForFireDate setMinute:0] ;<br> //    [componentsForFireDate setSecond:0] ;<br>    notification.repeatInterval = NSWeekCalendarUnit;<br>    notification.fireDate=[calendar dateFromComponents:componentsForFireDate];<br>    [[UIApplication sharedApplication] scheduleLocalNotification:notification];</p>
+
+<p>}</p>
+
+<p>Hope these will be useful according to my knowledge .</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-18565">
+      <a title="May 31, 2016 10:13am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/49">31 May</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/rakesh" target="_blank"><img src="./33370_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/rakesh" target="_blank" class="new-user">rakesh</a>
+        </h3>
+        <p>Hi <a class="mention" href="https://forums.raywenderlich.com/users/vaibhavdev" target="_blank">@vaibhavdev</a> , I want to schedule a Local Notification when an app was in killed state. I am able to schedule it when the app was in foreground and background states. But, when app was in killed state unable to schedule it.<br>none of the delegate methods were called when app was killed.</p>
+
+<p>Note: I am using silent notifications.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-18644">
+      <a title="June  1, 2016  6:31am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/50"> 1 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/mikede" target="_blank"><img src="./33430_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/mikede" target="_blank" class="new-user">mikede</a>
+        </h3>
+        <p>I am a newbie deveoper. What ports need to be open on my end to send push notifications? So far from what I understand it will need to be port 2195?? However, my client can't open this port. Any way to get around this?</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-18947">
+      <a title="June  6, 2016 12:55pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/51"> 6 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/bala" target="_blank"><img src="./33760_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/bala" target="_blank" class="new-user">bala</a>
+        </h3>
+        <p>Hi Jack, Thank you so much for this tutorial. Following this managed to get the notifications in the development environment. But in production environment, not able to receive the notifications. Read somewhere that device tokens that works in the sandbox environment don't work in the production env. not able to understand this. Can you help on this?</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-18994">
+      <a title="June  7, 2016  5:23am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/52"> 7 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/neha24" target="_blank"><img src="./33804_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/neha24" target="_blank" class="new-user">neha<wbr>​24</a>
+        </h3>
+        <p>Hi Jack,</p>
+
+<p>My application is VoIP application. If I use silent Push Notification then how long application will be woken up so that I can finish some task.For e.g. exchange of few messages from server</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-19522">
+      <a title="June 14, 2016  7:53am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/53">14 Jun</a>
+        <a data-link-to-post="16063" class="in-reply-to" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/35"><span class="emoji-outer emoji-sizer"><span class="emoji-inner" style="background: url(chrome-extension://immhpnclomdloikkpcefncmfgjbkojmh/emoji-data/sheet_apple_64.png);background-position:0% 85%;background-size:4100%" title="arrow_forward"></span></span> jhtang</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/bala" target="_blank"><img src="./33760_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/bala" target="_blank" class="new-user">bala</a>
+        </h3>
+        <p>Hi jhtang,</p>
+
+<p>Faced the same issue. Got the learnings listed below:</p>
+
+<ol>
+<li><p>The device token is different for development and production environments. So make sure you update your device token while testing on different environments.</p></li>
+<li><p>the APN urls are different for different environments<br>ssl://gateway.sandbox.push.apple.com:2195<br>ssl://gateway.push.apple.com:2195</p></li>
+<li><p>Make sure you are using proper certificates for different environments.</p></li>
+</ol>
+
+<p>I hope it helps. <img src="./slight_smile.png" title=":slight_smile:" class="emoji" alt=":slight_smile:"></p>
+
+      </div>
+    </article>
+    <article class="post" id="post-19536">
+      <a title="June 14, 2016 10:18am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/54">14 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/jhtang" target="_blank"><img src="./9600_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/jhtang" target="_blank" class="">jhtang</a>
+        </h3>
+        <p>Thank you very much for the tips. I realized that the device id could keep changing in either dev or prod environment. What i did is saving the device id in database. Since my app has the log in page, i even save the user id accompanied with the device id. So far everything works perfectly.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-19687">
+      <a title="June 16, 2016  5:10am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/56">16 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/baterobui" target="_blank"><img src="./34515_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/baterobui" target="_blank" class="new-user">baterobui</a>
+        </h3>
+        <p>Hi Jack,<br>    Could you show me how to change push notification pop-up?</p>
+
+<p>My app say: "My App" would like to send you notificatons?<br>Can i change it to: "My another App" would like to send you notifications?</p>
+
+<p>Thanks,</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-19716">
+      <a title="June 16, 2016  2:59pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/57">16 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/neobie" target="_blank"><img src="./34548_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/neobie" target="_blank" class="new-user">neobie</a>
+        </h3>
+        <p>Thank you for tutorial Jack.<br>I notice I can use whatever passphrase to send the push notification using the PEM file. How come?<br>openssl pkcs12 -in WenderCastPush.p12 -out WenderCastPush.pem -nodes -clcerts</p>
+
+<p>Another question: How do I determine the device token is for sandbox or production ?</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-19740">
+      <a title="June 16, 2016 10:30pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/58">16 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/rohit123" target="_blank"><img src="./34635_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/rohit123" target="_blank" class="new-user">rohit<wbr>​123</a>
+        </h3>
+        <p>I am not getting any notifications using above tutorials can anyone help me out in this?<br>This is really very irritating......................<br>Plc help me............</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-19799">
+      <a title="June 17, 2016 12:28pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/59">17 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/zeenathyousuff" target="_blank"><img src="./34631_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/zeenathyousuff" target="_blank" class="new-user">zeenathyousuff</a>
+        </h3>
+        <p>I have followed every steps explained in this tutorial starting from creating a certificate  enabling push Notification and also creating the provisioning profile and exported the certificate to. p12 and also converted it to .pem running the commands  and I have also put all the methods into Appdelegate and After running the app i get the device token which i have passed to the php file , when i run the php code and push a message, it shows Notification sent and Message Successfully Delivered but i am not getting any notification in my device﻿</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-20095">
+      <a title="June 21, 2016  8:02pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/60">21 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/applegg" target="_blank"><img src="./36523_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/applegg" target="_blank" class="new-user">applegg</a>
+        </h3>
+        <p>I've been trying to do this on a Mac in Objective C, following your code and also looking at Apple's PushyMac example. So far I haven't seen the initial request come up to allow notifications. Any particular magic needed here?</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-20190">
+      <a title="June 22, 2016 11:36am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/61">22 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/rothausen" target="_blank"><img src="./34900_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/rothausen" target="_blank" class="">rothausen</a>
+        </h3>
+        <p>Hi Jack</p>
+
+<p>On the first picture in your article the computer is holding number two, presumably two push messages has been send to the app. But how do we control that the correct number is displayed. On our server we could handle it by getting a receipt from the app when a push mesage is read and then when next psuh message is send we update badge number accordingly. However I would prefer a more simple solution where the device OS takes care of this by letting our server send something like: badgenumber=+1. Is this second and more simple solution possible?</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-20551">
+      <a title="June 27, 2016  9:38am" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/62">27 Jun</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/tobitech" target="_blank"><img src="./35511_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/tobitech" target="_blank" class="new-user">tobitech</a>
+        </h3>
+        <p>Please Can I get the Objective-C version of this tutorial or the previous versions of the article</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-21202">
+      <a title="July  5, 2016  2:51pm" class="post-date" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/63"> 5 Jul</a>
+
+      <div class="author">
+        <a href="https://forums.raywenderlich.com/users/mikekh" target="_blank"><img src="./36308_1.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://forums.raywenderlich.com/users/mikekh" target="_blank" class="new-user">mikekh</a>
+        </h3>
+        <p>Hi Jack<br>Nice tutorial! how can i push notifications from an online website of mine?</p>
+
+      </div>
+    </article>
+
+    <footer class="clearfix">
+      <a target="_blank" href="https://forums.raywenderlich.com/"><img class="logo" src="./d0342684bc0d4ca22fe893a3af6083387ed8f474.png" alt="D0342684bc0d4ca22fe893a3af6083387ed8f474"></a>
+      <a class="button" target="_blank" href="https://forums.raywenderlich.com/t/push-notifications-tutorial-getting-started/10056/63">Continue Discussion</a>
+    </footer>
+    <div class="clearfix"></div>
+
+
+  
+
+</body></html>

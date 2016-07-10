@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://parse.com/tutorials/push-notifications -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" src="https://connect.facebook.net/en_US/fbds.js"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-56BZ4D"></script><script type="text/javascript" async="" src="https://tag.perfectaudience.com/serve/52373e831aa4c02794000069.js"></script><script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script>
+    <title>iOS Push Notifications | Parse</title>
+    <link href="./iOS Push Notifications _ Parse_files/css" rel="stylesheet" type="text/css">
+    <link href="./iOS Push Notifications _ Parse_files/css(1)" rel="stylesheet" type="text/css">
+
+
+        <link rel="apple-touch-icon" sizes="57x57" href="https://parse.com/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="https://parse.com/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="https://parse.com/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="https://parse.com/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="https://parse.com/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="https://parse.com/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="https://parse.com/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="https://parse.com/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="https://parse.com/apple-touch-icon-180x180.png">
+        <meta name="apple-mobile-web-app-title" content="Parse">
+        <link rel="icon" type="image/png" href="https://parse.com/favicon-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="https://parse.com/favicon-160x160.png" sizes="160x160">
+        <link rel="icon" type="image/png" href="https://parse.com/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="https://parse.com/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="https://parse.com/favicon-32x32.png" sizes="32x32">
+        <meta name="msapplication-TileColor" content="#5298fc">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <meta name="application-name" content="Parse">
+
+    <link href="./iOS Push Notifications _ Parse_files/main.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="./iOS Push Notifications _ Parse_files/print.css" media="print" rel="stylesheet" type="text/css">
+    <!--[if lt IE 8]>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/ie7.css" />
+    <![endif]-->
+    <!--[if IE 8]>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/ie8.css" />
+    <![endif]-->
+    <!--[if lt IE 10]>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/ie89.css" />
+    <![endif]-->
+    <script>if(Function('/*@cc_on return document.documentMode===10@*/')()){document.documentElement.className+=' ie10';}</script>
+
+    <script src="./iOS Push Notifications _ Parse_files/main.js" type="text/javascript"></script><style type="text/css"></style>
+
+    <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="z8K/Nq2ZdprVmosMjKahEGFRVdBrjRK9tTR8PG1WG+w=">
+    <meta name="description" content="Focus on creating unique &amp; engaging apps on any platform. We take care of everything else your app needs, from the core of your app to analytics and push notifications.">
+    <meta name="keywords" content="backend, mobile, development, server, code">
+    <meta property="fb:app_id" content="361736430535656">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Parse">
+    <meta property="og:image" content="http://parse.com/images/og/default.jpg">
+    <meta property="og:description" content="Focus on creating unique &amp; engaging apps on any platform. We take care of everything else your app needs, from the core of your app to analytics and push notifications.">
+    <meta property="og:url" content="https://parse.com/tutorials/push-notifications">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+<link rel="stylesheet" href="blob:https%3A//parse.com/b8fa8447-6731-405b-a036-2a9eedb5f857"><style type="text/css">.react-spinner{position:relative;width:32px;height:32px;top:50%;left:50%}.react-spinner_bar{-webkit-animation:react-spinner_spin 1.2s linear infinite;animation:react-spinner_spin 1.2s linear infinite;border-radius:5px;background-color:#fff;position:absolute;width:20%;height:7.8%;top:-3.9%;left:-10%}@keyframes react-spinner_spin{0%{opacity:1}to{opacity:.15}}@-webkit-keyframes react-spinner_spin{0%{opacity:1}to{opacity:.15}}</style><link rel="stylesheet" href="blob:https%3A//parse.com/d254043f-bf29-4d52-b0e7-53ac3378cc31"><link rel="stylesheet" href="blob:https%3A//parse.com/e4f0aef6-a834-4d71-998f-67933c3eb6b8"><link rel="stylesheet" href="blob:https%3A//parse.com/cc939e2d-c19a-4129-af2c-ddc37d84f8d9"><link rel="stylesheet" href="blob:https%3A//parse.com/05e4dbfb-1310-4957-85bf-08a785710eab"><link rel="stylesheet" href="blob:https%3A//parse.com/6a3012ca-9a46-4d3a-9c4e-66e4635ed7a3"><link rel="stylesheet" href="blob:https%3A//parse.com/556f407f-da47-4c9b-8b80-a1a1c3464a6c"><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-demo-backdrop{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(99,112,122,.7)}.ot-engage-demo-tooltip{z-index:100000;position:absolute;box-sizing:border-box;width:200px;padding:15px;background:#e8e8e8;border-radius:2px;color:#63707a;text-align:center;font-size:14px;font-family:Roboto,Helvetica,sans-serif!important}.ot-engage-demo-tooltip span.ot-engage-close-demo-tooltip{position:absolute;top:-10px;left:-10px;cursor:pointer;display:block;width:20px;height:20px;border-radius:50%;background:#63707a;color:#fff;font-family:Roboto,Helvetica,sans-serif!important}.ot-engage-demo-tooltip a{display:block;text-align:right;margin-top:5px;color:#5abc4f!important}.ot-engage-demo-tooltip .ot-engage-demo-tooltip-header,.ot-engage-demo-tooltip a{font-family:Roboto,Helvetica,sans-serif!important;font-weight:400!important;text-transform:uppercase!important}.ot-engage-demo-tooltip .ot-engage-demo-tooltip-header{margin:5px 0 15px}.ot-engage-demo-tooltip .ot-engage-demo-tooltip-content{font-family:Roboto,Helvetica,sans-serif!important;font-weight:300!important}.ot-engage-demo-tooltip:after{display:block;content:'';width:0;height:0;border-style:solid}.ot-engage-demo-tooltip.bottom-chevron:after{left:94px}.ot-engage-demo-tooltip.bottom-chevron:after,.ot-engage-demo-tooltip.bottom-left-chevron:after{position:absolute;bottom:-7px;border-width:7px 6.5px 0;border-color:#e8e8e8 transparent transparent}.ot-engage-demo-tooltip.bottom-left-chevron:after{left:33px}.ot-engage-demo-tooltip.top-chevron:after{left:94px}.ot-engage-demo-tooltip.top-chevron:after,.ot-engage-demo-tooltip.top-right-chevron:after{position:absolute;top:-7px;border-width:0 6.5px 7px;border-color:transparent transparent #e8e8e8}.ot-engage-demo-tooltip.top-right-chevron:after{right:33px}@webkit-keyframes bob{0%{transform:translateY(-8px);-webkit-transform:translateY(-8px)}50%{transform:translateY(-4px);-webkit-transform:translateY(-4px)}to{transform:translateY(-8px);-webkit-transform:translateY(-8px)}}@keyframes bob{0%{transform:translateY(-8px);-webkit-transform:translateY(-8px)}50%{transform:translateY(-4px);-webkit-transform:translateY(-4px)}to{transform:translateY(-8px);-webkit-transform:translateY(-8px)}}.ot-engage-demo-tooltip{animation-name:bob,bob;-webkit-animation-name:bob,bob;animation-duration:.5s,1.9s;-webkit-animation-duration:.5s,1.9s;animation-delay:0s,.3s;-webkit-animation-delay:0s,.3s;animation-timing-function:ease-out,ease-in-out;-webkit-animation-timing-function:ease-out,ease-in-out;animation-iteration-count:1,infinite;-webkit-animation-iteration-count:1,infinite;animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards;animation-direction:normal,alternate;-webkit-animation-direction:normal,alternate}</style><style type="text/css">.ot-audio-visualizer{position:relative;display:table;width:45px;height:10px}.ot-audio-visualizer .ot-sound-bar{position:absolute;top:0;bottom:0;width:3px;height:3px;border-radius:50%;margin:auto;transition:all .3s;background:#abb2bc}@keyframes loading-audio{0%{top:0}50%{top:15px}to{top:-15px}}.ot-audio-visualizer .ot-sound-bar:first-child{animation:loading-audio 1.2s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(2){left:7px;animation:loading-audio 1.2s .2s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(3){left:14px;animation:loading-audio 1.2s .4s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(4){left:21px;animation:loading-audio 1.2s .6s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(5){left:28px;animation:loading-audio 1.2s .8s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(6){left:35px;animation:loading-audio 1.2s 1s infinite ease-in-out alternate}.ot-audio-visualizer .ot-sound-bar:nth-child(7){left:42px;animation:loading-audio 1.2s 1.2s infinite ease-in-out alternate}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-recorder-view{z-index:10000;position:fixed;bottom:10px;left:10px;display:flex;width:400px;height:112px;background:url("https://www.opentest.co/assets/img/engage/recorder-shape.svg");background-size:contain;background-repeat:no-repeat}.ot-engage-recorder-view .ot-ffcam-view .ot-engage-recorder-ff-instructions{position:absolute;top:0;display:none;width:105px;height:105px;padding:0 5px}.ot-engage-recorder-view .ot-ffcam-view .ot-engage-recorder-ff-instructions p{position:relative;top:50%;transform:translateY(-50%);margin:0;font-family:Roboto,Helvetica,sans-serif;font-size:12px;text-align:center;color:#fff}.ot-engage-recorder-view .ot-ffcam-view{cursor:pointer;position:relative;top:50%;transform:translateY(-50%);left:3px;width:105px;height:105px;border-radius:50%;background:#abb2bc;-webkit-mask-image:-webkit-radial-gradient(circle,#fff 100%,#000 0)}.ot-engage-recorder-view .ot-ffcam-view.no-stream .ot-engage-recorder-ff-instructions,.ot-engage-recorder-view .ot-ffcam-view:hover .ot-engage-recorder-ff-instructions{display:block}.ot-engage-recorder-view .ot-ffcam-view:hover .ot-engage-recorder-ff-instructions{background:rgba(99,112,122,.75)}.ot-engage-recorder-view .ot-ffcam-view iframe{position:relative;width:150px!important;max-width:none!important;left:-22.5px;border:none}.ot-engage-recorder-view .ot-recorder-question{position:absolute;height:100%;width:260px;left:116px;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px}.ot-engage-recorder-view .ot-recorder-question>span{top:6px;position:absolute;color:#63707a;font-weight:400}.ot-engage-recorder-view .ot-recorder-question>p{margin:28px 0!important;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px;line-height:18px!important;color:#63707a}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls{position:absolute;bottom:5px;right:20px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls a{text-decoration:none;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:400;color:#63707a;transition:color .1s linear}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls a:hover{color:rgba(90,188,79,.9)}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-question-controls a:last-child{margin-left:10px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status{position:absolute;bottom:10px;float:left}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>*{float:left}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>:not(:first-child){margin:0 0 0 10px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>.ot-audio-visualizer{margin-left:22px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status p{font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px;color:#abb2bc;line-height:10px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>span{float:left;display:block;width:10px;height:10px;border-radius:50%;background:red;box-shadow:0 0 4px red;transition:box-shadow 1s linear;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px}.ot-engage-recorder-view .ot-recorder-question .ot-recorder-status>span.pulse{box-shadow:0 0 15px red}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-sentiment-bubble-appear.ot-engage-sentiment-bubble-view{bottom:-15px;opacity:.1;transition:opacity 125ms ease-in,bottom 125ms ease-in}.ot-engage-sentiment-bubble-appear-active.ot-engage-sentiment-bubble-view{bottom:15px;opacity:1}.ot-engage-sentiment-bubble-view{display:flex;justify-content:center;align-items:center;z-index:10000;position:fixed;bottom:15px;left:15px;width:340px;height:45px;background:#abb2bc;box-sizing:content-box;box-shadow:0 4px 15px -3px rgba(0,0,0,.75);-webkit-box-shadow:0 4px 15px -3px rgba(0,0,0,.75);border-radius:22.5px;padding:0 30px;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-weight:300}.ot-engage-sentiment-close{float:left;cursor:pointer;font-size:25px}.ot-engage-sentiment-bubble-view p{float:left;margin:0;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;max-width:260px}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble p{margin-left:15px;max-width:230px}.ot-engage-sentiment-bubble-view span[class*=ot-engage-sentiment-smiley-]{float:left;display:block;width:20px;height:20px;margin-left:10px;background-size:100%}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble span[class*=ot-engage-sentiment-smiley-]{cursor:pointer}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-happy{background:url("https://www.opentest.co/assets/img/engage/sentiment-happy.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-neutral{background:url("https://www.opentest.co/assets/img/engage/sentiment-neutral.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-sad{background:url("https://www.opentest.co/assets/img/engage/sentiment-sad.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-powered-by{position:absolute;left:30px;bottom:-16px;color:#fff;font-size:10px;font-weight:300;font-family:Roboto,Helvetica,sans-serif}.ot-engage-sentiment-bubble-view .ot-engage-powered-by span{font-weight:400}.ot-modal-view-container{z-index:10000;position:fixed;left:37.5px;bottom:80px}.ot-modal-view-container .ot-modal-view{position:relative;height:185px;width:340px;border:2px solid #e8e8e8;border-radius:2px;background:#fff;font-family:Roboto,Helvetica,sans-serif;color:#63707a}.ot-modal-view-container .ot-modal-view:after,.ot-modal-view-container .ot-modal-view:before{position:absolute;display:block;content:'';width:0;height:0;border-style:solid}.ot-modal-view-container .ot-modal-view:before{border-width:13.3px 12px 0;border-color:#e8e8e8 transparent transparent;bottom:-13px;right:11px}.ot-modal-view-container .ot-modal-view:after{border-width:9.7px 8.5px 0;border-color:#fff transparent transparent;bottom:-9px;right:15px}.ot-modal-view .ot-modal-close-icon{cursor:pointer;display:block;position:absolute;top:5px;right:10px;font-size:24px;font-weight:300}.ot-modal-view .ot-modal-contents{padding:10px 20px;height:100%;box-sizing:border-box}.ot-modal-view-container .ot-modal-contents.ot-modal-confetti-bg{background:url("https://www.opentest.co/assets/img/engage/confetti-bg-dark.png");background-size:240%}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-button{cursor:pointer;display:block;width:auto!important;min-width:200px!important;height:60px;margin:0;padding:0 25px!important;border-radius:2px!important;border:1px solid #5abc4f;background:#fff;line-height:60px!important;font-family:Roboto,Helvetica,sans-serif!important;font-size:14px!important;font-weight:400!important;text-transform:uppercase!important;text-align:center!important}.ot-button-green{background:#5abc4f!important;color:#fff!important;transition:background .1s linear}.ot-button-green:hover{background:rgba(90,188,79,.9)!important}.ot-button-white{background:#fff!important;color:#5abc4f!important;transition:background .1s linear}.ot-button-white:hover{background:rgba(90,188,79,.1)!important}.ot-button:disabled{background:#63707a;border:1px solid #63707a;color:#fff}.ot-feedback-complete-modal-view{display:flex;flex-direction:column;justify-content:center;box-sizing:border-box;height:100%;color:#63707a;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;text-align:center}.ot-feedback-complete-modal-view p{margin:0}.ot-feedback-complete-modal-view p:first-child{margin-top:15px;margin-bottom:25px}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-button{cursor:pointer;display:block;width:auto!important;min-width:200px!important;height:60px;margin:0;padding:0 25px!important;border-radius:2px!important;border:1px solid #5abc4f;background:#fff;line-height:60px!important;font-family:Roboto,Helvetica,sans-serif!important;font-size:14px!important;font-weight:400!important;text-transform:uppercase!important;text-align:center!important}.ot-button-green{background:#5abc4f!important;color:#fff!important;transition:background .1s linear}.ot-button-green:hover{background:rgba(90,188,79,.9)!important}.ot-button-white{background:#fff!important;color:#5abc4f!important;transition:background .1s linear}.ot-button-white:hover{background:rgba(90,188,79,.1)!important}.ot-button:disabled{background:#63707a;border:1px solid #63707a;color:#fff}.ot-first-recording-view{z-index:100000;position:fixed;top:0;left:0;right:0;bottom:0;display:block;background:rgba(99,112,122,.8);width:100%;height:100%;padding:0;margin:0}.ot-first-recording-view .ot-button{position:relative;top:50%;transform:translateY(-50);display:block;margin:0 auto;min-width:300px!important;height:90px;font-size:20px!important}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-mic-access-failed-modal-view{font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;text-align:center}.ot-mic-access-failed-modal-view img{display:block;margin:25px auto 0;width:280px}.ot-mic-access-failed-modal-view .ot-after-mic-access-directions{line-height:25px;margin-top:10px}.ot-mic-access-failed-modal-view .ot-icon{position:relative;top:5px;display:inline-block;width:25px;height:25px;margin:0 5px;background-image:url("https://www.opentest.co/assets/img/logo-sq-dark.png");background-size:contain}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-sentiment-bubble-appear.ot-engage-sentiment-bubble-view{bottom:-15px;opacity:.1;transition:opacity 125ms ease-in,bottom 125ms ease-in}.ot-engage-sentiment-bubble-appear-active.ot-engage-sentiment-bubble-view{bottom:15px;opacity:1}.ot-engage-sentiment-bubble-view{display:flex;justify-content:center;align-items:center;z-index:10000;position:fixed;bottom:15px;left:15px;width:340px;height:45px;background:#abb2bc;box-sizing:content-box;box-shadow:0 4px 15px -3px rgba(0,0,0,.75);-webkit-box-shadow:0 4px 15px -3px rgba(0,0,0,.75);border-radius:22.5px;padding:0 30px;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-weight:300}.ot-engage-sentiment-close{float:left;cursor:pointer;font-size:25px}.ot-engage-sentiment-bubble-view p{float:left;margin:0;color:#fff;font-family:Roboto,Helvetica,sans-serif;font-size:14px;font-weight:300;max-width:260px}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble p{margin-left:15px;max-width:230px}.ot-engage-sentiment-bubble-view span[class*=ot-engage-sentiment-smiley-]{float:left;display:block;width:20px;height:20px;margin-left:10px;background-size:100%}.ot-engage-sentiment-bubble-view.ot-sentiment-unselected-bubble span[class*=ot-engage-sentiment-smiley-]{cursor:pointer}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-happy{background:url("https://www.opentest.co/assets/img/engage/sentiment-happy.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-neutral{background:url("https://www.opentest.co/assets/img/engage/sentiment-neutral.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-sentiment-smiley-sad{background:url("https://www.opentest.co/assets/img/engage/sentiment-sad.svg");background-repeat:no-repeat}.ot-engage-sentiment-bubble-view .ot-engage-powered-by{position:absolute;left:30px;bottom:-16px;color:#fff;font-size:10px;font-weight:300;font-family:Roboto,Helvetica,sans-serif}.ot-engage-sentiment-bubble-view .ot-engage-powered-by span{font-weight:400}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);</style><style type="text/css">.ot-engage-standalone-recorder-view{z-index:101000;position:fixed;bottom:10px;left:10px;display:flex;width:140px;height:140px;background:#fff;border-radius:50%;box-shadow:0 4px 15px -3px rgba(0,0,0,.75);-webkit-box-shadow:0 4px 15px -3px rgba(0,0,0,.75)}.ot-engage-standalone-recorder-view .ot-ffcam-view .ot-engage-standalone-recorder-ff-instructions{position:absolute;top:0;display:none;width:135px;height:135px}.ot-engage-standalone-recorder-view .ot-ffcam-view .ot-engage-standalone-recorder-ff-instructions p{position:relative;top:50%;transform:translateY(-50%);margin:0;font-family:Roboto,Helvetica,sans-serif;font-size:12px;text-align:center;color:#fff}.ot-engage-standalone-recorder-view .ot-ffcam-view{cursor:pointer;position:relative;top:50%;transform:translateY(-50%);margin:0 auto;width:135px;height:135px;border-radius:50%;background:#abb2bc;-webkit-mask-image:-webkit-radial-gradient(circle,#fff 100%,#000 0)}.ot-engage-standalone-recorder-view .ot-ffcam-view.no-stream .ot-engage-standalone-recorder-ff-instructions,.ot-engage-standalone-recorder-view .ot-ffcam-view:hover .ot-engage-standalone-recorder-ff-instructions{display:block}.ot-engage-standalone-recorder-view .ot-ffcam-view:hover .ot-engage-standalone-recorder-ff-instructions{background:rgba(99,112,122,.75)}.ot-engage-standalone-recorder-view .ot-ffcam-view iframe{position:relative;width:180px!important;max-width:none!important;top:-2px;left:-22.5px}.ot-engage-standalone-recorder-view .ot-recorder-question{position:absolute;height:100%;width:230px;left:116px;font-family:Roboto,Helvetica,sans-serif;font-weight:300;font-size:14px}</style></head>
+
+
+    <body class="p_tutorials p_tutorials_show "><div id="StayFocusd-infobar" style="display: none; top: 389px;">
+    <img src="chrome-extension://laankejkbhbdhmipfmgcngdelahlfoji/common/img/eye_19x19_red.png">
+    <span id="StayFocusd-infobar-msg"></span>
+    <span id="StayFocusd-infobar-links">
+        <a id="StayFocusd-infobar-never-show">hide forever</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a id="StayFocusd-infobar-hide">hide once</a>
+    </span>
+</div>
+        
+
+        <div id="header">
+  <div class="inner">
+      <div class="login_container logged_out">
+    <iframe class="account_iframe" scrolling="no" src="./iOS Push Notifications _ Parse_files/dashboard_link.html"></iframe>
+  </div>
+
+
+    <a class="logo" href="https://www.parse.com/"><img width="100" alt="Parse" src="./iOS Push Notifications _ Parse_files/parse-logo.png"></a>
+
+    <ul class="main_menu">
+      <li><a href="https://github.com/ParsePlatform/Parse-Server"><span class="menu_inner">Parse Server</span></a></li>
+      <li><a href="https://parseplatform.github.io/"><span class="menu_inner">Open Source</span></a></li>
+      <li><a href="https://parse.com/docs"><span class="menu_inner">Docs</span></a></li>
+      <li><a href="https://parse.com/help"><span class="menu_inner">Help</span></a></li>
+      <li><a href="http://blog.parse.com/"><span class="menu_inner">Blog</span></a></li>
+    </ul>
+    <div class="clear"></div>
+  </div>
+</div>
+
+
+        <div class="container">
+            
+            
+            
+<div class="top_section">
+  
+  <h1>
+      <div class="icon"><img alt="Icon_push_ios" src="./iOS Push Notifications _ Parse_files/icon_push_ios.png"><br></div>
+    iOS Push Notifications
+  </h1>
+
+    <h3>
+      <p>This tutorial provides you with a step-by-step guide to configuring your iOS application for push.</p>
+
+    </h3>
+
+  <div class="tags">
+      <div>iOS</div>
+      <div> PFPush</div>
+      <div> Push Notifications</div>
+      <div> Screencast</div>
+  </div>
+
+    <div class="actions">
+      <p>Download code for this tutorial:</p>
+        <a href="https://github.com/ParsePlatform/PushTutorial/zipball/master" class="getAppButton">.zip File</a>
+
+        <a href="https://github.com/ParsePlatform/PushTutorial" class="getCodeButton">GitHub</a>
+    </div>
+</div>
+
+<div class="body">
+
+    <p>Using push notifications is a great way to add real-time messaging to your application. It allows you to stay in touch with your users and makes it possible for your users to communicate with each other. This tutorial will guide you through all the necessary steps required to add this feature to your Parse application.</p>
+
+<p>We will begin on the Apple Developer website to create an SSL certificate associated to an App ID and a provisioning profile. Next we'll see how to configure a Parse app on the Parse website, and finally, we'll take a look at creating a push-enabled iOS application and sending notifications to users.</p>
+
+<p>Before you begin, remember that push notifications are not available in the iOS Simulator. You will need an iOS device, as well as an Apple Developer license to complete this tutorial.</p>
+
+<h2>Troubleshooting</h2>
+
+<p>If you're here because you are having trouble setting up push notifications, check out our <a href="https://parse.com/docs/ios/guide#push-notifications-troubleshooting">troubleshooting guide</a>.</p>
+
+<h1>1. Creating the SSL certificate</h1>
+
+<p>The first step is to create an App ID and the associated SSL certificate on the Apple Developer website. This certificate will allow the Parse server to send push notifications to the application identified by the App ID.</p>
+
+<h2>1.1. Generating a Certificate Request</h2>
+
+<p>To begin, we'll need a certificate signing request file. This will be used to authenticate the creation of the SSL certificate.</p>
+
+<ol>
+<li><p>Launch the Keychain Access application on your Mac.</p></li>
+<li><p>Select the menu item Keychain Access &gt; Certificate Assistant &gt; Request a Certificate From a Certificate Authority…</p></li>
+<li><p>Enter your email address and name.</p></li>
+<li><p>Select "Saved to disk" to download the .certSigningRequest file to your desktop.</p></li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-09 AM.jpg" alt="Certificate Signing Request"></center>
+
+
+<h2>1.2. Creating an App ID</h2>
+
+<p>Every iOS application installed on your developer device needs an App ID. As a convention, these are represented by reversed addresses (ex. com.example.MyParsePushApp). For this push app, you can use an App ID you've already created, but make sure it does not contain a wildcard character ("*"). The following instructions cover the creation of a new App ID.</p>
+
+<ol>
+<li><p>Navigate to the <a href="https://developer.apple.com/membercenter/index.action">Apple Developer Member Center</a> website, and select <a href="https://developer.apple.com/account/overview.action">Certificates, Identifiers &amp; Profiles</a>.</p></li>
+<li><p>Select <a href="https://developer.apple.com/account/ios/identifiers/bundle/bundleList.action">Identifiers</a> from the iOS Apps section.</p></li>
+<li><p>You will see a list of your iOS App IDs. Select the + button to register a new App Id.</p></li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-15 AM.jpg" alt="Register new iOS App ID"></center>
+
+
+<ol>
+<li>Enter a name for your new App ID, then make sure to select the checkbox next to Push Notifications under App Services.</li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-19 AM.jpg" alt="Enable Push Notifications under App Services"></center>
+
+
+<ol>
+<li><p>Choose an App ID Prefix. The default selection should be correct in most cases.</p></li>
+<li><p>Under App ID Suffix, select Explicit App ID. Enter your iOS app's Bundle ID. This string should match the Bundle Identifier in your iOS app's Info.plist.</p></li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-20 AM.jpg" alt="Explicit App ID"></center>
+
+
+<ol>
+<li>Select "Continue" and make sure that all the values were entered correctly. Push Notifications should be enabled, and the Identifier field should match your app's Bundle Identifier (plus App ID Prefix). Select "Submit" to finalize the registration of your new App ID.</li>
+</ol>
+
+
+<h2>1.3. Configuring your App ID for Development Push Notifications</h2>
+
+<p>Now that you've created an App ID (or chosen an existing Explicit App ID), it's time to configure the App ID for Push Notifications.</p>
+
+<ol>
+<li>Select your newly created App ID from the list of iOS App IDs, then select "Settings".</li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-28 AM.jpg" alt="Select new App ID"></center>
+
+
+<ol>
+<li>Scroll down to the Push Notifications section. Here you will be able to create both a Development SSL Certificate, as well as a Production SSL Certificate. Start by selecting "Create Certificate" under "Development SSL Certificate".</li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-30 AM.jpg" alt="Create Certificate"></center>
+
+
+<ol>
+<li><p>The next screen will show instructions for creating a Certificate Signing Request (CSR). This is the same .certSigningRequest file you created earlier in Section 1.1. Select "Continue", then select "Choose File..." and locate the .certSigningRequest you created in Section 1.1.</p></li>
+<li><p>Select "Generate". Once the certificate is ready, select "Done" and download the generated SSL certificate from the "iOS App ID Settings" screen.</p></li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-38 AM.jpg" alt="Download SSL Certificate"></center>
+
+
+<ol>
+<li><p>Double click on the downloaded SSL certificate to install it in your Keychain.</p></li>
+<li><p>In Keychain Access, under "My Certificates", find the certificate you just added. It should be called "Apple Development IOS Push Services: <yourbundleidentifier>".</yourbundleidentifier></p></li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-43 AM.jpg" alt="Export P12 Certificate"></center>
+
+
+<ol>
+<li>Right-click on it, select "Export Apple Development IOS Push Services:...", and save it as a .p12 file. You will be prompted to enter a password which will be used to protect the exported certificate. <em>Do not enter an export password when prompted!</em> Note that you might have to enter your OS X password to allow Keychain Access to export the certificate from your keychain.</li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 10-45 AM.jpg" alt="Export as .p12"></center>
+
+
+<p>If the Personal Information Exchange (.p12) option is grayed out in the export sheet, make sure "My Certificates" is selected in Keychain Access. If that does not help, double check that your certificate appears under the <strong>login</strong> keychain. You can drag and drop it into <strong>login</strong> if needed.</p>
+
+<p>Note that you've just enabled Push Notification for your app in development mode. Prior to releasing your application on the App Store, you will need to repeat steps 1 through 7 of this section, but select "Production Push SSL Certificate" in step 2 instead, as covered in Section 7.</p>
+
+<h1>2. Creating the Provisioning Profile</h1>
+
+<p>A Provisioning Profile authenticates your device to run the app you are developing. Whether you have created a new App ID or modified an existing one, you will need to regenerate your provisioning profile and install it. If you have trouble using an existing profile, try removing the App ID and setting it back. For this tutorial, we'll create a new one.</p>
+
+<ol>
+<li><p>Navigate to the <a href="https://developer.apple.com/membercenter/index.action">Apple Developer Member Center</a> website, and select <a href="https://developer.apple.com/account/overview.action">Certificates, Identifiers &amp; Profiles</a>.</p></li>
+<li><p>Select <a href="https://developer.apple.com/account/ios/profile/profileList.action">Provisioning Profiles</a> from the iOS Apps section.</p></li>
+<li><p>Select the + button to create a new iOS Provisioning Profile.</p></li>
+<li><p>Choose "iOS App Development" as your provisioning profile type then select "Continue". We will create Ad Hoc and App Store profiles later.</p></li>
+<li><p>Choose the App ID you created in Section 1 from the drop down then select "Continue".</p></li>
+<li><p>Make sure to select your iOS Development certificate in the next screen, then select "Continue".</p></li>
+<li><p>You will be asked to select which devices will be included in the provisioning profile. Select "Continue" after selecting the devices you will be testing with.</p></li>
+<li><p>Choose a name for this provisioning profile, such as "My Parse Push App Development Profile", then select "Generate".</p></li>
+<li><p>Download the generated provisioning profile from the next screen by selecting the "Download" button.</p></li>
+<li><p>Install the profile by double-clicking on the downloaded file.</p></li>
+</ol>
+
+
+<p>This should open Xcode's Organizer in the Devices pane. Your new provisioning profile should appear in the Provisioning Profiles section of your Library. Make sure that the status for this profile is "Valid profile". If the profile is invalid, make sure that your developer certificate is installed in your Keychain.</p>
+
+<p>Note that prior to submitting your app to the App Store, you will need to test push notifications in production. This will be covered in Section 7.</p>
+
+<h1>3. Configuring the Parse App</h1>
+
+<p>To use Push Notifications with Parse, you will need to enable this feature in your Parse app and upload the Push SSL certificate you created above.</p>
+
+<ol>
+<li><p>Navigate to your Parse app on the Parse Dashboard, and select the "Settings" tab.</p></li>
+<li><p>Select "Push" from the left-hand side menu and select "Select your certificate" under the "Apple Push Certificates" header. and locate the .p12 certificate you exported from your Keychain earlier.</p></li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/tfss-1af04ef7-0c70-4788-a383-1fb75ccd53e8-image.jpg" alt="Push Settings"></center>
+
+
+<p>By default, push notifications can only be sent from your Parse dashboard, from Cloud Code, or through the REST API. If you want your users to be able to send push notifications from the client SDKs, you will need to toggle the "Client push enabled?" option to "on" under the "Push Notification Settings" header. This is useful for applications like chat clients, where users need to send push messages. For this tutorial, select toggle the option to "on".</p>
+
+<h1>4. Configuring a Push Enabled iOS Application</h1>
+
+<p>We are finally ready to create our iOS application! Let's start by configuring the Xcode project settings. We'll need to make sure that both the App ID and the provisioning profile are set.</p>
+
+<ol>
+<li>In the Info.plist file under the Supporting Files folder, modify the Bundle Identifier field to match your App ID's Bundle Identifier (ex. com.example.MyParsePushApp).</li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 11-44 AM.jpg" alt="Info.plist configuration"></center>
+
+
+<ol>
+<li><p>Select your project file in the left-hand menu. Under Project, navigate to "Build Settings", and find (or search for) the "Code Signing Identity" field.</p></li>
+<li><p>Set all values under this heading to match the provisioning profile installed earlier (ex. "My Parse Push App Development Profile").</p></li>
+<li><p>On the left-hand side, select your project's name under "Targets". Again, navigate to "Build Settings" and find the "Code Signing Identity" field. Ensure that all values here also match the new provisioning profile.</p></li>
+</ol>
+
+
+<h1>5. Adding Code for a Push Enabled iOS Application</h1>
+
+<p>We are now ready to start programming. We need to make a few modification to the app delegate in order to receive push notifications.</p>
+
+<p>To register the current device for push, call the method <code>[application registerForRemoteNotifications]</code> in the app delegate's <code>-application:didFinishLaunchingWithOptions:</code> method.</p>
+
+<div class="code parseTheme"><div><div id="highlighter_376069" class="syntaxhighlighter nogutter syntaxhighlighter objective-c"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="objective-c plain">- (</code><code class="objective-c color1">BOOL</code><code class="objective-c plain">)application:(</code><code class="objective-c keywords">UIApplication</code> <code class="objective-c plain">*)application</code> <code class="objective-c variable">didFinishLaunchingWithOptions</code><code class="objective-c plain">:(</code><code class="objective-c keywords">NSDictionary</code> <code class="objective-c plain">*)launchOptions {</code></div><div class="line number2 index1 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">...</code></div><div class="line number3 index2 alt2"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |</code></div><div class="line number4 index3 alt1"><code class="objective-c spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="objective-c plain">UIUserNotificationTypeBadge |</code></div><div class="line number5 index4 alt2"><code class="objective-c spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="objective-c plain">UIUserNotificationTypeSound);</code></div><div class="line number6 index5 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c keywords">UIUserNotificationSettings</code> <code class="objective-c plain">*settings = [UIUserNotificationSettings</code> <code class="objective-c variable">settingsForTypes</code><code class="objective-c plain">:userNotificationTypes</code></div><div class="line number7 index6 alt2"><code class="objective-c spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="objective-c variable">categories</code><code class="objective-c color1">:nil</code><code class="objective-c plain">];</code></div><div class="line number8 index7 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">[application</code> <code class="objective-c variable">registerUserNotificationSettings</code><code class="objective-c plain">:settings];</code></div><div class="line number9 index8 alt2"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">[application</code> <code class="objective-c variable">registerForRemoteNotifications</code><code class="objective-c plain">];</code></div><div class="line number10 index9 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">...</code></div><div class="line number11 index10 alt2"><code class="objective-c plain">}</code></div></div></td></tr></tbody></table></div></div></div>
+
+
+<p>If the registration is successful, the callback method <code>-application:didRegisterForRemoteNotificationsWithDeviceToken:</code> in the application delegate will be executed. We will need to implement this method and use it to inform Parse about this new device.</p>
+
+<div class="code parseTheme"><div><div id="highlighter_275608" class="syntaxhighlighter nogutter syntaxhighlighter objective-c"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="objective-c plain">- (</code><code class="objective-c color1">void</code><code class="objective-c plain">)application:(</code><code class="objective-c keywords">UIApplication</code> <code class="objective-c plain">*)application</code> <code class="objective-c variable">didRegisterForRemoteNotificationsWithDeviceToken</code><code class="objective-c plain">:(</code><code class="objective-c keywords">NSData</code> <code class="objective-c plain">*)deviceToken {</code></div><div class="line number2 index1 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c comments">// Store the deviceToken in the current installation and save it to Parse.</code></div><div class="line number3 index2 alt2"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c keywords">PFInstallation</code> <code class="objective-c plain">*currentInstallation = [PFInstallation</code> <code class="objective-c variable">currentInstallation</code><code class="objective-c plain">];</code></div><div class="line number4 index3 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">[currentInstallation</code> <code class="objective-c variable">setDeviceTokenFromData</code><code class="objective-c plain">:deviceToken];</code></div><div class="line number5 index4 alt2"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">currentInstallation</code><code class="objective-c constants">.channels</code> <code class="objective-c plain">= @[ </code><code class="objective-c string">@"global"</code> <code class="objective-c plain">];</code></div><div class="line number6 index5 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">[currentInstallation</code> <code class="objective-c variable">saveInBackground</code><code class="objective-c plain">];</code></div><div class="line number7 index6 alt2"><code class="objective-c plain">}</code></div></div></td></tr></tbody></table></div></div></div>
+
+
+<p>When a push notification is received while the application is not in the foreground, it is displayed in the iOS Notification Center. However, if the notification is received while the app is active, it is up to the app to handle it. To do so, we can implement the <code>[application:didReceiveRemoteNotification]</code> method in the app delegate. In our case, we will simply ask Parse to handle it for us. Parse will create a modal alert and display the push notification's content.</p>
+
+<div class="code parseTheme"><div><div id="highlighter_914570" class="syntaxhighlighter nogutter syntaxhighlighter objective-c"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="objective-c plain">- (</code><code class="objective-c color1">void</code><code class="objective-c plain">)application:(</code><code class="objective-c keywords">UIApplication</code> <code class="objective-c plain">*)application</code> <code class="objective-c variable">didReceiveRemoteNotification</code><code class="objective-c plain">:(</code><code class="objective-c keywords">NSDictionary</code> <code class="objective-c plain">*)userInfo {</code></div><div class="line number2 index1 alt1"><code class="objective-c spaces">&nbsp;&nbsp;</code><code class="objective-c plain">[PFPush</code> <code class="objective-c variable">handlePush</code><code class="objective-c plain">:userInfo];</code></div><div class="line number3 index2 alt2"><code class="objective-c plain">}</code></div></div></td></tr></tbody></table></div></div></div>
+
+
+<p>You should now run your application (on your iOS device) to make sure everything is set up correctly. If it is, the first time you run this app you should see a modal alert requesting permission from the user to send push notifications.</p>
+
+<h1>6. Sending Push Notifications</h1>
+
+<p>Parse allows you to send push notifications from the Parse website, the web API as well as the Parse SDK.</p>
+
+<h2>6.1. Parse website</h2>
+
+<p>Let's start with the Parse website. By navigating to your Parse app and selecting the "Push Notifications" tab, you can use the text box to broadcast a message to "Everyone". Simply enter a message and click send! If you've installed the app on a device, you should see the notification appear within a few seconds.</p>
+
+<h2>6.2. REST API</h2>
+
+<p>You can use the Parse REST API to send push notifications to all iOS devices by sending a POST request. Here is an example of a broadcast notification containing the message "Hello World!" sent using curl. Detailed information about the required format can be found in the <a href="https://parse.com/docs/push_guide#top/REST">REST documentation</a>.</p>
+
+<div class="code parseTheme"><div><div id="highlighter_271510" class="syntaxhighlighter nogutter syntaxhighlighter bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">curl -X POST \</code></div><div class="line number2 index1 alt1"><code class="bash spaces">&nbsp;&nbsp;</code><code class="bash plain">-H </code><code class="bash string">"X-Parse-Application-Id: ${APPLICATION_ID}"</code> <code class="bash plain">\</code></div><div class="line number3 index2 alt2"><code class="bash spaces">&nbsp;&nbsp;</code><code class="bash plain">-H </code><code class="bash string">"X-Parse-REST-API-Key: ${REST_API_KEY}"</code> <code class="bash plain">\</code></div><div class="line number4 index3 alt1"><code class="bash spaces">&nbsp;&nbsp;</code><code class="bash plain">-H </code><code class="bash string">"Content-Type: application/json"</code> <code class="bash plain">\</code></div><div class="line number5 index4 alt2"><code class="bash spaces">&nbsp;&nbsp;</code><code class="bash plain">-d '{</code></div><div class="line number6 index5 alt1"><code class="bash spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="bash string">"where"</code><code class="bash plain">: {</code></div><div class="line number7 index6 alt2"><code class="bash spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="bash string">"deviceType"</code><code class="bash plain">: </code><code class="bash string">"ios"</code></div><div class="line number8 index7 alt1"><code class="bash spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="bash plain">},</code></div><div class="line number9 index8 alt2"><code class="bash spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="bash string">"data"</code><code class="bash plain">: {</code></div><div class="line number10 index9 alt1"><code class="bash spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="bash string">"alert"</code><code class="bash plain">: </code><code class="bash string">"Hello World!"</code></div><div class="line number11 index10 alt2"><code class="bash spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="bash plain">}</code></div><div class="line number12 index11 alt1"><code class="bash spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="bash plain">}' \</code></div><div class="line number13 index12 alt2"><code class="bash spaces">&nbsp;&nbsp;</code><code class="bash plain">https:</code><code class="bash plain">//api</code><code class="bash plain">.parse.com</code><code class="bash plain">/1/push</code></div></div></td></tr></tbody></table></div></div></div>
+
+
+<h2>6.3. From the App</h2>
+
+<p>You can also send push notifications directly from a mobile application. Remember that you need to have enabled this feature in the Parse app's settings tab by selecting "Yes" under the heading "Client push enabled?". There are several methods that can be called to send push notifications. You can consult the full list in the <a href="https://parse.com/docs/ios/api/Classes/PFPush.html">iOS API documentation</a>. Here is an example:</p>
+
+<div class="code parseTheme"><div><div id="highlighter_751793" class="syntaxhighlighter nogutter syntaxhighlighter objective-c"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="objective-c comments">// Create our Installation query</code></div><div class="line number2 index1 alt1"><code class="objective-c keywords">PFQuery</code> <code class="objective-c plain">*pushQuery = [PFInstallation</code> <code class="objective-c variable">query</code><code class="objective-c plain">];</code></div><div class="line number3 index2 alt2"><code class="objective-c plain">[pushQuery</code> <code class="objective-c variable">whereKey</code><code class="objective-c plain">:</code><code class="objective-c string">@"deviceType"</code> <code class="objective-c variable">equalTo</code><code class="objective-c plain">:</code><code class="objective-c string">@"ios"</code><code class="objective-c plain">];</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2"><code class="objective-c comments">// Send push notification to query</code></div><div class="line number6 index5 alt1"><code class="objective-c plain">[PFPush</code> <code class="objective-c variable">sendPushMessageToQueryInBackground</code><code class="objective-c plain">:pushQuery </code></div><div class="line number7 index6 alt2"><code class="objective-c spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="objective-c variable">withMessage</code><code class="objective-c plain">:</code><code class="objective-c string">@"Hello World!"</code><code class="objective-c plain">];</code></div></div></td></tr></tbody></table></div></div></div>
+
+
+<h2>6.4. From Cloud Code</h2>
+
+<p>Finally, you can send pushes automatically from <a href="https://parse.com/docs/cloud_code_guide">Cloud Code</a>. The <code>Parse.Cloud.afterSave</code> method lets us execute arbitrary code after an object is saved successfully. For example, if you wanted to send a push whenever a <code>"Comment"</code> object is saved:</p>
+
+<div class="code parseTheme"><div><div id="highlighter_448229" class="syntaxhighlighter nogutter syntaxhighlighter javascript"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="javascript plain">Parse.Cloud.afterSave(</code><code class="javascript string">"Comment"</code><code class="javascript plain">, </code><code class="javascript keyword bold">function</code><code class="javascript plain">(request) {</code></div><div class="line number2 index1 alt1"><code class="javascript spaces">&nbsp;&nbsp;</code><code class="javascript comments">// Our "Comment" class has a "text" key with the body of the comment itself</code></div><div class="line number3 index2 alt2"><code class="javascript spaces">&nbsp;&nbsp;</code><code class="javascript keyword bold">var</code> <code class="javascript plain">commentText = request.object.get(</code><code class="javascript string">'text'</code><code class="javascript plain">);</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2"><code class="javascript spaces">&nbsp;&nbsp;</code><code class="javascript keyword bold">var</code> <code class="javascript plain">pushQuery = </code><code class="javascript keyword bold">new</code> <code class="javascript plain">Parse.Query(Parse.Installation);</code></div><div class="line number6 index5 alt1"><code class="javascript spaces">&nbsp;&nbsp;</code><code class="javascript plain">pushQuery.equalTo(</code><code class="javascript string">'deviceType'</code><code class="javascript plain">, </code><code class="javascript string">'ios'</code><code class="javascript plain">);</code></div><div class="line number7 index6 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number8 index7 alt1"><code class="javascript spaces">&nbsp;&nbsp;</code><code class="javascript plain">Parse.Push.send({</code></div><div class="line number9 index8 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">where: pushQuery, </code><code class="javascript comments">// Set our Installation query</code></div><div class="line number10 index9 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">data: {</code></div><div class="line number11 index10 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">alert: </code><code class="javascript string">"New comment: "</code> <code class="javascript plain">+ commentText</code></div><div class="line number12 index11 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">}</code></div><div class="line number13 index12 alt2"><code class="javascript spaces">&nbsp;&nbsp;</code><code class="javascript plain">}, {</code></div><div class="line number14 index13 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">success: </code><code class="javascript keyword bold">function</code><code class="javascript plain">() {</code></div><div class="line number15 index14 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript comments">// Push was successful</code></div><div class="line number16 index15 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">},</code></div><div class="line number17 index16 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">error: </code><code class="javascript keyword bold">function</code><code class="javascript plain">(error) {</code></div><div class="line number18 index17 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword bold">throw</code> <code class="javascript string">"Got an error "</code> <code class="javascript plain">+ error.code + </code><code class="javascript string">" : "</code> <code class="javascript plain">+ error.message;</code></div><div class="line number19 index18 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">}</code></div><div class="line number20 index19 alt1"><code class="javascript spaces">&nbsp;&nbsp;</code><code class="javascript plain">});</code></div><div class="line number21 index20 alt2"><code class="javascript plain">});</code></div></div></td></tr></tbody></table></div></div></div>
+
+
+<p>In this tutorial, we've learned how to enable and use push notifications in an iOS application. We began by creating an App ID, generating an associated SSL certificate, and then linking this App ID to a new provisioning profile. Next, we configured the Parse app by uploading the SSL certificate. Afterwards, we created an iOS application and configured it to use the new App ID and provisioning profile. We then implemented a set of delegation methods used to register the app to use push. Finally, we looked at four ways to send push notifications to users: the Parse website, the REST API, the Parse iOS SDK, and Cloud Code.</p>
+
+<p>If you run into any problems, take a look at the "Troubleshooting Tips" section below.</p>
+
+<p>Read on to learn the necessary steps to get your app ready for the App Store.</p>
+
+<h1>7. Preparing for the App Store</h1>
+
+<p>You've configured your app to receive push notifications during development. Prior to submitting your app to the App Store, you will need to configure push notifications for distribution.</p>
+
+<p>There are two types of distribution profiles: Ad Hoc, and App Store. You will need the latter to submit your app to the App Store, however it is good practice to test push notifications using an Ad Hoc profile prior to submitting your app.</p>
+
+<h2>7.1. Configuring your App for Distribution Push Notifications</h2>
+
+<ol>
+<li><p>In Section 1.3., you configured your App ID for Push Notifications in Development. Retrace steps 1 through 7, but select "Production Push SSL Certificate" in step 2 instead.</p></li>
+<li><p>Your App ID should now be configured for both Development and Distribution push notifications. Make sure to download the new Production SSL Certificate from the App ID Settings screen.</p></li>
+</ol>
+
+
+<center><img src="./iOS Push Notifications _ Parse_files/13 12-16 PM.jpg" alt="Configured for Development and Distribution"></center>
+
+
+<ol>
+<li><p>Double click on the downloaded SSL certificate to install it in your keychain. Right-click on it and export it as a .p12 file. Again, don't enter an export password when prompted.</p></li>
+<li><p>Go back to Section 2 and retrace steps 1 through 10, making sure to select "Ad Hoc" under Distribution in Step 4. You should also use a different name in Step 8, such as "My Parse Push App Ad Hoc Profile". This should help you distinguish between development and distribution profiles.</p></li>
+<li><p>Retrace the steps from Section 3, and upload your exported Production .p12 certificate to Parse instead.</p></li>
+<li><p>In Section 4, you configured your app to use a Development provisioning profile. Retrace your steps, but this time choose your new Distribution Ad Hoc provisioning profile instead.</p></li>
+<li><p>Build and run your app on an iOS device. Verify that push notifications are delivered successfully.</p></li>
+</ol>
+
+
+<p>Note that once you have uploaded a production push certificate to Parse, you will only be able to target devices using a distribution provisioning profile. Devices running an app signed with a development provisioning profile will need to install the newly provisioned build again.</p>
+
+<h2>7.2. Configuring your App for App Store Distribution</h2>
+
+<p>You have now confirmed that your app is configured correctly to receive distribution push notifications using an Ad Hoc provisioning profile. Now it's time to submit your app to the App Store.</p>
+
+<ol>
+<li><p>Follow steps 1 through 10 from Section 2, making sure to select "App Store" under Distribution for Step 4. Note that this time around, since you will be submitting your app to the App Store, you can skip Step 7 (selecting test devices).</p></li>
+<li><p>Go through Section 4 again, this time selecting your new App Store Distribution provisioning profile.</p></li>
+<li><p>Build and archive your iOS app, then submit to the App Store.</p></li>
+</ol>
+
+
+<h1>8. Troubleshooting Tips:</h1>
+
+<p>Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. If you run into issues, try some of <a href="https://parse.com/docs/push_guide#troubleshooting/iOS">these troubleshooting tips</a>.</p>
+
+
+</div>
+
+	    
+        </div>
+    
+        		<footer id="site-footer" class="" role="contentinfo">
+
+			<div class="footer-content">
+
+				<div class="quicklinks-group">
+					<h3 class="small-header">Quicklinks</h3>
+					<ul class="quicklinks-list">
+						<li><a href="https://github.com/ParsePlatform/Parse-Server">Parse Server</a></li>
+						<li><a href="https://parseplatform.github.io/">Open Source</a></li>
+						<li><a href="https://parse.com/docs/downloads">Download</a></li>
+						<li><a href="http://blog.parse.com/">Blog</a></li>
+					</ul>
+					<ul class="quicklinks-list">
+						<li><a href="https://parse.com/help">Help</a></li>
+						<li><a href="https://parse.com/docs">Docs</a></li>
+						<li><a href="https://status.parse.com/">Status</a></li>
+						<li><a href="https://parse.com/about/policies">Policies</a></li>
+					</ul>
+				</div>
+
+				<div class="support-socials">
+					<h3 class="small-header">Need Help?</h3>
+					<ul>
+						<li><a href="https://parse.com/docs">Documentation</a></li>
+						<li><a href="https://parse.com/help">Get Support</a></li>
+						<li><a href="https://groups.google.com/forum/#!forum/parse-developers" target="_blank">Developer Community</a></li>
+					</ul>
+
+					<h3 class="small-header">Stay Connected</h3>
+					<p class="socials">
+						<a href="https://www.facebook.com/parseit" target="_blank"><img src="./iOS Push Notifications _ Parse_files/facebook.svg"></a>
+						<a href="https://twitter.com/parseit" target="_blank"><img src="./iOS Push Notifications _ Parse_files/twitter.svg"></a>
+						<a href="https://github.com/ParsePlatform" target="_blank"><img src="./iOS Push Notifications _ Parse_files/github.svg"></a>
+						<a href="http://stackoverflow.com/questions/tagged/parse.com" target="_blank"><img src="./iOS Push Notifications _ Parse_files/stackoverflow.svg"></a>
+						<a href="https://groups.google.com/forum/#!forum/parse-developers" target="_blank"><img src="./iOS Push Notifications _ Parse_files/google.svg"></a>
+					</p>
+				</div>
+
+				<div class="newsletter-cta">
+					<div class="newsletter-cta-content">
+						<h3 class="small-header">Get the Parse Newsletter</h3>
+						<p class="copy-light">Be the first to know about new features, new platforms, upcoming events, and more!</p>
+<div class="field-group inline-signup">
+							<form action="https://parse.com/tutorials/push-notifications#" method="POST">
+								<input class="input-text" type="text" name="footer_newsletter_signup" id="footer_newsletter_signup" placeholder="nancyshmancy@parse.com">
+								<input type="submit" class="input-button footer" value="Sign Up">
+							</form>
+						</div>
+						<p class="copy-muted">We will never, ever spam you or sell your information. Promise.</p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="bottom-bar">
+				<h4 class="small-header">Let's Build Together</h4>
+			</div>
+
+		</footer>
+
+
+
+        
+
+<script type="text/javascript">
+  App.SessionRedirect.initialize();
+</script>
+
+
+
+  <script type="text/javascript">
+    Marketo._devEnvironment = false;
+    Marketo.associateLead();
+  </script>
+
+    <script type="text/javascript">
+        $(document).on({
+  ready: function() {
+    var mns = new MarketoNewsletterSignup($);
+    mns.init($('#site-footer input'));
+  }
+});
+    // Disable all buttons on click
+    $('form').submit(function(e) {
+        $(this).find("button").attr("disabled", "disabled").addClass("disabled");
+    });
+
+    // Highlight all code blocks on the page if any are present
+    SyntaxHighlighter.defaults['gutter'] = false;
+    SyntaxHighlighter.defaults['toolbar'] = false;
+    SyntaxHighlighter.defaults['class-name'] = "syntaxhighlighter";
+    SyntaxHighlighter.all();
+
+    // Custom template settings to escape javascript injected HTML by default (use - instead of = otherwise)
+    _.templateSettings = {
+      evaluate    : /<%([\s\S]+?)%>/g,
+      escape : /<%=([\s\S]+?)%>/g,
+      interpolate : /<%-([\s\S]+?)%>/g
+    };
+
+    // Intercept all push state links and use Parse.history to navigate instead of 
+    // letting the browser change the page. 
+    $(document).delegate("a[data-pushstate='true']", "click", function(e) {
+      var href = $(e.currentTarget).attr('href'); // find url
+
+      // disable in admin panel
+      if (window.location.pathname.substring(0,6) === "/admin") {
+        $(e.currentTarget).attr("href", "#" + $(e.currentTarget).attr("href"));
+        return true;
+      }
+
+      // allow opening new tabs, windows, etc
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || !Parse.history || !Parse.history._hasPushState) {
+        return true;
+      }
+
+      Parse.history.navigate(href, { trigger: true });
+      return false;
+    });
+    App.currentUser = null;
+
+    </script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-23813809-1']);
+      _gaq.push(['_trackPageview']);
+      
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    
+    
+    <script type="text/javascript">
+    if (typeof console == "object") {
+      if (Util.is_chrome) {
+        console.log("%cHey! Like what you see and enjoy looking under the hood? That's cool. We love curious people. You should join us and help us build great stuff. https://www.parse.com/jobs", "color: #0677c8; font-size: 18px; font-family: 'Helvetica-Neue', Helvetica, Arial, sans-serif;");
+      } else {
+        console.log("Hey! Like what you see and enjoy looking under the hood? That's cool. We love curious people. You should join us and help us build great stuff. https://www.parse.com/jobs");
+      }
+    }
+    </script>
+
+
+<script>
+  _gaq.push([
+    '_setCustomVar',
+    1,             // This custom var is set to slot #1.
+    'Logged In',   // The name of the custom variable.
+    'false',
+    2           // Sets the scope to session-level.
+   ]);
+</script>
+
+
+<script type="text/javascript">
+  var _kiq = _kiq || [];
+</script>
+
+<script type="text/javascript">
+  (function() {
+    window._pa = window._pa || {};
+    var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.async = true;
+    pa.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + "//tag.perfectaudience.com/serve/52373e831aa4c02794000069.js";
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+  })();
+</script>
+
+<!-- Google Tag Manager -->
+<noscript>&lt;iframe src="//www.googletagmanager.com/ns.html?id=GTM-56BZ4D"
+height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;</noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-56BZ4D');</script>
+
+<!-- Facebook Custom Audience Tracking Pixel -->
+<script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+  _fbq.push(['addPixelId', '574561515946252']);
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', 'PixelInitialized', {}]);
+</script>
+<noscript>&lt;img height="1" width="1" border="0" alt="" style="display:none" src="https://www.facebook.com/tr?id=574561515946252&amp;ev=NoScript" /&gt;</noscript>
+    
+    
+
+<div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" style="display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxLoadedContent" style="width: 0px; height: 0px; overflow: hidden; float: left;"></div><div id="cboxLoadingOverlay" style="float: left;"></div><div id="cboxLoadingGraphic" style="float: left;"></div><div id="cboxTitle" style="float: left;"></div><div id="cboxCurrent" style="float: left;"></div><div id="cboxNext" style="float: left;"></div><div id="cboxPrevious" style="float: left;"></div><div id="cboxSlideshow" style="float: left;"></div><div id="cboxClose" style="float: left;"></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div></div><div id="ot-engage-ext-container"></div><script aria-hidden="true" type="application/x-lastpass" id="hiddenlpsubmitdiv" style="display: none;"></script><script>try{(function() { for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){ var lastpass_f = document.forms[lastpass_iter]; if(typeof(lastpass_f.lpsubmitorig2)=="undefined"){ lastpass_f.lpsubmitorig2 = lastpass_f.submit; if (typeof(lastpass_f.lpsubmitorig2)=='object'){ continue;}lastpass_f.submit = function(){ var form=this; var customEvent = document.createEvent("Event"); customEvent.initEvent("lpCustomEvent", true, true); var d = document.getElementById("hiddenlpsubmitdiv"); if (d) {for(var i = 0; i < document.forms.length; i++){ if(document.forms[i]==form){ if (typeof(d.innerText) != 'undefined') { d.innerText=i.toString(); } else { d.textContent=i.toString(); } } } d.dispatchEvent(customEvent); }form.lpsubmitorig2(); } } }})()}catch(e){}</script></body></html>

@@ -155,6 +155,14 @@ public class TutsPlusBottomSheetDialogFragment extends BottomSheetDialogFragment
 * In your fragment/activity you want to display the bottom sheet, use:
 
 ```
-BottomSheetDialogFragment bottomSheetDialogFragment = new TutsPlusBottomSheetDialogFragment();
-bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+private TutsPlusBottomSheetDialogFragment mTutsPlusBottomSheetDialogFragment;
+private static final String BOTTOM_SHEET_FRAG_TAG = "bottomSheetFragTag";
+...
+mTutsPlusBottomSheetDialogFragment = new TutsPlusBottomSheetDialogFragment();
+getChildFragmentManager().beginTransaction()
+                         .add(mTutsPlusBottomSheetDialogFragment, BOTTOM_SHEET_FRAG_TAG)
+                         .commitAllowingStateLoss();
+...
+// Then when you want to dismiss it:
+((TutsPlusBottomSheetDialogFragment) getChildFragmentManager().findFragmentByTag(BOTTOM_SHEET_FRAG_TAG)).dismissAllowingStateLoss();
 ```
