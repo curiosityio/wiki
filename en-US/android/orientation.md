@@ -183,6 +183,8 @@ This should convert regular objects into parcelable just fine.
 
 ---
 
+#### Realm lists.
+
 If you have a Realm Model, you can convert these to parcelable as well as they are just VO objects themselves. As long as all nested objects are also parcelable you are find.
 
 One note with Realm however is lists. Realm requires that if you have a List<> or ArrayList<> you instead use RealmList<> (which is just a List<> that holds other realm models). To make a Realm model containing a RealmList parcelable:
@@ -223,10 +225,10 @@ public class FooModel extends RealmObject implements Parcelable {
         dest.writeList(this.tags);
     }
 
-    public ProcessModel() {
+    public FooModel() {
     }
 
-    protected ProcessModel(Parcel in) {
+    protected FooModel(Parcel in) {
         this.id = in.readLong();
         this.owner = in.readString();
         long tmpUpdated_at = in.readLong();
@@ -236,15 +238,72 @@ public class FooModel extends RealmObject implements Parcelable {
         in.readList(this.tags, TagsModel.class.getClassLoader());
     }
 
-    public static final Creator<ProcessModel> CREATOR = new Creator<ProcessModel>() {
+    public static final Creator<FooModel> CREATOR = new Creator<FooModel>() {
         @Override
-        public ProcessModel createFromParcel(Parcel source) {
-            return new ProcessModel(source);
+        public FooModel createFromParcel(Parcel source) {
+            return new FooModel(source);
         }
 
         @Override
-        public ProcessModel[] newArray(int size) {
-            return new ProcessModel[size];
+        public FooModel[] newArray(int size) {
+            return new FooModel[size];
+        }
+    };
+
+}
+```
+
+#### Null natives.
+
+If you are dealing with an API that returns back 'null' values for ints, bools, etc. this is how you should build your VO/Parcelable objects.
+
+```
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FooModel extends RealmObject implements Parcelable {
+
+    public int organization_id;
+    public Integer possible_null_organization_id;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(this.possible_null_organization_id);
+        dest.writeInt(this.organization_id);
+    }
+
+    public FooModel() {
+    }
+
+    protected FooModel(Parcel in) {
+        this.possible_null_organization_id = (Integer) in.readSerializable();
+        this.organization_id = in.readInt();
+    }
+
+    public static final Creator<FooModel> CREATOR = new Creator<FooModel>() {
+        @Override
+        public FooModel createFromParcel(Parcel source) {
+            return new FooModel(source);
+        }
+
+        @Override
+        public FooModel[] newArray(int size) {
+            return new FooModel[size];
         }
     };
 

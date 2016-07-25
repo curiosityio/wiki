@@ -321,3 +321,190 @@ public class FooRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 ```
 android:overScrollMode="never"
 ```
+
+# Add drag and drop functionality to RecyclerViews
+
+Original guide to walk through how to do this [part 1](https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf#.u3c14avod) and [part 2](https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-6a6f0c422efd#.643t6ed6m) (I created local copies in project for it in misc-docs. Also guides help setup swiping.)
+
+* ItemTouchHelper is a special class in the RecyclerView support library to help you do swipe to dismiss and drag and drop. We will use that here.
+
+```
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+
+public class DragAndDropRecyclerViewCallback extends ItemTouchHelper.Callback {
+
+    public interface ItemTouchHelperListener {
+
+        void onItemMove(int fromPosition, int toPosition);
+    }
+
+    private ItemTouchHelperListener mListener;
+
+    public DragAndDropRecyclerViewCallback(ItemTouchHelperListener listener) {
+        mListener = listener;
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isItemViewSwipeEnabled() {
+        return false;
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+    }
+
+    @Override
+    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+
+        return makeFlag(ItemTouchHelper.ACTION_STATE_DRAG, dragFlags);
+    }
+
+    @Override
+    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        mListener.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+
+        return true;
+    }
+
+}
+```
+
+* Make your RecyclerView adapter implement this ItemTouchHelper interface ItemTouchHelperListener created above:
+
+```
+public class FooListAdapter extends RecyclerView.Adapter<FooListAdapter.ViewHolder> implements DragAndDropRecyclerViewCallback.ItemTouchHelperListener {
+
+    public interface DragReorderListener {
+        void onStartReorderDrag(RecyclerView.ViewHolder viewHolder);
+    }
+
+    private List<FooData> mData;
+    private List<FooData> mOriginalStateData;
+
+    private DragReorderListener mDragReorderListener;
+
+    private Context mContext;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView title;
+        public ImageView dragableHandleImageView;
+
+        public ViewHolder(View view) {
+            super(view);
+
+            title = (TextView) view.findViewById(R.id.foo_textview);
+            dragableHandleImageView = (ImageView) view.findViewById(R.id.dragable_handle_imageview);
+        }
+    }
+
+    public FooListAdapter(Context context, List<FooData> data) {
+        mContext = context;
+        mData = data;
+        mOriginalStateData = new ArrayList<>(mData);
+    }
+
+    // if user moves the position of an item, the original data is modified. Here, I restore the original data that is unmodified. 
+    public void restoreToOriginalState() {
+        mData = new ArrayList<>(mOriginalStateData);
+
+        notifyDataSetChanged();        
+    }
+
+    public void setDragReorderListener(DragReorderListener dragReorderListener) {
+        mDragReorderListener = dragReorderListener;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_foo_adapter, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder viewHolder, final int inaccuratePosition) {
+        final int position = viewHolder.getAdapterPosition();
+        final FooData rowItem = mData.get(position);
+
+        ...
+
+        viewHolder.dragableHandleImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    mDragReorderListener.onStartReorderDrag(viewHolder);
+                }
+
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mData, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mData, i, i - 1);
+            }
+        }
+
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+}
+```
+
+*Note: The imageview image for reordering can be found in the Android Material Design icon set.*
+
+* Then in your fragment where you have your RecyclerView:
+
+```
+public class FooFragment extends Fragment implements FooListAdapter.DragReorderListener {
+
+    private ItemTouchHelper mDragAndDropRecyclerViewTouchHelper;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ...
+        mFooRecylerView = (RecyclerView) view.findViewById(R.id.foo_recyclerview);
+
+        setupViews();
+
+        return view;
+    }
+
+    private void setupViews() {
+        mFooRecyclerViewAdapter = new FooRecyclerViewAdapter(getActivity(), mData);
+        mProcessStepsListAdapter.setDragReorderListener(this);
+
+        DragAndDropRecyclerViewCallback callback = new DragAndDropRecyclerViewCallback(mFooRecyclerViewAdapter);
+        mDragAndDropRecyclerViewTouchHelper = new ItemTouchHelper(callback);
+        mDragAndDropRecyclerViewTouchHelper.attachToRecyclerView(mFooRecylerView);
+
+        mFooRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mFooRecylerView.setAdapter(mFooRecyclerViewAdapter);
+    }
+
+    @Override
+    public void onStartReorderDrag(RecyclerView.ViewHolder viewHolder) {
+        mDragAndDropRecyclerViewTouchHelper.startDrag(viewHolder);
+    }
+
+}
+```
+
+### Error: Inconsistency detected. Invalid item position 2(offset:2).state:3
+
+This exception may happen to you in your RecyclerView adapter when you try to refresh the RecyclerView. When this issue happened in my app, I was using `notifyItemRangeChanged(0, mData.size());` and the error was fixed when I instead called `notifyDataSetChanged()`. There are times when to use each.

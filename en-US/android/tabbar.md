@@ -254,7 +254,64 @@ public void setUserVisibleHint(boolean isVisibleToUser) {
 }
 ```
 
+*Note: setUserVisibleHint() may be called before onCreate or may be called after onCreate. Therefore, it is best to do the following:*
+
+```
+@Override
+public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
+
+    mFragmentVisibleToUser = isVisibleToUser;
+
+    if (getActivity != null && mFragmentVisibleToUser) {
+        getActivity().setTitle("foo");
+    }
+}
+
+@Override
+public void onResume() {
+    super.onResume();
+
+    if (mFragmentVisibleToUser) {
+        getActivity().setTitle("foo");
+    }
+}
+```
+
 *Note: FragmentPagerAdapter is good for a small number of finite fragments. If you have lots or an "infinite" number, use FragmentStatePagerAdapter instead.*
 
 * [Get the instance of the currently shown fragment from a FragmentStatePagerAdapter](http://stackoverflow.com/a/8886019/1486374)
 * [Get the instance of the currently shown fragment from a FragmentPagerAdapter](http://stackoverflow.com/a/7393477/1486374)
+
+## IllegalStateException: The application's PagerAdapter changed the adapter's contents without calling PagerAdapter#notifyDataSetChanged! Expected adapter item count: 10, found: 0
+
+[Original help provided here](http://stackoverflow.com/a/24248410/1486374)
+
+I received this error in an app of mine when starting up the app. The reason of the problem is the Pager can be refreshed during some measurement and in this case will refresh count of your adapter. If this count will not equals with saved count you will see the error.
+
+```
+public abstract class ViewPagerCursorAdapter extends PagerAdapter {
+
+    private int mCount;
+
+    public ViewPagerCursorAdapter(Context ctx, Cursor cursor, int resource) {
+        super();
+        ...
+        mCount = cursor.getCount();
+        ...
+    }
+
+    @Override
+    public int getCount() {
+        return mCount;
+    }
+
+    public Cursor swapCursor(Cursor newCursor) { // <---- if you ever decide to edit the mCount, doesnt matter where or when, call notifyDataSetChanged().
+        ...
+        mCount = newCursor.getCount();
+        notifyDataSetChanged();
+    }
+}
+```
+
+My issue was that the getCount() method returned a dynamic number depending on the user's state. I instead set the count in the constructor and if it ever changes with state, I need to call notifyDataSetChanged().

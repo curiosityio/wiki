@@ -121,6 +121,20 @@ Retrofit takes care of creating the array for us with `photos[]` as the key. Not
 
 Found help from [here](http://stackoverflow.com/a/32275127/1486374). [A completely different approach](http://stackoverflow.com/a/34239432/1486374) that may work for other APIs.
 
+## Array of data form type
+
+If the API you are working with requires a form type array: `[foo, bar]`, `[1, 2]`, etc. There is a rule you need to follow:
+
+```
+@FormUrlEncoded
+@PATCH("/foo/{id}")
+Call<FooModel> apiCallWithArray(@Path("id") int id, @Field("array_of_whatever") ArrayList<String> data);
+```
+
+Notice that the `data` param is a form field and is an array. While working with Retrofit and the Jackson converter, if you want an integer array then using `int[]` will work for an array but with Strings, `ArrayList<String>` is the only way that will create an array. `String[]` or `List<String>` will not work. ArrayList is the only way to create an array.
+
+Therefore, anytime you need to send an array of data, you might as well use ArrayList.
+
 # PermissionsDispatcher
 
 When asking for permissions at runtime in Android there is lots of boilerplate code. Use [PermissionsDispatcher](https://github.com/hotchemi/PermissionsDispatcher) instead.

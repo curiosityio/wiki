@@ -40,7 +40,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
     // tokenString now ready to send up to rest API to create an AWS endpoint and send notification.
 }
 
-func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!) {    
+func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError!) {    
     // can't really do anything with this error except maybe logging it in your crash reporting tool to keep track of it?
     println(error.localizedDescription)
 }
@@ -56,4 +56,6 @@ Edit the `.Sound`, `.Alert`, `.Badge` to use the permissions you are looking to 
 
 Or use `.None`
 
-Thanks to [this gist](https://gist.github.com/sawapi/a7cee65e4ad95578044d) for this help. Also to [this tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) giving some good details as well (I also downloaded a local copy of this doc in misc-docs). 
+* That's it. When your app is in the background, iOS will automatically take care of receiving the notification and showing a local notification for the remote message. When your app is in the foreground, it will not show any sort of local notification for the remote message. However, there is a callback function in the app delegate you can use
+
+Thanks to [this gist](https://gist.github.com/sawapi/a7cee65e4ad95578044d) for this help. Also to [this tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) giving some good details as well (I also downloaded a local copy of this doc in misc-docs).
