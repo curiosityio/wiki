@@ -72,8 +72,9 @@ class API {
 
             switch self {
             case .GainLoginAccess(let parameters):
-                return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0
-            default: // no parameters or body so don't have anything to encode
+                // if GainLoginAccess is a GET call, use .URL. parameter encoding such as below. If you have a JSON body, replace .URL. with .JSON.
+                return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0                
+            default: // no parameters or body to encode so don't have anything to encode
                 return mutableURLRequest
             }
         }
@@ -122,6 +123,90 @@ var URLRequest: NSMutableURLRequest {
         return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0
     default: // no parameters or body so don't have anything to encode
         return mutableURLRequest
+    }
+}
+```
+
+# Read response headers
+
+In the Alamofire response object, you can find a dictionary populated with the header values:
+
+```
+class func apiCall<DATA: Mappable>(call: URLRequestConvertible, onComplete: (data: DATA) -> Void, onError: (message: String) -> Void, errorMessage: String) {
+    Alamofire.request(call)
+        .responseJSON(completionHandler: { (response: Response<AnyObject, NSError>) in
+            if let responseCode = response.response?.statusCode {
+                if !determineErrorResponse(response, responseStatusCode: responseCode, onError: onError) {
+                    switch responseCode {
+                    case _ where responseCode >= 200:
+                        let responseData = Mapper<DATA>().map(response.result.value)
+
+                        saveCredsFromResponseHeader(response.response?.allHeaderFields)  <------- response.response?.allHeaderFields contains the header.
+
+                        onComplete(data: responseData!)
+                        return
+                    default:
+                        onError(message: errorMessage)
+                    }
+                }
+            } else {
+                Crashlytics.sharedInstance().recordError(APIError.ApiNoResponseError.error)
+            }
+        })
+}
+
+private class func saveCredsFromResponseHeader(headers: [NSObject: AnyObject]?) {
+    if let headers = headers {
+        let accessToken = headers["Access-Token"] as? String
+    }
+}
+```
+
+# Set request headers
+
+Remember that Router object in this document above? The router builds the request. We are directly adding to the header in the Router:
+
+```
+enum Router: URLRequestConvertible {
+    static let baseURL = "https://api.github.com"
+
+    case GetUserRepos(String) // use `String` when you need to include a string in the /end/point/
+    case GainLoginAccess([String: AnyObject]) // use `[String: AnyObject]` when you have query parameters or a body.
+
+    var method: Alamofire.Method {
+        switch self {
+        case .GetUserRepos:
+            return .GET
+        case .FooBar:
+            return .GET
+        }
+    }
+
+    var path: String {
+        switch self {
+        case .GetUserRepos(let githubUsername):
+            return "/users/\(githubUsername)/repos"
+        case .FooBar:
+            return "/users/login/i/made/this/endpoint/up"
+        }
+    }
+
+    var URLRequest: NSMutableURLRequest {
+        let URL = NSURL(string: Router.baseURL)!
+        let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
+        mutableURLRequest.HTTPMethod = method.rawValue
+
+        if let token = ClientManager.getAccessToken() {
+            mutableURLRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")  <---------------- here it is. We are adding to the request header.
+        }
+
+        switch self {
+        case .GainLoginAccess(let parameters):
+            // if GainLoginAccess is a GET call, use .URL. parameter encoding such as below. If you have a JSON body, replace .URL. with .JSON.
+            return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0                
+        default: // no parameters or body to encode so don't have anything to encode
+            return mutableURLRequest
+        }
     }
 }
 ```

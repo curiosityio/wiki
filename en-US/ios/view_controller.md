@@ -25,6 +25,14 @@ fooViewController.setFooData(data)
 presentViewController(fooViewController, animated: true, completion: nil)
 ```
 
+If you would like to dismiss the current view controller and then launch the new one, do the following (this is good because if you were to launch the new view controller and then rotate the screen, the old ViewController is still the root and therefore, will be shown to user unless you dismiss it):
+
+```
+dismissViewControllerAnimated(false) {
+    self.presentViewController(fooViewController, animated: true, completion: nil)
+}
+```
+
 (`NameOfStoryboardFileHere` would be `Foo` for example if file was named `Foo.storyboard`)
 
 Call presentViewController is where the current view controller presents the new view controller and goes away.

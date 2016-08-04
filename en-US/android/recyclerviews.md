@@ -411,7 +411,7 @@ public class FooListAdapter extends RecyclerView.Adapter<FooListAdapter.ViewHold
         mOriginalStateData = new ArrayList<>(mData);
     }
 
-    // if user moves the position of an item, the original data is modified. Here, I restore the original data that is unmodified. 
+    // if user moves the position of an item, the original data is modified. Here, I restore the original data that is unmodified.
     public void restoreToOriginalState() {
         mData = new ArrayList<>(mOriginalStateData);
 
@@ -450,15 +450,7 @@ public class FooListAdapter extends RecyclerView.Adapter<FooListAdapter.ViewHold
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(mData, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(mData, i, i - 1);
-            }
-        }
+        Collections.swap(mData, fromPosition, toPosition);
 
         notifyItemMoved(fromPosition, toPosition);
     }

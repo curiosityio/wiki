@@ -97,3 +97,78 @@ class PullToRefreshTableView: UITableView {
 self.tableView.backgroundColor = yourColor
 self.tableView.backgroundView.backgroundColor = yourColor
 ```
+
+# Populate TableView from ViewController
+
+* Needed code in your ViewController:
+
+```
+class FooViewController: BaseUIViewController, UITableViewDelegate, UITableViewDataSource { <--- include UITableViewDelegate and UITableViewDataSource
+
+    @IBOutlet weak var fooTableView: UITableView!
+
+    private var fooData: [FooModel] = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        fooTableView.delegate = self    <--- tell your tableview that your view controller is going to be providing the data and info it needs to populate.
+        fooTableView.dataSource = self
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fooData.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // Access an instance of table view cell via an ID string. This is set in the storyboard > tableview prototype cell > Identifier field in the attributes right panel of XCode (see screenshot below)
+        let cell: FooUITableViewCell = tableView.dequeueReusableCellWithIdentifier("FooUITableViewCellId", forIndexPath: indexPath) as! FooUITableViewCell // swiftlint:disable:this force_cast
+        let listItem = fooData[indexPath.row]
+
+        // Here, you can access the UITableViewCell view items directly, or do what I do here and call a function on the custom UITableViewCell class and have it take care of populating.
+        cell.populateCell(listItem, position: indexPath.row)
+
+        return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // TODO Do something here when a cell in your tableview selected.
+    }
+
+}
+```
+
+* Here is where you can access the UITableView storyboard ID:
+
+![](/docs/images/tableview_cell_storyboard_id.png)
+
+* Custom TableViewCell class:
+
+```
+protocol FooUITableViewCellDelegate {
+    func profileImagePressed(data: FooModel, position: Int)
+}
+
+class FooUITableViewCell: UITableViewCell {
+
+    @IBOutlet weak var profileImageView: UIImageView!
+
+    private var fooData: FooModel!
+    private var position: Int!
+
+    var delegate: FooUITableViewCellDelegate?
+
+    func populateCell(data: FooModel, position: Int) {
+        self.fooData = data
+        self.position = position
+
+        // Populate imageview here.
+    }
+    
+    @IBAction func profileImagePressed(sender: AnyObject) {
+        delegate?.profileImagePressed(fooData, position: position)
+    }
+
+}
+
+```
