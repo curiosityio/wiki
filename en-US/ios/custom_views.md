@@ -87,3 +87,65 @@ Notes:
 * [Official docs](https://developer.apple.com/library/ios/recipes/xcode_help-IB_objects_media/Chapters/CreatingaLiveViewofaCustomObject.html)
 * If you have a camera view or video player view, at runtime you want to show a video or camera. But in your interface builder you want to show a static image. [The official docs](https://developer.apple.com/library/ios/recipes/xcode_help-IB_objects_media/Chapters/CreatingaLiveViewofaCustomObject.html) at the bottom shares how to do this.
 * [Library](https://github.com/andrew8712/DCKit) with a few custom views that work well with interface builder.
+
+# Create UIView from XIB file
+
+[Thanks to this gist](https://gist.github.com/bwhiteley/049e4bede49e71a6d2e2) for the inspiration for this.
+
+Sometimes you want to create a custom view and it is easier to create via XIB then IB or code. Here is how to take a XIB and turn it into a UIView
+
+* Create your XIB file in XCode. Use IB to create the XIB layout, add autolayout constraints.
+
+* Create your code file that will link to this XIB:
+
+```
+import Foundation
+import UIKit
+
+class FooView: UIView {
+
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet var contentView: UIView!
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        self.commonInit()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        self.commonInit()
+    }
+
+    private func commonInit() {
+        NSBundle.mainBundle().loadNibNamed("NameOfXIBFileHere", owner: self, options: nil)
+
+        guard let content = contentView else { return }
+
+        content.frame = self.bounds
+        content.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+
+        self.addSubview(content)
+    }
+
+    func setTitle(title: String) { <------ I created this used to change titleLabel's text.
+        titleLabel.text = title
+    }
+
+}
+```
+
+In your XIB file, make the File Owner to this new class you just created, `FooView` (Don't set the root UIView, set the File Owner). Then, create an outlet from the XIB root UIView to `contentView`. Then create any other outlets (I created one here called `titleLabel`) and actions you want as a normal IB layout.
+
+* Anywhere in code, you may now use this class:
+
+```
+let view: FooView = FooView()
+// add view to subview, change constraints, whatever you want. It is just a UIView!
+// view.setTitle() if you need to interact with the view.
+
+// NOTE: make sure to set a frame for view. Or else, the view will be height and width of 0 and any click listeners you set will not be triggered. 
+view.frame = CGRect(x: 0, y: 0, width: 150, height: 40)
+```

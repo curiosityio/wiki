@@ -22,8 +22,6 @@ name: GridView
 * Create adapter:
 
 ```
-package com.howfactory.howfactory.adapter.gridview;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,7 +114,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-// credits: http://stackoverflow.com/a/8483078/1486374 
+// credits: http://stackoverflow.com/a/8483078/1486374
 public class ExpandedHeightGridView extends GridView {
 
     boolean expanded = true;

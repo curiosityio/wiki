@@ -164,7 +164,7 @@ class FooUITableViewCell: UITableViewCell {
 
         // Populate imageview here.
     }
-    
+
     @IBAction func profileImagePressed(sender: AnyObject) {
         delegate?.profileImagePressed(fooData, position: position)
     }
@@ -172,3 +172,67 @@ class FooUITableViewCell: UITableViewCell {
 }
 
 ```
+
+# Empty view for TableView
+
+I like to use a library [DZEmptyDataSet](https://github.com/dzenbot/DZNEmptyDataSet) for taking care of my TableView empty view.
+
+```
+import UIKit
+import DZNEmptyDataSet <----- import
+
+class FooViewController: BaseUIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {  <---- add couple new protocols
+
+    @IBOutlet weak var fooTableView: UITableView!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        fooTableView.delegate = self
+        fooTableView.dataSource = self
+        fooTableView.emptyDataSetSource = self    <------ set data source
+        fooTableView.emptyDataSetDelegate = self  <------ set delegate
+    }
+
+    ...
+
+    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! { <------ image used for empty view.
+        return UIImage(named: "placeholder")
+    }
+
+    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {  <----- title used for empty view.
+        var message: String = "Loading data..."  <---- What I usually do, is set the string default to a loading state.
+
+        if let _ = processesApiResponse { <----- then, if the data is not nil...we set it to empty state instead.
+            message = "You don't have any data."
+        }
+
+        return NSAttributedString(string: message) <---- it is a NSAttributedString which means you can style font, color, size, alignment, etc.
+    }        
+
+    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! { <--- if you want more then a title, description can be added too.
+        var text = "Description here below the title."
+
+        let paragraphyStyle = NSMutableParagraphStyle()
+        paragraphyStyle.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        paragraphyStyle.alignment = NSTextAlignment.Center
+
+        let attributes = [NSParagraphStyleAttributeName: paragraphyStyle, NSForegroundColorAttributeName: UIColor.flatBlackColor()]
+
+        return NSAttributedString(string: text, attributes: attributes)
+    }    
+
+    // You can even add a button to the empty view. Text or image. 
+    func buttonTitleForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> NSAttributedString! {
+
+    }
+
+    func buttonImageForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> UIImage! {
+
+    }
+
+}
+
+```
+
+These functions, at least 1 is required but not all of them. Don't want an image or description? No problem.
