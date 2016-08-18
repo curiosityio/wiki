@@ -68,6 +68,73 @@ class FooVo: Mappable {
 }
 ```
 
+## Map JSON arrays to Realm List
+
+* Create this file for a custom transform (found [here](https://gist.github.com/Jerrot/fe233a94c5427a4ec29b) with just a couple small changes):
+
+```
+// Based on Swift 1.2, ObjectMapper 0.15, RealmSwift 0.94.1
+// Author: Timo Wälisch <timo@waelisch.de>
+
+import UIKit
+import RealmSwift
+import ObjectMapper
+
+class ArrayTransform<T:RealmSwift.Object where T:Mappable> : TransformType {
+    typealias Object = List<T>
+    typealias JSON = Array<AnyObject>
+
+    let mapper = Mapper<T>()
+
+    func transformFromJSON(value: AnyObject?) -> List<T>? {
+        let result = List<T>()
+        if let tempArr = value as! Array<AnyObject>? { // swiftlint:disable:this force_cast
+            for entry in tempArr {
+                let mapper = Mapper<T>()
+                let model: T = mapper.map(entry)!
+                result.append(model)
+            }
+        }
+        return result
+    }
+
+    // transformToJson was replaced with a solution by @zendobk from https://gist.github.com/zendobk/80b16eb74524a1674871
+    // to avoid confusing future visitors of this gist. Thanks to @marksbren for pointing this out (see comments of this gist)
+    func transformToJSON(value: Object?) -> JSON? {
+        var results = [AnyObject]()
+        if let value = value {
+            for obj in value {
+                let json = mapper.toJSON(obj)
+                results.append(json)
+            }
+        }
+        return results
+    }
+}
+```
+
+*  Use transform when mapping in model:
+
+```
+import Foundation
+import RealmSwift
+import ObjectMapper
+
+class FooModel: Object, Mappable {
+
+    var bars = List<BarModel>()    
+
+    required convenience init?(_ map: Map) {
+        self.init()
+    }
+
+    func mapping(map: Map) {
+        bars <- (map["bars"], ArrayTransform<BarModel>())
+    }
+
+}
+```
+
 ## Get ObjectMapper and Realm to work well together in a model object.
 
 ```

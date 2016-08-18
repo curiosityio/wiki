@@ -73,7 +73,7 @@ class MainViewingViewController: UIViewController, UIPopoverPresentationControll
     // anywhere now, call showPopover() to show it.
     func showPopover() {
         fooPopover = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("FooPopoverViewControllerId") as? FooPopoverViewController
-        fooPopover?.setupPopover(self, arrowDirection: .Up, sourceView: self.view, sourceRect: CGRect(x: (self.view.bounds.width / 2) - 10, y: -10, width: 50, height: 50))
+        fooPopover?.setupPopover(self, arrowDirection: .Up, sourceView: self.viewToPutPopoverBelow, sourceRect: CGRect(x: self.viewToPutPopoverBelow!.bounds.midX, y: self.viewToPutPopoverBelow!.bounds.midY + 15, width: 0, height: 0))
 
         self.presentViewController(fooPopover!, animated: true, completion: nil)
     }    
