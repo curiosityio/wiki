@@ -31,3 +31,22 @@ func doSomething() {
     doSomethingWithData(FooModel(1))    
 }
 ```
+
+# Multiple type generic
+
+```
+func someFunc<T where T:SomeProtocol, T:SomeOtherProtocol>(arg: T) {
+    // stuff
+}
+```
+
+# Multiple let statements in one line
+
+```
+var foo: FooModel?
+var bar: BarModel?
+
+if let foo = foo, bar = bar {
+    // do something if foo AND bar are not null.
+}
+```

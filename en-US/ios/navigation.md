@@ -58,3 +58,23 @@ navigationController.navigationBar.translucent = false  <---- If this is true, t
 let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 navigationController.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
 ```
+
+# Set title navigationBar
+
+If you have embedded your UIViewController in a UINavigationController inside of the interface builder, you can set the title using ViewController's view property:
+
+```
+override func viewDidLoad() {
+    super.viewDidLoad()
+    self.title = "some title"
+}
+```
+
+However, if you are using a custom navigationBar, you must do it a different method:
+
+```
+override func viewDidLoad() {
+    super.viewDidLoad()
+    navigationBar.topItem.title = "some title"
+}
+```

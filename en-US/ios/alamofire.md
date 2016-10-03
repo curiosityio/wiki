@@ -41,13 +41,16 @@ class API {
 
         case GetUserRepos(String) // use `String` when you need to include a string in the /end/point/
         case GainLoginAccess([String: AnyObject]) // use `[String: AnyObject]` when you have query parameters or a body.
+        case BothWays(String, [String: AnyObject]) // Use both! A JSON body and fields in URL.
 
         var method: Alamofire.Method {
             switch self {
             case .GetUserRepos:
                 return .GET
-            case .FooBar:
+            case .GainLoginAccess:
                 return .GET
+            case .BothWays:
+                return .POST
             }
         }
 
@@ -55,8 +58,10 @@ class API {
             switch self {
             case .GetUserRepos(let githubUsername):
                 return "/users/\(githubUsername)/repos"
-            case .FooBar:
+            case .GainLoginAccess:
                 return "/users/login/i/made/this/endpoint/up"
+            case .BothWays(let githubUsername, _):
+                return "/users/\(githubUsername)/repos"
             }
         }
 
@@ -73,7 +78,9 @@ class API {
             switch self {
             case .GainLoginAccess(let parameters):
                 // if GainLoginAccess is a GET call, use .URL. parameter encoding such as below. If you have a JSON body, replace .URL. with .JSON.
-                return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0                
+                return ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0  
+            case .BothWays(_, let parameters):
+                return ParameterEncoding.JSON.encode(mutableURLRequest, parameters: parameters).0                
             default: // no parameters or body to encode so don't have anything to encode
                 return mutableURLRequest
             }

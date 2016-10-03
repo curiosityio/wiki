@@ -66,7 +66,7 @@ Call<FooResponseVo> fooApiCall(@Part("username") String username, @Part Multipar
 
 In this example, we have the String username which would usually be `@FormUrlEncoded` and be a `@Field()` or `@Body` (actually, I have not tested body yet. Body might work fine with `@Multipart`) but here, it is a `@Part`.
 
-This takes a String, username, as a part. Some APIs may not be able to process this as the String is sent to API surrounded with double quotes around it. You may need to try this instead:
+This takes a String, username, as a part. Some APIs may not be able to process this as the String is sent to API surrounded with double quotes around it. You may need to try this instead (*Note:* when using Strings as part of a Multipart request, there is 1 more thing you must do to get it to work. Continue reading the docs below for "retrofit scalars converter"):
 
 ```
 File picture;
@@ -75,6 +75,21 @@ MultipartBody.Part multipartPicture = MultipartBody.Part.createFormData("api_par
 MultipartBody.Part usernamePart = MultipartBody.Part.createFormData("username", usernameHere);
 
 mFooApi.uploadPhoto(multipartPicture, usernamePart);
+```
+
+*Note:* With Strings being a `@Part`, Retrofit takes those strings, serializes it as JSON, and then strings go up to server with an extra set of double quotes around them: `levi` => `"levi"`. In order to combat this, you need to use a special Retrofit plugin.
+
+```
+compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+```
+
+Then add to Retrofit initializer:
+
+```
+Retrofit retrofit = new Retrofit.Builder()
+    .baseUrl(API_URL_BASE)
+    .addConverterFactory(ScalarsConverterFactory.create()) // <----- add this.
+    .build();
 ```
 
 with interface defined:

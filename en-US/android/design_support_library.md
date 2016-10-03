@@ -147,6 +147,7 @@ public class TutsPlusBottomSheetDialogFragment extends BottomSheetDialogFragment
 
         if (behavior != null && behavior instanceof BottomSheetBehavior) {
             ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
+            ((BottomSheetBehavior) behavior).setState(BottomSheetBehavior.STATE_EXPANDED);  <---- if you want it to *always* show up in expanded view instead of peek.
         }
     }
 }
