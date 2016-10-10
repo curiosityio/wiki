@@ -115,3 +115,28 @@ This is all customizable. Don't return nil for `viewControllerAfterViewControlle
 In Interface Builder, you can change the swiping style for paging view controller:
 
 ![](/docs/images/swipe_style_pageviewcontroller.png)
+
+# Detect what process step currently shown to user
+
+In your UIPageViewController, implement UIPageViewControllerDelegate and then add this function.
+
+```
+func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
+    let currentlyShownViewController = pageViewController.viewControllers![0] as! ViewController
+    let index = currentlyShownViewController.pageIndex
+}
+```
+
+Done. *Note: this function is only called when the user swipes for pages 2+. The very first screen shown to user, this is not called. Therefore, when you call `self.setViewControllers()`, keep a reference to that view controller you set there as the first item. Then, future view controllers are obtained via this funciton above.*
+
+Then one extra step I like to add is:
+
+```
+var currentlyShownViewController: UIViewController! {
+    didSet {
+        setNavigationBarTitle(currentlyShownViewController?.getTitleText() ?? "")
+    }
+}
+```
+
+To perform some action when you set the currentlyShownViewController.

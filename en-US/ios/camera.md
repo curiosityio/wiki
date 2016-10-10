@@ -63,9 +63,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 }
 ```
 
-# Take photo using iOS device camera
+# Take photo using iOS device camera. Get photo from camera roll.
 
 It is very similar to the above video capture, with a couple small changes to the UIImagePickerController configuration.
+
+`Swift 3`
 
 ```
 import UIKit
@@ -76,14 +78,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBOutlet weak var takePhotoButton: UIButton!
 
-    let maximumSecondsLengthRecordVideo = 10.0
-
     let imagePickerController = UIImagePickerController()
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        imagePickerController.delegate = self
+        super.viewDidLoad()        
     }
 
     override func didReceiveMemoryWarning() {
@@ -91,39 +89,78 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Dispose of any resources that can be recreated.
     }
 
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let capturedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+    // image captured via camera.
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let capturedImage = info[UIImagePickerControllerOriginalImage] as! UIImage // swiftlint:disable:this force_cast
 
         // saves to camera roll on phone. Maybe you don't need it? Maybe you can just send to API.
-        PHPhotoLibrary.sharedPhotoLibrary().performChanges({
-            PHAssetChangeRequest.creationRequestForAssetFromImage(capturedImage)
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAsset(from: capturedImage)
         }) { saved, error in
             if saved {
                 // photo saved to camera roll.
+            } else {
+                // do something with image.
             }
-        }
+        }        
 
-        dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: { _ in
+            // do something with image.
+        })
+    }    
+
+    @IBAction func getPhotoFromCameraRollButtonPressed(_ sender: AnyObject) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        } else {
+            // error your device not able to access camera roll.
+        }
     }
 
-    @IBAction func takePhotoButtonPressed(sender: AnyObject) {
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) && UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.Front) {
-            imagePickerController.allowsEditing = false
-            imagePickerController.sourceType = UIImagePickerControllerSourceType.Camera
-            imagePickerController.mediaTypes = [kUTTypeImage as String] // Record movie (video with audio)
-            imagePickerController.cameraCaptureMode = .Photo
-            imagePickerController.modalPresentationStyle = .FullScreen
-            imagePickerController.cameraDevice = UIImagePickerControllerCameraDevice.Front
+    // image got back from camera roll.
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        self.dismiss(animated: true, completion: { _ in
+            self.getPhotoCameraOrGalleryOnPhotoRetrieved(image)
+        })
+    }    
 
-            presentViewController(imagePickerController, animated: true, completion: nil)
+    @IBAction func takePhotoButtonPressed(_ sender: AnyObject) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) && UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.front) {
+            imagePickerController.allowsEditing = true
+            imagePickerController.sourceType = UIImagePickerControllerSourceType.camera
+            //            imagePickerController.mediaTypes = [kUTTypeJPEG as String] // Record movie (video with audio)
+            imagePickerController.cameraCaptureMode = .photo
+            imagePickerController.modalPresentationStyle = .fullScreen
+            imagePickerController.cameraDevice = UIImagePickerControllerCameraDevice.front
+            imagePickerController.delegate = self
+
+            present(imagePickerController, animated: true, completion: nil)
         } else {
-            // show alert dialog saying no camera on device, cannot take video.
+            // error. device not able to take pictures. Make sure to do this because emulators for example dont.
         }
     }
 
 }
 ```
+
+Next, add an item to Info.plist describing why you need to use the camera.
+
+![](/docs/images/ios_camera_infoplist.png)
+> [Credit image](http://useyourloaf.com/blog/privacy-settings-in-ios-10/)
+
+*Note* Add the following entries to Info.plist depending on needs:
+
+* If taking picture: `Privacy - Photo Library Usage Description`
+* If saving picture to camera roll: `Privacy - Camera Usage Description` (same as getting picture from camera roll)
+* If getting picture from camera roll: `Privacy - Camera Usage Description` (same as saving picture to camera roll)
+
+![](/docs/images/ios_camera_show_from_plist.png)
+> [Credit image](http://useyourloaf.com/blog/privacy-settings-in-ios-10/)
