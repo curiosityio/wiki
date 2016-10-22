@@ -50,3 +50,11 @@ if let foo = foo, bar = bar {
     // do something if foo AND bar are not null.
 }
 ```
+
+# Sort array of string by ABC order
+
+```
+["apple", "Banana"]?.sort(by: {$0.uppercased() < $1.uppercased()})
+```
+
+The reason we call `.uppercased()` is because the `<` operator will make `B` come before `a`. Uppercase everything (only for the sort. It does not modify your array), then compare.
