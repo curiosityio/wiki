@@ -152,7 +152,7 @@ Therefore, anytime you need to send an array of data, you might as well use Arra
 
 # PermissionsDispatcher
 
-When asking for permissions at runtime in Android there is lots of boilerplate code. Use [PermissionsDispatcher](https://github.com/hotchemi/PermissionsDispatcher) instead.
+When asking for permissions at runtime in Android there is lots of boilerplate code. Use [PermissionsDispatcher](https://github.com/hotchemi/PermissionsDispatcher) instead. ([this library also looks promising!](https://github.com/kayvannj/PermissionUtil))
 
 * [Install via Gradle](https://github.com/hotchemi/PermissionsDispatcher#download)
 * Setup your fragment or activity with annotations and functions
