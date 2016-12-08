@@ -64,9 +64,12 @@ Realm realm = Realm.getDefaultInstance();
 realm.close();
 ```
 
+In Activities, open the realm instance in `onCreate()` and close it in `onDestroy()`.
+In Fragments, open the realm instance in `onCreate()` and close it in `onDestroyView()`.
+
 # Tips
 
 * Because of the way that Realm does threading and handling realm instances, here are some tips for how to work with realms.
   * Query the realm via DAO object in fragments/activities. DAO objects require you to .close() the realm instance. When you .close() it, all of your queried realm models get destroyed and error if you try to access it after you .close(). Because of this, call .close() on the DAO object (which in effect closes the realm instance) in `onDestroy()` in the fragment/activity.
   * Updates, deletion, creation of realm objects (calling functions directly on a realm model instance that was queried) work with these via Kotlin extensions for a nice convenient way of interacting with them. In effect, all that these extension calls do is open a realm instance, do the operation, close the realm instance.
-  * Really, what these tips are saying is that with realm, when you obtain a realm instance via `Realm.getDefaultInstance()` you need to close it and handle it correctly. You cannot use that same realm instance in different threads. All Realm data is shared between all threads, but you need to re-query when you want to access the data in different threads. 
+  * Really, what these tips are saying is that with realm, when you obtain a realm instance via `Realm.getDefaultInstance()` you need to close it and handle it correctly. You cannot use that same realm instance in different threads. All Realm data is shared between all threads, but you need to re-query when you want to access the data in different threads.

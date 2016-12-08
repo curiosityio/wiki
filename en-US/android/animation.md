@@ -147,7 +147,20 @@ getFragmentManager()
         .beginTransaction()
         .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
         .replace(R.id.fragment_container, FooFragment.newInstance())
-        .commit(); 
+        .commit();
 ```
 
 *Note: You must set `.setCustomAnimations()` before the .add() or .replace() call or the animation will not happen.*
+
+# Play multiple animations at once
+
+ObjectAnimators are handy ways to animate properties of objects. When you want to run multiple animations on one object, you create an AnimatorSet:
+
+```
+AnimatorSet set = new AnimatorSet();
+set.playTogether(ObjectAnimator.ofFloat(viewToAnimate, "alpha", 0, 1),
+        ObjectAnimator.ofFloat(viewToAnimate, "translationX", distance, 0));
+set.setDuration(100);
+
+return set;
+```

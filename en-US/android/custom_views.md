@@ -240,3 +240,49 @@ mNewView = new NewView(mContext, mAttrs, mDefStyleAttr); // these are saved from
 mNewView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 addView(mNewView);
 ```
+
+# Bring views to front RelativeLayout
+
+Custom RelativeLayouts are super handy to create layouts quickly and easily in XML.
+
+However, because z-order of views are determined by the order in which views are added in the XML file for a RelativeLayout, we have to use a programmatic way of editing the z-order of views.
+
+```
+open class FooView : RelativeLayout {
+
+    private lateinit var mContext: Context
+
+    private lateinit var childCustomView: OtherCustomView
+
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        initialize(context, attrs, defStyleAttr)
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+        initialize(context, attrs, defStyleAttr)
+    }
+
+    fun initialize(context: Context, attrs: AttributeSet, defStyleAttr: Int) {
+        mContext = context
+
+        LayoutInflater.from(context).inflate(R.layout.foo_view, this, true)
+
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+
+        childCustomView = findViewById(R.id.child_custom_view) as OtherCustomView
+
+        // NOTE: You cannot set the bringToFront() here for the childCustomView because the RelativeLayout is not yet fully created. 
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+
+        childCustomView.bringToFront()
+        requestLayout() // required for targeting minSdk below KitKat (< 19).
+        invalidate() // tell custom view to redraw itself on next pass.
+    }    
+
+}
+```
