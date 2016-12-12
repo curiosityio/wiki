@@ -30,8 +30,6 @@ import com.google.android.gms.gcm.TaskParams
 
 open class TaskService(): GcmTaskService() {
 
-    @Inject lateinit var pendingApiTasksManager: PendingApiTasksManager
-
     override fun onRunTask(p0: TaskParams?): Int {
         // run your task here. It will run in a background thread created for you by GcmTaskService.
         // do API calls. talk to your database. do whatever you need here that does not require UI.
@@ -40,6 +38,37 @@ open class TaskService(): GcmTaskService() {
     }
 
 }
+```
+
+* Add entry in your manifest file:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.levibostian.foo">
+
+    <uses-permission android:name="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"/> <!-- add for GMS -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> <!-- add only if you need task to be persisted -->
+
+    <application
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.LaunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- add the below entry for registering your GCM service -->
+        <service
+            android:name=".receiver.TaskService"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+                <intent-filter>
+                    <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+                </intent-filter>
+        </service>
+    </application>
+</manifest>
 ```
 
 * In your Activity, start your task:
@@ -85,4 +114,4 @@ public class MainActivity extends BaseActivity {
 }
 ```
 
-Really, that is it. Check out the doccs on [PeriodicTask Builder](https://developers.google.com/android/reference/com/google/android/gms/gcm/PeriodicTask.Builder) to find out what else you can use to schedule your task.
+Really, that is it. Check out the docs on [PeriodicTask Builder](https://developers.google.com/android/reference/com/google/android/gms/gcm/PeriodicTask.Builder) to find out what else you can use to schedule your task.

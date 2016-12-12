@@ -8,7 +8,7 @@ name: ngrok
 * Unzip. Install binary to your machine:
 
 ```
-sudo mv ngrok /usr/local/bin/
+$> sudo mv ngrok /usr/local/bin/
 ```
 
 * [Sign up or login](https://dashboard.ngrok.com/user/login)

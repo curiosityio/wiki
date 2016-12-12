@@ -96,7 +96,7 @@ Also, you may have noticed:
 ```
 beforeEach(function() {
     nock.disableNetConnect(); <------ disable all real internet connection in tests.
-    nock.enableNetConnect('127.0.0.1'); <------ enable specific internet connections. Here, allow localhost to allow calling API locally on our machine. 
+    nock.enableNetConnect('127.0.0.1'); <------ enable specific internet connections. Here, allow localhost to allow calling API locally on our machine.
 });
 ```
 
@@ -113,4 +113,4 @@ nock.recorder.rec();
 
 Recording relies on intercepting real requests and answers and then persisting them for later use.
 
-ATTENTION!: when recording is enabled, nock does no validation. Therefore, you want to use the rec() function above, view the console output, write your nock statements, then delete the rec() function call.
+**ATTENTION!: when recording is enabled, nock does no validation. Therefore, you want to use the rec() function above, view the console output, write your nock statements, then delete the rec() function call.**

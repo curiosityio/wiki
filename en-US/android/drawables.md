@@ -41,3 +41,34 @@ You can add some padding to the border:
     <corners android:radius="20dp"/>
 </shape>
 ```
+
+# Use vector drawables within app.
+
+[Help from Android blog post](https://android-developers.blogspot.com/2016/02/android-support-library-232.html)
+
+Vector drawables replace the need to generate png images for image resources. This saves space and improves speed.
+
+If you want to use Vector Drawables with an app pre Android 5.0, you must use the AppCompat support library.
+
+To get vector drawables working in your app:
+
+* Add AppCompat support lib to gradle.
+
+* In your build.gradle file, add this setting (this works for gradle build versions 2+):
+
+```
+android {
+    defaultConfig {
+        ...
+
+        vectorDrawables.useSupportLibrary = true
+    }
+    ...
+}
+```
+
+This tells Studio to use vector drawables instead of have Studio generate pngs at buildtime.
+
+* In your ImageViews, ImageButton, places in your XML where you use `android:src="@drawable/foo"` to set a drawable image, you must now use: `app:srcCompat="@drawable/foo_vector"`.
+
+* That is it. AppCompat takes care of rest. All functions such as `.setImageResource()` on ImageView works as normal.

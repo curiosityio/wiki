@@ -58,6 +58,12 @@ Then, when you run the gradle command from command line: `./gradlew assembleBeta
 
 * Use less dependencies. Use smaller ones. The less code Studio has to compile, the better. Use Picasso instead of Glide for example if you can. Slim down.
 
+* Enable cached builds. This is only enabled on Gradle plugin v2.2+. (It is supposed to be enabled by default in v2.3 or 2.4 but for now, we must enable it ourselves). In your `gradle.properties` files of your project, add this line:
+
+```
+android.enableBuildCache=true
+```
+
 These tips came from [this great doc](http://www.universalmind.com/blog/10-tips-to-improve-your-gradle-build-time/) and [this one as well.](http://zeroturnaround.com/rebellabs/making-gradle-builds-faster/)
 
 # Find duplicate dependencies in your project
