@@ -42,7 +42,7 @@ You can add some padding to the border:
 </shape>
 ```
 
-# Use vector drawables within app.
+# Use vector drawables (aka SVG images) within app.
 
 [Help from Android blog post](https://android-developers.blogspot.com/2016/02/android-support-library-232.html)
 
@@ -72,3 +72,5 @@ This tells Studio to use vector drawables instead of have Studio generate pngs a
 * In your ImageViews, ImageButton, places in your XML where you use `android:src="@drawable/foo"` to set a drawable image, you must now use: `app:srcCompat="@drawable/foo_vector"`.
 
 * That is it. AppCompat takes care of rest. All functions such as `.setImageResource()` on ImageView works as normal.
+
+When you want to use SVG or PSD files in your Android app, you need to use the [Android Asset Studio tool](https://developer.android.com/studio/write/vector-asset-studio.html). Access tool by right click on `res` in Android Studio > New > Vector asset > Local file > browse for your SVG or PSD file > Next. This will generate a XML file from these files as you cannot use SVG or PSD files directly in Studio. 
