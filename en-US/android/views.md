@@ -114,4 +114,57 @@ There is a trick to making your ScrollView have a minimum height of the full hei
 </ScrollView>
 ```
 
-Telling ScrollView to fillViewport as well as making the LinearLayout child setup to occupy an entire screen make it work. 
+Telling ScrollView to fillViewport as well as making the LinearLayout child setup to occupy an entire screen make it work.
+
+# Material design EditText with floating label
+
+```
+<android.support.design.widget.TextInputLayout
+    android:id="@+id/text_input_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="UserName"/>
+</android.support.design.widget.TextInputLayout>
+```
+
+### Style floating label color
+
+```
+<android.support.design.widget.TextInputLayout
+    android:id="@+id/text_input_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:hintTextAppearance="@style/WhiteTextColorFloatingEditText"> <!-- Add this line -->
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="UserName"/>
+</android.support.design.widget.TextInputLayout>
+```
+
+Then, in your styles.xml file, add this style:
+
+```
+<resources>
+    ...
+    <style name="WhiteTextColorFloatingEditText" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textSize">20sp</item> <!-- if you want it......I leave it out to default. -->
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
+</resources>
+```
+
+And enter in whatever colors you wish. Thank you to [this SO answer](http://stackoverflow.com/a/30914037/1486374) for the help.

@@ -51,3 +51,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashlyticsDelegate {  <-
     }
 }
 ```
+
+# Log errors to crashlytics
+
+Here is a handy util class to log to crashlytics or to console depending on debug builds or not.
+
+```
+import CocoaLumberjack
+
+class LogUtil {
+
+    class func log(_ message: String?) {
+        var logMessage = "Log message is nil......."
+
+        if let message = message {
+            logMessage = message
+        }
+
+        DDLogDebug(logMessage)
+    }
+
+    class func logArgs(_ message: String, args: CVarArg...) {
+        DDLogDebug(String(format: message, arguments: args))
+    }
+
+    class func logError(_ error: Error) {
+        #if DEBUG
+            DDLogDebug(String(format: "ERROR THROWN: %@", error.localizedDescription))
+        #else
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["description": error.localizedDescription])
+        #endif
+    }
+
+}
+```

@@ -30,7 +30,7 @@ I usually delete a lot of these attributes and only keep the indicator color one
     style="@style/AppTabLayout"/>
 ```
 
-# Implement tab bar
+# Implement tab bar with fragments and viewpager.
 
 * Create layout file
 
@@ -315,3 +315,55 @@ public abstract class ViewPagerCursorAdapter extends PagerAdapter {
 ```
 
 My issue was that the getCount() method returned a dynamic number depending on the user's state. I instead set the count in the constructor and if it ever changes with state, I need to call notifyDataSetChanged().
+
+# Implement tabbar without viewpager.
+
+* Add tabbarlayout to your layout.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/foo_tablayout"
+        style="@style/AppTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:tabGravity="fill"
+        app:tabMode="fixed" />
+
+</RelativeLayout>
+```
+
+* Add tabs and tab listener to activity/fragment
+
+```
+override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    val view: View = inflater!!.inflate(R.layout.fragment_foo_layout, container, false)
+
+    val tabbar = view.foo_tablayout as TabLayout
+    tabbar.addTab(tabbar.newTab().setText(R.string.first_tab_text))
+    tabbar.addTab(tabbar.newTab().setText(R.string.second_tab_text))
+
+    tabbar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            when (tab?.position) {
+                0 -> showFirstTabScreen()
+                1 -> showSecondTabScreen()
+            }
+        }
+    })    
+
+    return view
+}
+```

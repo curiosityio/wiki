@@ -118,38 +118,42 @@ mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetC
 
 * Create the fragment
 
-```
-public class TutsPlusBottomSheetDialogFragment extends BottomSheetDialogFragment {
+```kotlin
+import android.app.Dialog
+import android.support.design.widget.BottomSheetDialogFragment
+import android.support.design.widget.BottomSheetBehavior.BottomSheetCallback
+import android.support.design.widget.BottomSheetBehavior
+import android.support.annotation.NonNull
+import android.support.design.widget.CoordinatorLayout
+import android.view.View
 
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+class TutsPlusBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-        @Override
-        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+    private val mBottomSheetBehaviorCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                dismiss();
+                dismiss()
             }
         }
-
-        @Override
-        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-        }
-    };
-
-    @Override
-    public void setupDialog(Dialog dialog, int style) {
-        super.setupDialog(dialog, style);
-
-        View contentView = View.inflate(getContext(), R.layout.fragment_bottom_sheet, null);
-        dialog.setContentView(contentView);
-
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
-        CoordinatorLayout.Behavior behavior = params.getBehavior();
-
-        if (behavior != null && behavior instanceof BottomSheetBehavior) {
-            ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
-            ((BottomSheetBehavior) behavior).setState(BottomSheetBehavior.STATE_EXPANDED);  <---- if you want it to *always* show up in expanded view instead of peek.
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
         }
     }
+
+    override fun setupDialog(dialog: Dialog?, style: Int) {
+        super.setupDialog(dialog, style)
+
+        val contentView = View.inflate(context, R.layout.fragment_bottom_sheet, null)
+        dialog!!.setContentView(contentView)
+
+        val params: CoordinatorLayout.LayoutParams = (contentView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior
+
+        behavior?.let { behavior ->
+            (behavior as BottomSheetBehavior<*>).setBottomSheetCallback(mBottomSheetBehaviorCallback)
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED // <---- if you want it to *always* show up in expanded view instead of peek.
+        }
+    }
+
 }
 ```
 
