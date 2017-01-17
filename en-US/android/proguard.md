@@ -108,3 +108,29 @@ public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *; }
 These are some common rules for some common libraries. [Here](https://github.com/krschultz/android-proguard-snippets) is a GitHub project with library rules community created which might help. Start out with the bare minimum number of rules and try to compile your app inside of terminal (Studio works sometimes but if you run into issues, I have frozen with Studio before). `./gradlew assembleRelease` will compile with ProGuard. Watch the output of the terminal. If the compile throws an error, view the gradle output. You will see where ProGuard starts. The output will show lines starting with "Note: ". These can be ignored. It's the lines that start with "Warning: " that stops compiling. Google these and it will help find solutions for you.
 
 * Be sure to run the app on a device after running ProGuard to test if it works. ProGuard can remove needed code from your project and kill your app.
+
+# Include Proguard rules in Android library for consumers of library to enjoy
+
+When users install your library via Gradle, you don't want them to have to install Proguard rules for your library into their own proguard rules file. If you could include the specific rules of your library yourself, that would be much better.
+
+It's easy.
+
+* Create a new file in `/nameOfYourLibrary/proguard.txt`. Aka, the root of your Android library. Same folder your `proguard-rules.pro` file is located or your library.
+
+* In your `/nameOfYourLibrary/build.gradle` file, tell Gradle where your file is located for library consumers to enjoy:
+
+```
+android {
+    ...
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "0.1.0"
+
+        consumerProguardFiles 'proguard.txt' // <---- add this line.
+    }
+    ...
+}
+```

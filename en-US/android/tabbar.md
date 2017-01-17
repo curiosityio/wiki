@@ -367,3 +367,78 @@ override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, save
     return view
 }
 ```
+
+# Change look of TabBar
+
+You can have a full width equal size tabs, left/right/center small tabs, doesn't matter.
+
+```
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/same_background_as_tablayout_below">
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        app:tabMaxWidth="120dp"/>
+</FrameLayout>
+```
+
+This above makes small tabs, left align the bar and make it "appear" full screen with that framelayout behind it.
+
+```
+<android.support.design.widget.TabLayout
+    android:id="@+id/foo_tablayout"
+    style="@style/AppTabLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    app:tabGravity="fill"
+    app:tabMode="fixed" />
+```
+
+This makes a full width bar where each tab gets equal with.
+
+Check out [TabBarLayout](https://developer.android.com/reference/android/support/design/widget/TabLayout.html) docs for the XML options that you have for the bar.
+
+# Change color of text and icons in tab when they are selected in tab bar.
+
+* For text you have in tabs, this is very easy. Android takes care of this for you.
+
+```
+<android.support.design.widget.TabLayout
+    android:id="@+id/foo_tablayout"
+    style="@style/AppTabLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    app:tabSelectedTextColor="@color/selected_tab_color"
+    app:tabTextColor="@color/unselected_tab_color"
+    app:tabIndicatorColor="@color/underline_color_selected_tab"/>
+```
+
+Using XML attribute `app:tabSelectedTextColor` you can change the color of the selected state.
+`app:tabTextColor` is the color of the default state.
+`app:tabIndicatorColor` is the color of the underline below the selected tab.
+
+* For icons, it takes a little more work.
+
+Create a new drawable XML resource file in `res/main/drawable/`.
+
+Then, inside of that new XML drawable file specify the drawable file to use for the selected and unselected state:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/icon_for_selected_state" android:state_selected="true" />
+    <item android:drawable="@drawable/icon_for_unselected_state" android:state_selected="false" />
+</selector>
+```
+
+Then, when creating this new tab to your tabbar layout, use the drawable XML resource file you created above instead of your drawable icon.
+
+```
+mTabBarLayout.addTab(newTab().setIcon(R.drawable.edit_process_text_components_text_type_bullet))
+```

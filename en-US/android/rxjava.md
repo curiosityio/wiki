@@ -65,3 +65,75 @@ fun getAllFooData(): Observable<RealmResults<FooModel>?> {
             })
 }
 ```
+
+# Global error listener
+
+In Application file:
+
+```
+@Override
+public void onCreate() {
+    super.onCreate();
+
+    RxJavaHooks.setOnError(new Action1<Throwable>() {
+        @Override public void call(Throwable throwable) {
+            if (!(throwable instanceof NoInternetConnectionException) && !(throwable instanceof ErrorFromApiException)) {
+                LogUtil.error(throwable);
+            }
+        }
+    });
+    ...
+}
+```
+
+# map()
+
+`.map()` transforms items emitted by an Observable by applying a function to each item. You provide `.map()` a function, each item emitted from an Observable runs through that function.
+
+![](/docs/images/rxjava_map.png)
+
+```
+----1---2---3---4---- Items emitted by source Observable
+.map<Int>({ number -> number + 1})
+----2---3---4---5---- Result emitted from .map()
+```
+
+The difference between `map()` and `flatMap()` is that `flatMap()` merges everything together into 1 Observable where `map()` emits X number of Observables where X is the number of items emitted by the source Observable.  
+
+# flatMap()
+
+`.flatMap()` transforms items emitted by an Observable by applying a function to each item *and then* merging them all into 1 final Observable. You provide `.flatMap()` a function, each item emitted from an Observable runs through that function.
+
+![](/docs/images/rxjava_flatmap.png)
+
+```
+----1---2---3---4---- Items emitted by source Observable
+.map<Int>({ number -> number + 1})
+---2
+---3 <-- these all get created, but not emitted yet. They get merged together below.
+---4
+---5
+----2---3---4---5 Result emitted from .flatMap()
+```
+
+The difference between `map()` and `flatMap()` is that `flatMap()` merges everything together into 1 Observable where `map()` emits X number of Observables where X is the number of items emitted by the source Observable.  
+
+# repeatWhen()
+
+You want to repeat an Observable, huh?
+
+```
+Observable.create<FooData> { subscriber ->
+    subscriber.onNext(fooData)
+    subscriber.onCompleted() // <---- MUST call onCompleted. repeatWhen only runs when onCompleted is called.
+}.repeatWhen { it.delay(1, TimeUnit.SECONDS) }.runOnBackgroundReportBackUIThread()
+        .compose(bindUntilEvent<FooData>(FragmentEvent.STOP)).subscribe { status ->
+            // this code gets run every second.
+}
+```
+
+# Scenarios
+
+* Have an Observable. Want to run another Observable after it, but use result of first one.
+
+*Solution: Use  `.map()` or `.flatMap()` on the Observable.*

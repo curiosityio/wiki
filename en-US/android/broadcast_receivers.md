@@ -86,7 +86,6 @@ You don't have to start an activity on system boot. You can launch a service or 
         android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
         <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED" />
-
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
     </receiver>
