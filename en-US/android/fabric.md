@@ -60,10 +60,7 @@ dependencies {
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>        
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="keygoesherethatfabricgivesyou" />
+        </activity>                
     </application>
 
 </manifest>
@@ -84,6 +81,17 @@ class MainApplication : Application() {
     }
 }
 ```
+
+* Create `app/fabric.properties`, and add following:
+
+```
+#Contains API Secret used to validate your application. Commit to internal source control; avoid making secret public.
+#Mon Jan 16 18:43:59 CST 2017
+apiSecret=apiSecretHere
+apiKey=apiKeyHere
+```
+
+The fabric Android Studio plugin can generate these for you or you can get them from Fabric.io I believe. 
 
 # Util for logging errors and sending up to Crashlytics
 
