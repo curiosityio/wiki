@@ -137,3 +137,9 @@ Observable.create<FooData> { subscriber ->
 * Have an Observable. Want to run another Observable after it, but use result of first one.
 
 *Solution: Use  `.map()` or `.flatMap()` on the Observable.*
+
+* I want to run some code on UI thread and some on Background thread.
+
+![](/docs/images/rx_observe_subscribeon.jpg)
+
+`observeOn()` tells the above code what to run on. `subscribeOn()` tells below code what to run on. 

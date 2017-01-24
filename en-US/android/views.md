@@ -14,6 +14,19 @@ name: Various info about Android widgets and views.
     android:imeOptions="actionDone"/>
 ```
 
+# Return/enter key listener EditText
+
+```
+FooEditText.setOnKeyListener { view, keyCode, event ->
+    if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        // enter key hit
+        true
+    } else {
+        false
+    }
+}
+```
+
 # Make ImageView act more like a button
 
 You can add click listeners to imageviews to make them a button but when you press them, there is no visual effect.
