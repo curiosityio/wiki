@@ -44,10 +44,8 @@ Either way, here is how to get around it:
 
 ```
 mDialogFragment = new DialogFragment();
-getChildFragmentManager().beginTransaction().add(mDialogFragment, mDialogFragment.getTag()).commitAllowingStateLoss();
+mDialogFragment.show(getChildFragmentManager(), mDialogFragment.getTag());
 ```
-
-The `commitAllowingStateLoss()` is the secret sauce.
 
 # Dismissing dialog fragments
 

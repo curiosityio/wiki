@@ -43,3 +43,38 @@ builder.show();
 ```
 
 [Credit for help](http://stackoverflow.com/a/29798616/1486374)
+
+# Custom view dialog
+
+Use a DialogFragment.
+
+```
+class FooDialogFragment : DialogFragment() {
+
+    interface ActionListener {
+        fun fooButtonClicked()
+    }
+
+    var actionListener: ActionListener? = null
+
+    private lateinit var fooButton: Button
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(activity)
+
+        val inflater = activity.layoutInflater
+        val view = inflater.inflate(R.layout.fragment_foo_dialog, null)
+        builder.setView(view)
+
+        fooButton = view.findViewById(R.id.fragment_foo_dialog_foo_button)!! as Button
+        tryAgainButton.setOnClickListener { actionListener?.fooButtonClicked() }
+
+        return builder.create()
+    }
+
+    fun updateFooButtonText(text: String) {
+        fooButton.text = text
+    }
+
+}
+```

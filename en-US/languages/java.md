@@ -50,3 +50,7 @@ if (mFavoriteSport.accept(new FavoriteSport.Visitor<Boolean>() {
     // whatever mFavoriteSport represents, it returns if its a favorite sport of yours.
 }
 ```
+
+# Find differences between 2 lists.
+
+I wrote this up in the Kotlin doc. Go view it there. 

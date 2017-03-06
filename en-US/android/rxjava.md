@@ -38,8 +38,8 @@ mDataManager.getAllFooData()
 
 Some notes here.
 
-* `.observeOn()` is specifying what thread the `.subscribe()` (and any future calls such as `.map()`, `.flatMap()`, etc.) will be called on.
-* You can specify a `.subscribeOn()` if you want which specifies what thread the Data Manager's `getAllFooData()` will be called on. By default, it is whatever thread you are calling it from. In this case, it will be the UI thread as we are calling the above code from a Activity/Fragment.
+* `.observeOn()` modifies the chain below it to run on a specified Scheduler (thread). You can have many `.observeOn()` calls to continuously change the code below it to run on the specified thread.
+* You can specify a `.subscribeOn()` if you want which specifies what thread the Observeable *starts* on.
 * `.compose()` is built in for RxJava if you want to be able to add repeating functionality instead of having to repeat yourself over and over. Here, we are actually using RxLifecycle library's method to bind our observer to our fragment's lifecycle. This allows our observer to automatically be stopped when fragment's onPause is called! If we do not do this, our observer will continue on forever and ever. That's not good.
 
 Then, the Data Manager's `getAllFooData()` function where it returns an Observable:
@@ -137,9 +137,3 @@ Observable.create<FooData> { subscriber ->
 * Have an Observable. Want to run another Observable after it, but use result of first one.
 
 *Solution: Use  `.map()` or `.flatMap()` on the Observable.*
-
-* I want to run some code on UI thread and some on Background thread.
-
-![](/docs/images/rx_observe_subscribeon.jpg)
-
-`observeOn()` tells the above code what to run on. `subscribeOn()` tells below code what to run on. 

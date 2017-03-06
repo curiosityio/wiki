@@ -37,21 +37,25 @@ public interface FooApi {
 
     @Multipart
     @PATCH("/users")
-    Call<FooResponseVo> uploadPhoto(@Part MultipartBody.Part photo);
+    Call<FooResponseVo> uploadPhoto(@Part MultipartBody.Part photo, @Part("description_of_photo") RequestBody description);
 
 }
 ```
 
-The key parts here are `@Multipart` and `@Part MultipartBody.Part foo`. These tell Retrofit we are uploading a file.
+The key parts here are `@Multipart` and `@Part MultipartBody.Part foo`. Notice the difference between the two. `@Part MultipartBody.Part` and `@Part("foo") RequestBody`. MultipartBody.Part cannot have a string added to the `@Part`. The param is added below when creating the MultipartBody via `MultipartBody.Part.createFormData()` call. You specify the api_param_name there, not in the `@Part` declaration.
+
+We will use the `MultipartBody.Part` for sending the photo and use the `RequestBody` for sending some random info. In this case, a string. The reason we are doing this is because the content type we want to send up is multipart/form-data. This is how I sent data to a Rails API in the past. Other API frameworks may not require this and instead require a different way of uploading files.
 
 * In your Java code:
 
 ```
 File picture;
 RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), picture);
-MultipartBody.Part multipartPicture = MultipartBody.Part.createFormData("api_param", picture.getName(), requestFile);
+MultipartBody.Part multipartPicture = MultipartBody.Part.createFormData("api_param_name", picture.getName(), requestFile);
 
-mFooApi.uploadPhoto(multipartPicture);
+RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), "description in here.");
+
+mFooApi.uploadPhoto(multipartPicture, description);
 ```
 
 `api_param` in this case is the key that the API is expecting for the file. We are uploading a photo here, so the API is probably looking for `photo` or `file`. The API docs for the API you are working with will say.

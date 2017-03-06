@@ -73,4 +73,31 @@ This tells Studio to use vector drawables instead of have Studio generate pngs a
 
 * That is it. AppCompat takes care of rest. All functions such as `.setImageResource()` on ImageView works as normal.
 
-When you want to use SVG or PSD files in your Android app, you need to use the [Android Asset Studio tool](https://developer.android.com/studio/write/vector-asset-studio.html). Access tool by right click on `res` in Android Studio > New > Vector asset > Local file > browse for your SVG or PSD file > Next. This will generate a XML file from these files as you cannot use SVG or PSD files directly in Studio. 
+When you want to use SVG or PSD files in your Android app, you need to use the [Android Asset Studio tool](https://developer.android.com/studio/write/vector-asset-studio.html). Access tool by right click on `res` in Android Studio > New > Vector asset > Local file > browse for your SVG or PSD file > Next. This will generate a XML file from these files as you cannot use SVG or PSD files directly in Studio.
+
+# Background pressed state for views
+
+When you press on any type of View that is not a button, you want it to have some sort View change to tell the user what they pressed on is an action.
+
+* Create drawable defining the states:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@color/button_pressed_background_color" />
+    <item android:state_focused="true" android:drawable="@color/button_pressed_background_color" />
+    <item android:drawable="@android:color/transparent" />
+</selector>
+```
+
+* Set the background drawable to the View you want to apply this pressed animation to.
+
+```
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/pressed_state_background"> <-------
+    ...
+</LinearLayout>
+```

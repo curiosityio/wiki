@@ -17,6 +17,12 @@ adb -d pull /sdcard/default.realm default.realm # <--- this will run as bash, no
 
 This will run 3 commands: `run-as`, `cp`, `exit` commands through adb shell on a device (`-d` flag). If you do not use the quotes the shell will start and wait for you to enter input.
 
+If you want to run these commands as root:
+
+```
+adb shell "su -c 'run code in these single quotes as root'"
+```
+
 # Pull app files from emulator or rooted device.
 
 ```
@@ -46,4 +52,4 @@ exit
 adb -d pull /sdcard/default.realm default.realm
 ```
 
-As long as your app is debuggable, this will work. `run-as` is telling adb to run as your app and then it gives you access to the data. 
+As long as your app is debuggable, this will work. `run-as` is telling adb to run as your app and then it gives you access to the data.

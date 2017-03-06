@@ -21,3 +21,11 @@ else
         # Unknown.
 fi
 ```
+
+# Sending arguments to bash script
+
+If you create a bash script that allows you to enter command line arguments to it, you can...
+
+* Refer to them individually via `$1` for the first arg, `$2` for the second arg, etc. Dollar sign, and number.
+
+* Refer to all of them: `$*` will pass them all. 

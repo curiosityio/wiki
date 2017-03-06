@@ -497,6 +497,26 @@ public class FooFragment extends Fragment implements FooListAdapter.DragReorderL
 }
 ```
 
+# Scroll to bottom.
+
+If you would like to simply scroll to the bottom of a RV, use your layout manager and tell it to scroll to position:
+
+```
+private lateinit var chatRecyclerViewLayoutManager: LinearLayoutManager
+chatRecyclerViewLayoutManager = LinearLayoutManager(activity)
+chatRecyclerViewLayoutManager.scrollToPosition(chatMessagesShownToUser.size - 1 )
+```
+
+That is it.
+
+If you are building a chat messaging app, it is common for RV to insert items on the bottom of the screen and have the RV rows start on bottom of screen instead of the top. Do do that, set `stackFromEnd = true` on your layout manager.
+
+```
+chatRecyclerViewLayoutManager = LinearLayoutManager(activity)
+chatRecyclerViewLayoutManager.stackFromEnd = true
+view!!.welcome_messages_recyclerview.layoutManager = chatRecyclerViewLayoutManager
+```
+
 ### Error: Inconsistency detected. Invalid item position 2(offset:2).state:3
 
 This exception may happen to you in your RecyclerView adapter when you try to refresh the RecyclerView. When this issue happened in my app, I was using `notifyItemRangeChanged(0, mData.size());` and the error was fixed when I instead called `notifyDataSetChanged()`. There are times when to use each.

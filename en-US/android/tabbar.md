@@ -382,7 +382,7 @@ You can have a full width equal size tabs, left/right/center small tabs, doesn't
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        app:tabMaxWidth="120dp"/>
+        app:tabMinWidth="120dp"/>
 </FrameLayout>
 ```
 

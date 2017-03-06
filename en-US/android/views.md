@@ -38,6 +38,47 @@ android:background="?attr/selectableItemBackgroundBorderless"
 android:clickable="true"
 ```
 
+# Center crop image in ImageView
+
+Set the ScaleType to an ImageView. Easiest way is via XML:
+
+```
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="10dp"
+    android:scaleType="centerCrop"/>
+```
+
+# Add border around ImageView
+
+If you want to add a border around your ImageView to give it UI as though it is selected:
+
+* Create a drawable to be the border:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke
+        android:width="4dp"
+        android:color="@android:color/white" />
+    <padding
+        android:left="3dp"
+        android:top="3dp"
+        android:right="3dp"
+        android:bottom="3dp" />
+</shape>
+```
+
+* Set the drawable border to the ImageView:
+
+```
+if (addBorderToImageView) {
+    imageView.setBackgroundResource(R.drawable.border_imageview_drawable_created_above)
+} else {
+    imageView.setBackgroundResource(0) // remove the border
+}
+```
+
 # Display HTML in TextView
 
 TextViews can display HTML text with even hyperlinks.
@@ -158,6 +199,8 @@ Telling ScrollView to fillViewport as well as making the LinearLayout child setu
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white" <---- text color of EditText.
+        android:theme="@style/WhiteTextTextInputEditText" <---- Set this for underline color of EditText on focused state. 
         android:hint="UserName"/>
 </android.support.design.widget.TextInputLayout>
 ```
@@ -167,6 +210,13 @@ Then, in your styles.xml file, add this style:
 ```
 <resources>
     ...
+    <style name="WhiteTextTextInputEditText" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>        
+
     <style name="WhiteTextColorFloatingEditText" parent="TextAppearance.AppCompat">
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">@android:color/white</item>
