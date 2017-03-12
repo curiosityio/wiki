@@ -171,3 +171,33 @@ getChildFragmentManager().beginTransaction()
 // Then when you want to dismiss it:
 ((TutsPlusBottomSheetDialogFragment) getChildFragmentManager().findFragmentByTag(BOTTOM_SHEET_FRAG_TAG)).dismissAllowingStateLoss();
 ```
+
+# Move up floating action button when snackbar shows up.
+
+If you didn't do anything about it, your snackbar would overlap on top of FABs. We are going to fix that so when snackbars show up, we animate up the FAB.
+
+```
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/foo_fab_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/foo_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/blue"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal"
+        android:layout_margin="12dp"
+        android:layout_gravity="end|bottom"/>
+</android.support.design.widget.CoordinatorLayout>
+```
+
+All I did was surround the FAB with a CoordinatorLayout. Make sure that the CoordinatorLayout is match_parent for height and width or the snackbar will only be the width of the FAB.
+
+Now, when you want to show your Snackbar, tell it to appear in your CoordinatorLayout:
+
+```
+Snackbar.make(view!!.foo_fab_coordinator, throwable.getMessage(), Snackbar.LENGTH_LONG).show();
+```
