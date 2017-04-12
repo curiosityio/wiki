@@ -9,9 +9,9 @@ func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> In
     let numberRows: Int = dataArray != nil ? dataArray!.count : 0
 
     if numberRows == 0 {
-        tableView.separatorStyle = .None
+        tableView.separatorStyle = .none
     } else {
-        tableView.separatorStyle = .SingleLine
+        tableView.separatorStyle = .singleLine
     }
 
     return numberRows
@@ -81,23 +81,32 @@ protocol PullToRefreshTableViewDelegate {
 class PullToRefreshTableView: UITableView {
 
     var pullRefreshDelegate: PullToRefreshTableViewDelegate?
-    let refreshControl: UIRefreshControl = UIRefreshControl()
+    let tableViewRefreshControl: UIRefreshControl = UIRefreshControl()
 
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    var message: String = "" // Change pull to refresh title here.
 
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh message here")
-        refreshControl.addTarget(self, action: #selector(PullToRefreshTableView.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
 
-        addSubview(refreshControl)
+        tableViewRefreshControl.attributedTitle = NSAttributedString(string: message)
+        tableViewRefreshControl.addTarget(self, action: #selector(PullToRefreshTableView.refreshSelector(sender:)), for: UIControlEvents.valueChanged)
+
+        addSubview(tableViewRefreshControl)
     }
 
-    func refresh(sender: AnyObject) {
+    func refreshSelector(sender: AnyObject) {
         pullRefreshDelegate?.pullToRefreshTriggeredTableView()
     }
 
+    // programmatically show the refresh view.
+    func showPullToRefresh() {
+        setContentOffset(CGPoint(x: 0, y: -tableViewRefreshControl.frame.size.height), animated: true)
+        tableViewRefreshControl.beginRefreshing()
+    }
+
+    // programmatically dismiss the refresh view.
     func dismissPullToRefresh() {
-        refreshControl.endRefreshing()
+        tableViewRefreshControl.endRefreshing()
     }
 
 }
@@ -208,11 +217,11 @@ class FooViewController: BaseUIViewController, UITableViewDelegate, UITableViewD
 
     ...
 
-    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! { <------ image used for empty view.
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! { <------ image used for empty view.
         return UIImage(named: "placeholder")
     }
 
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {  <----- title used for empty view.
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {  <----- title used for empty view.
         var message: String = "Loading data..."  <---- What I usually do, is set the string default to a loading state.
 
         if let _ = processesApiResponse { <----- then, if the data is not nil...we set it to empty state instead.
@@ -244,10 +253,11 @@ class FooViewController: BaseUIViewController, UITableViewDelegate, UITableViewD
     }
 
 }
-
 ```
 
 These functions, at least 1 is required but not all of them. Don't want an image or description? No problem.
+
+You probably want to implement show/hide divider in tableview as well so the divider does not show up in loading/empty views.
 
 # Dynamic height header
 
@@ -342,5 +352,5 @@ Fix with a simple reloadData call:
 fooTableView.dataSource = self
 fooTableView.delegate = self
 
-fooTableView.reloadData()  // <------ will load data without "scroll" need. 
+fooTableView.reloadData()  // <------ will load data without "scroll" need.
 ```

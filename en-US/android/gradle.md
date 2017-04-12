@@ -116,3 +116,65 @@ compile('com.google.android.gms:play-services-base:6.5.+') {
     exclude module: 'support-v4'
 }
 ```
+
+# Install Android library to local Maven repo to install in projects locally.
+
+[Help from](http://stackoverflow.com/a/41997650/1486374)
+
+This is great if you have an Android library you are developing and debugging locally on your machine. You can develop changes in your library, install changes you local Maven repo, install in your Android app by installing the library via Gradle in the Maven local repo.
+
+In your Android library:
+
+* Add plugin to root `build.gradle` file:
+
+```
+buildscript {
+  repositories {
+    mavenCentral() // or if jcenter is already there, ignore this part.
+  }
+
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+  }
+}
+```
+
+* Add the plugin to your librarie's `build.gradle` file:
+
+```
+apply plugin: 'com.android.library' // this should already be there
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.yourpackage.yourlibrary'
+version = '1.0'
+```
+
+* Add to your `settings.gradle` file:
+
+```
+rootProject.name = 'yourlibrary'
+```
+
+* Then, install the library to the local Maven repo:
+
+```
+./gradlew install
+```
+
+Now, if you check your local maven repo (usually located: `$HOME/.m2/repository`) you will find your library.
+
+In your Android app project:
+
+* Add the following to your root `build.gradle` file by JitPack and jcenter links:
+
+```
+mavenLocal()
+```
+
+* Then, in your app's `build.gradle` file:
+
+```
+compile 'com.yourpackage.yourlibrary:yourlibrary:1.0'
+```
+
+Keep in mind that when you change code in your library project code base, you will always need to run `./gradlew install` to install the changes to the local Maven repo *and then* you will need to do a Gradle sync in Android Studio of your Android app so it can sync the Maven local changes to it's code base. 

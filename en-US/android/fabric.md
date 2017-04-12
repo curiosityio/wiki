@@ -23,7 +23,7 @@ apply plugin: 'io.fabric'
 ...
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'http://s3.amazonaws.com/fabric-artifacts/public' } // <--- this works better for proxies instead of this --> maven { url 'https://maven.fabric.io/public' } 
     mavenCentral()
 }
 
@@ -91,7 +91,7 @@ apiSecret=apiSecretHere
 apiKey=apiKeyHere
 ```
 
-The fabric Android Studio plugin can generate these for you or you can get them from Fabric.io I believe. 
+The fabric Android Studio plugin can generate these for you or you can get them from Fabric.io I believe.
 
 # Util for logging errors and sending up to Crashlytics
 
