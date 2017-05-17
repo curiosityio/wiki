@@ -64,10 +64,10 @@ class MainViewingViewController: UIViewController, UIPopoverPresentationControll
     var fooPopover: FooPopoverViewController?
 
     // when screen rotates, dismiss popover.
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         fooPopover?.dismiss(self)
 
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        super.viewWillTransition(to: size, with: coordinator)
     }
 
     // anywhere now, call showPopover() to show it.
@@ -75,12 +75,12 @@ class MainViewingViewController: UIViewController, UIPopoverPresentationControll
         fooPopover = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("FooPopoverViewControllerId") as? FooPopoverViewController
         fooPopover?.setupPopover(self, arrowDirection: .Up, sourceView: self.viewToPutPopoverBelow, sourceRect: CGRect(x: self.viewToPutPopoverBelow!.bounds.midX, y: self.viewToPutPopoverBelow!.bounds.midY + 15, width: 0, height: 0))
 
-        self.presentViewController(fooPopover!, animated: true, completion: nil)
+        self.present(fooPopover!, animated: true, completion: nil)
     }    
 
     // this is needed as UIPopoverPresentationControllerDelegate to display the popover as a popover. If you don't have this, it will be shown full screen.
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .None
+        return .none
     }
 }
 ```

@@ -200,7 +200,7 @@ Telling ScrollView to fillViewport as well as making the LinearLayout child setu
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" <---- text color of EditText.
-        android:theme="@style/WhiteTextTextInputEditText" <---- Set this for underline color of EditText on focused state. 
+        android:theme="@style/WhiteTextTextInputEditText" <---- Set this for underline color of EditText on focused state.
         android:hint="UserName"/>
 </android.support.design.widget.TextInputLayout>
 ```
@@ -231,3 +231,23 @@ Then, in your styles.xml file, add this style:
 ```
 
 And enter in whatever colors you wish. Thank you to [this SO answer](http://stackoverflow.com/a/30914037/1486374) for the help.
+
+# Set capitalization of EditText
+
+```
+fun EditText.passwordInputType() {
+    inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+}
+
+fun EditText.emailInputType() {
+    inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+}
+
+fun EditText.normalTextInputType() {
+    inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+}
+
+fun EditText.allCapsTextInputType() {
+    inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
+}
+```

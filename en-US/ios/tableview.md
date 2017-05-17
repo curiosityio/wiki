@@ -26,7 +26,11 @@ There are 2 steps to make your tableview cells be dynamic height.
 
 * Setup auto layout constraints in storyboard. In your UITableViewCell subclass, add constraints so that the subviews of the cell have their edges pinned to the edges of the cell's contentView (most importantly to the top AND bottom edges). NOTE: don't pin subviews to the cell itself, only to the cell's contentView!
 
-TL;DR add constraints so that the cell's contentView has it's inner views pinned to the top bottom. Also make sure at least 1 view does not have a view height constraint set so it is able to grow in height.
+TL;DR add constraints so that the cell's contentView has it's inner views pinned to the top, bottom, left and right. Also make sure at least 1 view does not have a view height constraint set so it is able to grow in height.
+
+*Tips:*
+1. Set height constraints on views using `>=` to allow it to grow.
+2. If you have multiple views that have a dynamic heights, edit the Content Hugging Priority of that view (found in inspector view in XCode where you find autolayout constraints) to a lower number. This will remove warnings. They should all still grow because of calling `cell.layoutIfNeeded()` which will make all views grow at runtime.
 
 ![](/docs/images/tableviewcell_dynamic_height_autolayout.png)
 

@@ -26,6 +26,25 @@ Must use `Glide.clear()` to make sure image gets set correctly in each row or it
 
 With `Glide.with()...`, using `.asBitmap()` is important for when using some libraries such as CircularImageView. Or it will not be set until the recyclerview gets refreshed.
 
+##### Add pinch to zoom using Glide
+
+To add pinch to zoom functionality, I will use the [TouchImageView](https://github.com/MikeOrtiz/TouchImageView) library. Using [this issue](https://github.com/MikeOrtiz/TouchImageView/issues/135) I was able to get it working.
+
+```
+mImageView.setImageResource(R.drawable.placeholder);
+Glide.with(this).load(imageUrl).asBitmap().into(new SimpleTarget<Bitmap>() {
+    @Override
+    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+        mImageView.setImageBitmap(resource);
+        mImageView.setZoom(1f);
+    }
+});
+```
+
+To get Glide working with this special ImageView subclass, this is the code we use to get it working. First off, we must manually set the placeholder drawable to the ImageView. If you actually want to use a placeholder image, I recommend having a RelativeLayout with an ImageView below the TouchImageView because the code above does not work well with setting placeholders.
+
+You must use setZoom() or you will not have image show in the TouchImageView until you tap it. 
+
 # Retrofit
 
 ## File upload
@@ -241,5 +260,59 @@ protected void onCreate(Bundle savedInstanceState) {
       // Like mentioned before, ask for permission at a button press or something.
       MainActivityPermissionsDispatcher.showContactsWithCheck(this);
     });
+}
+```
+
+# Picasso
+
+## Get a video thumbnail image from a remote video URL
+
+Create this file. I named mine `PicassoRequestVideoThumb`
+
+```
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Request;
+import com.squareup.picasso.RequestHandler;
+
+import java.io.IOException;
+
+/**
+ * Creates thumbnail of video.
+ * Picasso picasso = new Picasso.Builder(this).addRequestHandler(new VideoFrameRequestHandler()).build();
+ * picasso.load("videoframe:/path/to/video.mp4
+ *
+ * Yes, you need to have the scheme be videoframe. That is how this code gets triggered (canHandleRequest).
+ */
+public class PicassoRequestVideoThumb extends RequestHandler {
+    public static final String SCHEME = "videoframe";
+
+    @Override public boolean canHandleRequest(Request data) {
+        return SCHEME.equals(data.uri.getScheme());
+    }
+
+    @Override public Result load(Request data, int networkPolicy) throws IOException {
+        Bitmap bm = ThumbnailUtils.createVideoThumbnail(data.uri.getPath(), MediaStore.Images.Thumbnails.MINI_KIND);
+        return new Result(bm, Picasso.LoadedFrom.DISK);
+    }
+}
+```
+
+Then in your Application file:
+
+```
+private fun configureDefaultPicassoInstance() {
+    val picasso = Picasso.Builder(this).addRequestHandler(PicassoRequestVideoThumb()).build()
+
+    try {
+        Picasso.setSingletonInstance(picasso)
+    } catch (e: IllegalStateException) {
+        // should never happen. Called when Picasso.with(context) has already been called in the app.
+        LogUtil.error(e)
+    }
 }
 ```
