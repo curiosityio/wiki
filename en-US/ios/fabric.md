@@ -38,14 +38,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashlyticsDelegate {  <-
         return true
     }
 
-    func crashlyticsDidDetectReportForLastExecution(report: CLSReport, completionHandler: (Bool) -> Void) {  <------- add this function. This will make it so app crashes only get submitted to Fabric on non-debug builds.
+    func crashlyticsDidDetectReport(forLastExecution report: CLSReport, completionHandler: @escaping (Bool) -> Void) {
         #if !DEBUG
             let submitReport = true
         #else
             let submitReport = false
         #endif
 
-        NSOperationQueue.mainQueue().addOperationWithBlock {
+        OperationQueue.main.addOperation {
             completionHandler(submitReport)
         }
     }

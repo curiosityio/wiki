@@ -234,3 +234,9 @@ Here is an example response from Google with all the user info:
    }
 }
 ```
+
+# Simple apache-like password protection
+
+Sometimes, I simply want to password protect an endpoint but not have to create any UI or such to getting it to work. Sometime like the Apache htpasswd type of auth. Here is how to do that in a node app.
+
+Simple. Here is a package: [http-auth](https://github.com/http-auth/http-auth) you can link into your existing express app, passport, or other method to add Apache like htpasswd style login to your endpoint.

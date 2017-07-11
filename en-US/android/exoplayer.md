@@ -136,3 +136,11 @@ class ExoPlayerUtil {
 
 }
 ```
+
+# Play YouTube videos with ExoPlayer
+
+Check out [this GitHub issue](https://github.com/google/ExoPlayer/issues/2160#issuecomment-302516156) comment that talks about why ExoPlayer does not officially support playing YouTube apps. Long story short, YouTube needs to control analytics and advertising that happens while playing YouTube videos.
+
+There are hacky ways to do it by calling an undocumented Google endpoint, downloading the file that comes from calling the endpoint, pulling out a field from the returned file result, then sending that string to ExoPlayer to play DASH content. That will work, but I don't trust it.
+
+To get YouTube videos playing, check out the Android 'YouTube' doc I have in the wiki here to find out how to get that working. 

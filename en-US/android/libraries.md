@@ -43,7 +43,39 @@ Glide.with(this).load(imageUrl).asBitmap().into(new SimpleTarget<Bitmap>() {
 
 To get Glide working with this special ImageView subclass, this is the code we use to get it working. First off, we must manually set the placeholder drawable to the ImageView. If you actually want to use a placeholder image, I recommend having a RelativeLayout with an ImageView below the TouchImageView because the code above does not work well with setting placeholders.
 
-You must use setZoom() or you will not have image show in the TouchImageView until you tap it. 
+You must use setZoom() or you will not have image show in the TouchImageView until you tap it.
+
+## Show drawable image resource using Glide
+
+When using Glide in your app, it is a good idea to use Glide for setting all images in all ImageViews. Local images, remote images, drawables, files, etc. This is because I have had bugs in the past where I have an ImageView that I use Glide to set a remote image into and also a drawable resource depending on a user action. I was having issues where my code would use Glide to load the remote image into the ImageView, and then a second later (before the remote file was fully downloaded by Glide), my code would *not* use Glide to set the image resource on the same ImageView: `imageView.setImageResource(R.drawable.foo)` and then once Glide was done loading the remote file, it would set the ImageView with the remote image.
+
+Long story short, have Glide take care of setting all your ImageViews for all types of images and these bugs should not happen.
+
+So, this is how Glide shows drawable image resources:
+
+```
+Glide.with(context)
+             .load("")
+             .placeholder(R.drawable.foo)
+             .into(holder.imageView);
+```
+
+Yup, this is a little hacky. You are actually using the placeholder to set your drawable resource, not the `load()` function as you do for files or URL paths. This seems a little hacky, but it is how you do it through all the trial and error through [this GitHub issue](https://github.com/bumptech/glide/issues/588#issuecomment-132886995) and [this StackOverflow question](https://stackoverflow.com/questions/30653631/why-wont-glide-load-an-image-from-resource-id-to-my-imageview).
+
+## Show video thumbnail from local video file on SD card
+
+The Glide code is pretty simple. What you are used to. It is what you send to the `.load()` function that does the magic:
+
+```
+// The code below uses the UriUtil class from the Android Boilerplate code base: https://github.com/curiosityio/AndroidBoilerplate/.
+// Essentially what we need to do is send a file path to the local video file `file:///absolute/path/to/video/file.mp4` to Glide and it takes care of creating a thumbnail for you.
+val filePathToLocalVideoFile: String = UriUtil.uriToString(UriUtil.fileAbsolutePathToUri(localPathToVideoFile!!))
+
+Glide.with(context)
+             .load(filePathToLocalVideoFile)
+             .placeholder(R.drawable.foo)
+             .into(holder.imageView);
+```
 
 # Retrofit
 

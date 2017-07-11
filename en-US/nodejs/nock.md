@@ -25,6 +25,7 @@ describe('Stripe webhooks test.', function() {
                 var eventId = uid2(20);
                 var stripeAccountId = uid2(20);
 
+                // *NOTE:* The endpoint you send to nock is sensitive. If you send it /v1/foo/ but the endpoint is actually /v1/foo then it will not work. Make sure to get it exactly right. For Stripe, I have found the trailing `/` makes Nock not work with their endpoints. 
                 nock('https://api.stripe.com')
                 .get('/v1/events/' + eventId, function(body) {
                     return true;

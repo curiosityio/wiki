@@ -37,6 +37,17 @@ Now, go into your Info.plist file and add this line:
 
 Next step we will use this value we just created.
 
+* Each build flavor use different app launch icon
+
+Create app icon sets in your image assets folder for each build flavor. I use [fastlane app icon plugin generator](https://github.com/KrauseFx/fastlane-plugin-appicon) to generate icon sets for me. Create `AppIconSubway.appiconset`, `AppIconWendy.appiconset`, `AppIconBurgerKing.appiconset` for example.
+
+After generating these app icon sets, go into your project settings > Build Settings. Search "asset cat" and you should see this:
+
+![](/docs/images/asset_catalog_ios.png)
+> thanks to [this blog post](https://engineering.circle.com/different-app-icons-for-your-ios-beta-dev-and-release-builds-af4d209cdbfd) for the photo creds.
+
+For each build flavor in there, enter the name of the app icon set for each. `AppIconSubway`, `AppIconWendy`, `AppIconBurgerKing` (don't add `.appiconset` in the name).
+
 * Run different code depending on build flavor
 
 Create a new file name `BuildFlavorManager`. Here is the code for the Swift visitor pattern you will need to create:
