@@ -9,3 +9,11 @@ name: SSH info
 # Send SSH key to remote server
 
 * Assuming you have the root username/password to get into the server, run this command to add SSH login support `cat ~/.ssh/id_rsa.pub | ssh root@your.ip.address "cat >> ~/.ssh/authorized_keys"` to add my ssh key to server.
+
+# Change (or remove) password from SSH key without generating a new one.
+
+```
+ssh-keygen -p
+```
+
+This command will run, ask you for old password and new password. 

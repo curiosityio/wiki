@@ -88,3 +88,24 @@ If you want to modify the options menu based on events that occur during the act
 On Android 2.3.x and lower, the system calls onPrepareOptionsMenu() each time the user opens the options menu (presses the Menu button).
 
 On Android 3.0 and higher, the options menu is considered to always be open when menu items are presented in the app bar. When an event occurs and you want to perform a menu update, you must call invalidateOptionsMenu() to request that the system call onPrepareOptionsMenu().
+
+```
+@Override
+public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    menu.clear();
+
+    inflater.inflate(R.menu.foo_menu, menu);
+
+    mMenu = menu;
+}
+
+@Override
+public void onStart() {
+    super.onStart();
+
+    // I am setting visibility here because I need to have mUserDataManager populated. onCreateOptionsMenu gets called very early in lifecycle.
+    if (mMenu.findItem(R.id.foo) != null) {
+        mMenu.findItem(R.id.foo).setVisible(mUserDataManager.isAdmin());
+    }
+}
+```

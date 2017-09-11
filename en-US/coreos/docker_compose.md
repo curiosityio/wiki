@@ -11,3 +11,11 @@ $> sudo su
 #> mkdir -p /opt/bin; curl -L "https://github.com/docker/compose/releases/download/1.11.1/docker-compose-$(uname -s)-$(uname -m)" -o /opt/bin/docker-compose; chmod +x /opt/bin/docker-compose;
 #> exit
 ```
+
+# Check the Docker logs in CoreOS
+
+```
+journalctl -u docker.service
+```
+
+*Note: Make sure to hit the space bar and view all of the logs. When you run this command you will only see the beginning of it.*

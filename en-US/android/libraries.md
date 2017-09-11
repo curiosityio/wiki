@@ -205,6 +205,30 @@ Notice that the `data` param is a form field and is an array. While working with
 
 Therefore, anytime you need to send an array of data, you might as well use ArrayList.
 
+## Get Request object from Response object
+
+When you make an API request, you get back a `Response` Retrofit object. From that response object, you can also get a OkHTTP `Request` object:
+
+```
+response.raw().request()
+```
+
+The Retrofit `Response` object is a wrapper around the OkHTTP Response. It is nicer to use because you get access to the serialized Body, `isSuccessful()`, error body (if not successful).
+
+## Reading Response body multiple times
+
+You can only read the body from a Retrofit `Response` object once as it closes it's input stream after you read it once ([details here](https://github.com/square/retrofit/issues/1072)). With that in mind, you have to save a reference to the body string in order to use it again.
+
+```
+val errorResponseBody: String = response.errorBody()?.string() ?: ""
+val errorResponseType: MediaType = response.errorBody().contentType()
+val errorRequestBody = ResponseBody.create(errorResponseType, errorResponseBody)
+
+// errorRequestBody is a 'copy' of the error body you can use the body from again and again. For example, you will want to do this when working with Gson `Gson().fromJson(errorRequestBody.charStream(), FooErrorVo::class.java)`.
+
+// Keep a reference to errorResponseBody and errorResponseType anytime you will need this body again so that anytime you need to use the body again, you can simply create another `ResponseBody` via `ResponseBody.create()`.
+```
+
 # PermissionsDispatcher
 
 When asking for permissions at runtime in Android there is lots of boilerplate code. Use [PermissionsDispatcher](https://github.com/hotchemi/PermissionsDispatcher) instead. ([this library also looks promising!](https://github.com/kayvannj/PermissionUtil))
@@ -346,5 +370,244 @@ private fun configureDefaultPicassoInstance() {
         // should never happen. Called when Picasso.with(context) has already been called in the app.
         LogUtil.error(e)
     }
+}
+```
+
+# Mixpanel
+
+## Setup Mixpanel in project with Firebase push notifications (FCM)
+
+The reason there are special instructions here is because I am using Mixpanel *with* FCM. If you do not use FCM or GCM to send push notifications, then you can use the [basic built-in setup instructions for Mixpanel](https://mixpanel.com/help/reference/android-push-notifications) to do a lot of the push notification work for you. I like to have more control and the ability to send push notifications through FCM so I follow these instructions.
+
+What we are doing here is setting up Firebase and FCM. That's the big part of it. Then, after FCM gives us a token and your user has successfully logged into the mobile app, we will use AnalyticsUtil class's identifyUser() function to save this FCM token and user info the Mixpanel.
+
+* Install Firebase. You need to follow the directions [on Firebase's docs site](https://firebase.google.com/docs/android/setup) to generate your google-services.json file and such.
+
+* Add dependencies (includes some stuff you already did for setting up Firebase but including here in case):
+
+build.gradle
+```
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.google.gms:google-services:3.1.0' <----- add this for firebase installing.
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+```
+
+app/build.gradle
+```
+dependencies {
+    compile "com.mixpanel.android:mixpanel-android:5.1.4"
+
+    // firebase
+    compile 'com.google.firebase:firebase-core:11.0.2'
+    compile 'com.google.firebase:firebase-messaging:11.0.2'
+}
+
+apply plugin: 'com.google.gms.google-services'
+```
+
+manifest
+```
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.curiosityio.yourcircle">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- used by mixpanel -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <!-- push notifications by mixpanel and FCM -->
+    <permission android:name="${applicationId}.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        ...>
+        ...
+        <service
+            android:name=".service.YourCircleFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.YourCircleFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- Set custom default icon FCM. This is used when no icon is set for incoming notification messages. https://goo.gl/l4GJaQ -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notifications_circle" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary" />
+    </application>
+
+</manifest>
+```
+
+I like to make a util class to do my analytics operations for me:
+```
+package com.curiosityio.yourcircle.util
+
+import com.curiosityio.yourcircle.MainApplication
+import com.curiosityio.yourcircle.R
+import com.curiosityio.yourcircle.manager.ThirdPartyCredsManager
+import com.curiosityio.yourcircle.manager.UserCredsManager
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.mixpanel.android.mpmetrics.MixpanelAPI
+
+class AnalyticsUtil {
+
+    companion object {
+
+        fun initAnalytics() {
+            getMixpanelInstance()
+            getFirebaseAnalyticsInstance()
+        }
+
+        fun getMixpanelInstance(): MixpanelAPI {
+            val context = MainApplication.appContext
+
+            return MixpanelAPI.getInstance(context, context.getString(R.string.mixpanel_token))
+        }
+
+        fun getFirebaseAnalyticsInstance(): FirebaseAnalytics {
+            val context = MainApplication.appContext
+
+            return FirebaseAnalytics.getInstance(context)
+        }
+
+        fun identifyUser() {
+            UserCredsManager.getUserId()?.let { userId ->
+                if (ThirdPartyCredsManager.getFCMToken() != null) {
+                    val mixpanel = getMixpanelInstance()
+                    val people = mixpanel.people
+                    val fcmToken: String = ThirdPartyCredsManager.getFCMToken()!!
+
+                    people.identify(userId.toString())
+                    people.pushRegistrationId = fcmToken
+                }
+
+                getFirebaseAnalyticsInstance().setUserId(userId.toString())
+            }
+        }
+
+    }
+
+}
+```
+From your Application class's onCreate(), call initAnalytics(). Call identifyUser() after the user has logged in successfully. I also like to do it in LaunchActiivty's onCreate() for everytime app is launched to make sure Mixpanel is always in sync.
+
+in all the activities of your app, add a Mixpanel flush call so when the user leaves your app, their analytics data gets pushed (the alternative is to leave this code out and mixpanel will attempt to push up data when they open your app again in the future.)
+```
+override fun onDestroy() {
+     super.onDestroy()
+
+     AnalyticsUtil.flush()
+     closeRealmInstance()
+ }
+```
+
+Create a manager that keeps track of the latest FCM token received:
+```
+package com.curiosityio.yourcircle.manager
+
+import android.content.Context
+import com.curiosityio.yourcircle.R
+import com.curiosityio.androidboilerplate.manager.SharedPreferencesManager
+import com.curiosityio.yourcircle.MainApplication
+import com.curiosityio.yourcircle.extensions.getIntOrNull
+
+class ThirdPartyCredsManager {
+
+    companion object {
+        val context: Context = MainApplication.appContext
+
+        fun getFCMToken(): String? = SharedPreferencesManager.getString(context, context.getString(R.string.preferences_fcm_token))
+    }
+
+    class Editor {
+
+        private var fcmToken: String? = null
+
+        fun setFcmToken(token: String?): Editor {
+            this.fcmToken = token
+            return this
+        }
+
+        fun commit() {
+            val editor = SharedPreferencesManager.edit(context)
+            fcmToken.let { editor.setString(context.getString(R.string.preferences_fcm_token), it) }
+            editor.commit()
+        }
+    }
+
+}
+```
+
+We will push to this FCM token manager here:
+```
+package com.curiosityio.yourcircle.service
+
+import com.curiosityio.yourcircle.manager.ThirdPartyCredsManager
+import com.curiosityio.yourcircle.util.AnalyticsUtil
+import com.google.firebase.iid.FirebaseInstanceIdService
+import com.google.firebase.iid.FirebaseInstanceId
+
+class YourCircleFirebaseInstanceIDService : FirebaseInstanceIdService() {
+
+    override fun onTokenRefresh() {
+        val fcmToken = FirebaseInstanceId.getInstance().token
+        ThirdPartyCredsManager.Editor().setFcmToken(fcmToken).commit()
+
+        AnalyticsUtil.identifyUser()
+    }
+
+}
+```
+
+Then, create your FCM service when messages are received:
+```
+package com.curiosityio.yourcircle.service
+
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
+import java.lang.Exception
+
+class YourCircleFirebaseMessagingService : FirebaseMessagingService() {
+
+    override fun onMessageReceived(message: RemoteMessage?) {
+        fun messageFromMixpanel(): Boolean = message?.data?.containsKey("mp_message") ?: false
+    }
+
+    override fun onDeletedMessages() {
+        super.onDeletedMessages()
+    }
+
+    override fun onMessageSent(p0: String?) {
+        super.onMessageSent(p0)
+    }
+
+    override fun onSendError(p0: String?, p1: Exception?) {
+        super.onSendError(p0, p1)
+    }
+
 }
 ```

@@ -140,3 +140,18 @@ var currentlyShownViewController: UIViewController! {
 ```
 
 To perform some action when you set the currentlyShownViewController.
+
+# Set background color of page controller.
+
+![](/docs/images/pageviewcontroller_background_color.jpg)
+> Photo credits go to [this SO question](https://stackoverflow.com/q/31797959/1486374)
+
+In the UIViewController that you are showing the UIPageViewController, add the following code to set the background color. 
+
+```
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    self.view.backgroundColor = UIColor.black
+}   
+```

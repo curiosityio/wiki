@@ -62,7 +62,11 @@ Requires=docker.service # requires docker to run
 
 [Timer]
 OnCalendar=*-*-* 02:00:00 # Run every day at 2am
+OnBootSec=0min
 ```
+
+[Here is the man page for system timer to help determine syntax for OnCalendar](http://man7.org/linux/man-pages/man7/systemd.time.7.html)
+One tip is that you can comma separate the units to determine multiple times. So, `*-*-* *:*:0,15,30,45` would mean to run every 15 second intervals. `*-*-* 0,8,16:00:00` would mean to run every 8 hours.
 
 * Install our timer to the system:
 

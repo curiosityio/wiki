@@ -134,6 +134,53 @@ var URLRequest: NSMutableURLRequest {
 }
 ```
 
+# Intercept request for every API request
+
+You can add the ability to intercept all HTTP requests in Alamofire so you can edit the request for each request such as adding headers to the request.
+
+* Create a `RequestAdapter`:
+
+```
+import Foundation
+import Alamofire
+
+class EveryRequestAdapter: RequestAdapter {
+
+    fileprivate var specialHeader: String? = nil
+
+    init(specialHeader: String) {
+        super.init()
+        self.specialHeader = specialHeader
+    }
+
+    func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+        var urlRequest = urlRequest
+
+        if let urlString = urlRequest.url?.absoluteString, urlString.hasPrefix("https://yoursite.com") {
+            urlRequest.setValue(try UserCredsManager.getAuthToken(), forHTTPHeaderField: "Access-Token")
+            if let foo = AppManager.getFoo() {
+                urlRequest.setValue(foo, forHTTPHeaderField: "header-value")
+            }
+            if let specialHeader = specialHeader {
+                urlRequest.setValue(specialHeader, forHTTPHeaderField: "special-header")
+            }
+        }
+
+        return urlRequest
+    }
+}
+```
+
+* Create an instance of `SessionManager` to perform your requests with your newly created adapter:
+
+```
+var sessionManager = Alamofire.SessionManager.default
+
+sessionManager.adapter = EveryRequestAdapter(specialHeader: "Bar")
+```
+
+* Now, when you call `Alamofire.upload()`, `Alamofire.request()`, etc. that is using a *default* `SessionManager` set by Alamofire. In order to use your `RequestAdapter`, you will need to use the `SessionManager` that you created for all API calls. This means replacing all of your `Alamofire.request()`, `Alamofire.download()`, `Alamofire.upload()` calls with `sessionManager.request()` and so on.
+
 # Read response headers
 
 In the Alamofire response object, you can find a dictionary populated with the header values:

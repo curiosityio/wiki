@@ -201,3 +201,92 @@ Now, when you want to show your Snackbar, tell it to appear in your CoordinatorL
 ```
 Snackbar.make(view!!.foo_fab_coordinator, throwable.getMessage(), Snackbar.LENGTH_LONG).show();
 ```
+
+# Bottom navigation bar
+
+* Add layout to layout file:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/main_fragment_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/main_fragment_bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/primary"
+        app:itemIconTint="@drawable/bottom_navigation_bar_state"
+        app:itemTextColor="@drawable/bottom_navigation_bar_state"
+        app:menu="@menu/bottom_navigation_main" />
+
+</RelativeLayout>
+```
+
+* Create menu file to contain all of the selectable options:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bottom_navigation_chat"
+        android:enabled="true"
+        android:icon="@drawable/ic_chat_white_24dp"
+        android:title="@string/chat"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bottom_navigation_resources"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        android:title="@string/resources"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bottom_navigation_notifications"
+        android:enabled="true"
+        android:icon="@drawable/ic_notifications_white_24dp"
+        android:title="@string/notifications"
+        app:showAsAction="ifRoom" />
+</menu>
+```
+
+* As of right now, when you select items in the bottom navigation bar, no matter if it's selected or not, the icon and text will be the same color. Create a drawable file to change that so we set states:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@android:color/white" android:state_checked="true" />
+    <item android:color="@color/not_active_bottom_selector_state" android:state_checked="false" />
+</selector>
+```
+
+If you do not want to use states, you can simply set the `app:itemIconTint=""` and `app:itemTextColor=""` properties to colors instead of the drawable file.
+
+* In fragment, set some listeners when the icons are selected in the bottom bar:
+
+```
+main_fragment_bottom_navigation.setOnNavigationItemReselectedListener {  } // don't do anything here. This makes it so onNavigationItemSelectedListener only gets called when a new item selected if this is set.
+main_fragment_bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
+    when (menuItem.itemId) {
+        R.id.bottom_navigation_chat -> {
+            replaceFragment(fragmentContainerId, ChatFragment.newInstance())
+        }
+        R.id.bottom_navigation_resources -> {
+            replaceFragment(fragmentContainerId, ResourcesFragment.newInstance())
+        }
+        R.id.bottom_navigation_notifications -> {
+            replaceFragment(fragmentContainerId, NotificationsFragment.newInstance())
+        }
+    }
+    true
+}
+```

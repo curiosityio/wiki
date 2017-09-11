@@ -25,7 +25,7 @@ describe('Stripe webhooks test.', function() {
                 var eventId = uid2(20);
                 var stripeAccountId = uid2(20);
 
-                // *NOTE:* The endpoint you send to nock is sensitive. If you send it /v1/foo/ but the endpoint is actually /v1/foo then it will not work. Make sure to get it exactly right. For Stripe, I have found the trailing `/` makes Nock not work with their endpoints. 
+                // *NOTE:* The endpoint you send to nock is sensitive. If you send it /v1/foo/ but the endpoint is actually /v1/foo then it will not work. Make sure to get it exactly right. For Stripe, I have found the trailing `/` makes Nock not work with their endpoints.
                 nock('https://api.stripe.com')
                 .get('/v1/events/' + eventId, function(body) {
                     return true;
@@ -115,3 +115,11 @@ nock.recorder.rec();
 Recording relies on intercepting real requests and answers and then persisting them for later use.
 
 **ATTENTION!: when recording is enabled, nock does no validation. Therefore, you want to use the rec() function above, view the console output, write your nock statements, then delete the rec() function call.**
+
+---
+
+Another huge debugging tip is to enable logging of Nock to the console:
+
+```
+DEBUG=nock.* npm run test
+```
