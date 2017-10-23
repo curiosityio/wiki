@@ -33,7 +33,7 @@ nano custom/app.ini
 In this file, put in the contents below and change the values around to work for your project.
 ```
 RUN_MODE = prod
-HTTP_PORT = 5556 # port to run peachdocs on.
+HTTP_PORT = 5555 # port to run peachdocs on.
 
 [i18n]
 LANGS = en-US
