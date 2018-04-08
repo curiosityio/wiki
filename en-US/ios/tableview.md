@@ -231,8 +231,15 @@ class FooViewController: BaseUIViewController, UITableViewDelegate, UITableViewD
         if let _ = processesApiResponse { <----- then, if the data is not nil...we set it to empty state instead.
             message = "You don't have any data."
         }
+        
+        var attributes: [NSAttributedStringKey: Any] = [:]
+        attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
+        attributes[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 14.0)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        attributes[NSAttributedStringKey.paragraphStyle] = paragraphStyle
 
-        return NSAttributedString(string: message) <---- it is a NSAttributedString which means you can style font, color, size, alignment, etc.
+        return NSAttributedString(string: message, attributes: attributes) <---- it is a NSAttributedString which means you can style font, color, size, alignment, etc.
     }        
 
     func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! { <--- if you want more then a title, description can be added too.

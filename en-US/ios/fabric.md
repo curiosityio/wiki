@@ -25,63 +25,82 @@ import Fabric      <----- import the frameworks
 import Crashlytics <-----
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CrashlyticsDelegate {  <---- Add CrashlyticsDelegate here.
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        Crashlytics.sharedInstance().delegate = self <-------- these 2 lines need added to code.
-        Fabric.with([Crashlytics.self])              <--------    
-
         ...
 
-        return true
-    }
-
-    func crashlyticsDidDetectReport(forLastExecution report: CLSReport, completionHandler: @escaping (Bool) -> Void) {
+        // Make sure fabric is last.
         #if !DEBUG
-            let submitReport = true
-        #else
-            let submitReport = false
-        #endif
+            Fabric.with([Crashlytics.self])
+            DDLog.add(CrashlyticsCocoaLumberjackLogger.sharedInstance)
+        #endif        
 
-        OperationQueue.main.addOperation {
-            completionHandler(submitReport)
-        }
+        return true
     }
 }
 ```
 
 # Log errors to crashlytics
 
-Here is a handy util class to log to crashlytics or to console depending on debug builds or not.
+Use CocoaLumberjack to log all of your debug statements and exceptions. Then depending on if you're running in debug or release, it will log to the console or to Crashlytics.
+
+Create this file in your code:
 
 ```
+//
+//  CrashlyticsCocoaLumberjackLogger.swift
+//
+//  Created by Levi Bostian on 10/30/17.
+//  Copyright © 2017 Curiosity IO. All rights reserved.
+//
+import Foundation
 import CocoaLumberjack
+import Crashlytics
 
-class LogUtil {
+class DefaultCrashlyticsLogFormatter: NSObject, DDLogFormatter {
+    func format(message logMessage: DDLogMessage) -> String? {
+        // Formatter found: https://github.com/CocoaLumberjack/CocoaLumberjack/blob/master/Framework/iOSSwift/Formatter.swift
+        let threadUnsafeDateFormatter = DateFormatter()
+        threadUnsafeDateFormatter.formatterBehavior = .behavior10_4
+        threadUnsafeDateFormatter.dateFormat = "HH:mm:ss.SSS"
+        let dateAndTime = threadUnsafeDateFormatter.string(from: logMessage.timestamp)
 
-    class func log(_ message: String?) {
-        var logMessage = "Log message is nil......."
-
-        if let message = message {
-            logMessage = message
+        var logLevel: String
+        let logFlag = logMessage.flag
+        if logFlag.contains(.error) {
+            logLevel = "E"
+        } else if logFlag.contains(.warning) {
+            logLevel = "W"
+        } else if logFlag.contains(.info) {
+            logLevel = "I"
+        } else if logFlag.contains(.debug) {
+            logLevel = "D"
+        } else if logFlag.contains(.verbose) {
+            logLevel = "V"
+        } else {
+            logLevel = "?"
         }
 
-        DDLogDebug(logMessage)
-    }
+        let formattedLog = "\(dateAndTime) |\(logLevel)| [\(logMessage.fileName) \(logMessage.function ?? "nil")] #\(logMessage.line): \(logMessage.message)"
 
-    class func logArgs(_ message: String, args: CVarArg...) {
-        DDLogDebug(String(format: message, arguments: args))
+        return formattedLog
     }
+}
 
-    class func logError(_ error: Error) {
-        #if DEBUG
-            DDLogDebug(String(format: "ERROR THROWN: %@", error.localizedDescription))
-        #else
-            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["description": error.localizedDescription])
-        #endif
+class CrashlyticsCocoaLumberjackLogger: DDAbstractLogger {
+    static let sharedInstance = CrashlyticsCocoaLumberjackLogger()
+
+    let formatter: DDLogFormatter = DefaultCrashlyticsLogFormatter()
+
+    override func log(message logMessage: DDLogMessage) {
+        let formattedMessage = formatter.format(message: logMessage)
+        CLSLogv("%@", getVaList([formattedMessage ?? "(unknown log message)"]))
     }
 
 }
 ```
+
+So now, when you want to log errors in the app, use DDLogError() and it will be reported to Crashlytics.

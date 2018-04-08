@@ -29,4 +29,6 @@ fastlane snapshot reset_simulators
 
 #### Delete simulators you do not need
 
-Open XCode then go to this menu: Window > Devices > Simulators. Right click on simulators you do not need and delete. Don't worry, you can create new simulators for ones you deleted previously. 
+Open XCode then go to this menu: Window > Devices > Simulators. Right click on simulators you do not need and delete. Don't worry, you can create new simulators for ones you deleted previously.
+
+And run this commmand: `xcrun simctl delete unavailable`. It is supposed to delete old simulators XCode no longer uses. 
