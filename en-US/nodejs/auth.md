@@ -240,3 +240,41 @@ Here is an example response from Google with all the user info:
 Sometimes, I simply want to password protect an endpoint but not have to create any UI or such to getting it to work. Sometime like the Apache htpasswd type of auth. Here is how to do that in a node app.
 
 Simple. Here is a package: [http-auth](https://github.com/http-auth/http-auth) you can link into your existing express app, passport, or other method to add Apache like htpasswd style login to your endpoint.
+
+# Adding username and password auth to your app
+
+If you want to allow username and password login to your app and you have decided to host it yourself instead of using a third party solution like Auth0 or Firebase Auth, check this section out on how to build this. 
+
+* Install bcrypt module: `npm install bcrypt --save`
+* Add 3 columns to your SQL database. `email` (or username), `password_hash`, and `salt`. Make these columns unique and of some kind of text data type as long as they can support 255 character limit (the length of the strings generated are up to you, but 255 is a standard used often). 
+* When you get a new user who gives you a password and email (or username) that you have accepted as a good password (the length is long enough, it has an uppercase character, whatever you want as the requirments), we need to save that password in our database but in a safe and encrypted way. We use the `bcrypt` module we installed earlier to do that. 
+
+```
+const password = // Your user gave this to you and sent it up to your API. 
+const salt = bcrypt.genSaltSync(10)
+const passwordHash = bcrypt.hashSync(password, salt)
+
+// Save the salt and password hash into your database. DO NOT save the password anywhere!
+```
+
+*Note: The bcrypt commands above are sync versions. There are also async versions that should probably be used instead.*
+
+```
+bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+        // Store hash in your password DB.
+    })
+})
+```
+
+Cool. That's how you save the password safely into your database. 
+
+* Now, what do you do when a user wants to login to their account? They send up their email (or username) and password up to your server and you need to compared the given password and the stored password in the database to see if they are the same. 
+
+```
+const password = // Your user gave this to you and sent it up to your API. 
+const passwordHash = // You query the database, by email or username, for this hash value you stored earlier. 
+const isPasswordCorrect = bcrypt.compare(password, passwordHash)
+```
+
+Compare the given password from the user with the hash stored in the database. `isPasswordCorrect` is a boolean value that will tell you if the user entered the correct password or not. 
