@@ -55,3 +55,34 @@ ac = "!f() { git add .; echo $1; git commit -m \"$1\"; bash-reminder \"**Do some
 ```
 
 The secret here is the `!` at the beginning. This means to run bash. Anything you put after the `!` is bash. Also, because I am running bash commands after my git commands, I need to manually send command line parameters to my alias. As you can see in the above line, I have `git commit -am $1;`. The $1 will send whatever message I send to the git alias command there.
+
+# Verify (sign) with GPG commits that you have already created 
+
+If you have already created some commits with the wrong GPG key or without one at all, here is how to fix that. 
+
+* If you want to check the signing of a commit to see if it was signed at all or with what key: `git verify-commit hash-for-commit-here` and it will tell you the status of the commit. 
+
+* You will need to get the ID for the GPG key that you want to use. View all of your IDs here: `gpg --list-secret-keys --keyid-format LONG`
+
+Here is sample output:
+
+```
+sec   rsa4096/183DFCR774TPO239 2018-06-01 [SC]
+      WFEIFJEIGHGIEHIFEHIFHEIFEWHIFWHEIFHWE
+uid                 [ultimate] Levi Bostian (levi@foo.com) <levi@foo.com>
+ssb   rsa4096/98SDWEC77645BFV 2018-06-01 [E]
+```
+
+The ID that you care about is the part after `rsa4096` on the line `sec`. Above, that is `183DFCR774TPO239`.
+
+* Config your git repo with the key you want to use: `git config user.signingkey id-here-from-above`
+
+* The above is to prevent this from happening again. 
+
+Now this will fix all of your existing commits. Go into your git log and find the commit hash for the last commit that you need to verify. Copy the hash of it. 
+
+```
+git rebase --exec 'git commit --amend --no-edit -n -S' -i commit-hash-here
+```
+
+* Git push force to the branch if you already pushed it: `git push --force`. 
