@@ -25,3 +25,38 @@ However, as soon as I login and issue a docker command (such as docker ps or eve
 ```
 
 That is what I was going through. This command seems to fix it for me. I would check the logs in my CoreOS machine to find that after a reboot, the Docker engine would not start. Then when it did (after I issued a `docker ps` command) it would show in the logs a reboot. 
+
+# Setup CoreOS to run Docker system prune periodically
+
+Docker can quickly generate a lot of disk space on your machine. To help limit this, let's run a periodic task (like cron) but deletes unused data on the system. 
+
+*Note:* Yes, this script below could be bad. What if something is wrong with my Docker, containers do not run, and then they call get deleted when the script runs? Yes, that could happen. However, Docker containers should not be created in a way that they are critical to stay alive. They should be configured in a way that if you lost all of them, it would not be a big deal as you could just create new containers. 
+
+* Create a service file: `sudo vi /etc/systemd/system/docker-prune.service` and paste in the following:
+
+```
+[Unit]
+Description=Runs docker prune to clean up docker
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker system prune --all -f
+```
+
+* Create a timer file: `sudo vi /etc/systemd/system/docker-prune.timer` and paste in the following: 
+
+```
+[Unit]
+Description=Run docker prune.service periodically
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+```
+
+* Start the timer: `sudo systemctl start docker-prune.timer`
+
+# Enable Docker logs rotation
+
+[Check out the docs](https://success.docker.com/article/how-to-setup-log-rotation-post-installation) to do this.
