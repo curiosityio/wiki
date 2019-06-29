@@ -60,3 +60,7 @@ OnCalendar=*-*-* 02:00:00
 # Enable Docker logs rotation
 
 [Check out the docs](https://success.docker.com/article/how-to-setup-log-rotation-post-installation) to do this.
+
+# Create swap
+
+If you have a system that has low memory, [creating a swap](https://coreos.com/os/docs/latest/adding-swap.html) may be a good idea for you. 
