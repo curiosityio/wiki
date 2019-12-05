@@ -45,6 +45,8 @@ Type=oneshot
 ExecStart=/usr/bin/docker system prune --all -f
 ```
 
+*Note: If you want to write comments in .service or .timer files, you must add comments for a whole line. You cannot do: `After=docker.service # comment here`, for example. You will get an error when trying to run the service that a line in the file cannot be parsed.*
+
 * Create a timer file: `sudo vi /etc/systemd/system/docker-prune.timer` and paste in the following: 
 
 ```
@@ -57,10 +59,54 @@ OnCalendar=*-*-* 02:00:00
 
 * Start the timer: `sudo systemctl start docker-prune.timer`
 
+# Change the SSH port
+
+When you use the default port of 22, you run the risk of getting bruteforce spammed attempts at logging in. To help with this, try this:
+
+1. Change the SSH port of the machine to a different port number. 
+
+*Note: It's a good idea to change the settings below, then open up a new terminal and try to SSH into the machine to make sure it works with the new port before you close your current session!*
+
+```
+$> cd /etc/systemd/system/
+$> sudo mkdir sshd.socket.d
+$> cd sshd.socket.d
+$> sudo vi 10-sshd-listen-ports.conf
+```
+
+put inside this file:
+
+```
+[Socket]
+ListenStream=
+ListenStream=222
+```
+
+Then, restart the service:
+
+```
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart sshd.socket
+```
+
+If you then run `systemctl status sshd.socket`, you will see "Listen: [::]:222 (Stream)" which means it's now listening on port 22. 
+
+[docs on customizing SSH. Including changing the port](https://coreos.com/os/docs/latest/customizing-sshd.html)
+
+If you use SSH config file (~/.ssh/config) on your local machine to connect to hosts, add a line `Port 222` under the host config to tell ssh what port to use. 
+
+2. If you are using a AWS, DigitalOcean, or some other service such as that, if they provide a built-in firewall service, it's worth blocking incoming connections to port 22 now. 
+
+If you do not have this firewall, you can setup your own on the machine. 
+
 # Enable Docker logs rotation
 
 [Check out the docs](https://success.docker.com/article/how-to-setup-log-rotation-post-installation) to do this.
 
 # Create swap
 
+*Note: On a VM, this may not be needed. You may end up giving your users a slow response time with a bogged down machine.* 
+
 If you have a system that has low memory, [creating a swap](https://coreos.com/os/docs/latest/adding-swap.html) may be a good idea for you. 
+
+If you do enable a swap, you should configure it for how often it runs. If swappiness=0, the SWAP disk will be avoided unless absolutely necessary (you run out of RAM completely), and if swappiness=100, programs will be sent to SWAP almost instantly. According to some, setting swappiness to 1 is best because modern OS runs that better. This has not been well researched by myself, however. 
